@@ -12,19 +12,87 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            versionNameSuffix '-DEBUG'
+            applicationIdSuffix '.debug'
+        }
+
+        release {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+ext {
+    supportVersion = '26.1.0'
+    retrofitVersion = '2.3.0'
+    okhttpVersion = '3.8.0'
+    daggerVersion = '2.11'
+    roomVersion = '1.0.0-alpha3'
+    lifecycleVersion = '1.0.0-alpha3'
+    stethoVersion = '1.4.1'
+
+    // tests
+    junitVersion = '4.12'
+    supportTestsLibVersion = '0.5'
+    espressoVersion = '3.0.1'
+    mockitoVersion = '2.10.0'
+    robolectricVersion = '3.4.2'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation "com.android.support:appcompat-v7:$supportVersion"
+    implementation "com.android.support:design:$supportVersion"
+    implementation "com.android.support:cardview-v7:$supportVersion"
+    implementation "com.android.support:recyclerview-v7:$supportVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
+
+    // RxJava
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.3'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-simplexml:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+
+    // Image loading
+    compile 'com.github.bumptech.glide:glide:4.0.0'
+
+    // UI tests
+    //      JUnit
+    androidTestImplementation "junit:junit:$junitVersion"
+
+    //      Mockito
+    androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
+
+    //      Rule & Runner
+    androidTestImplementation "com.android.support.test:runner:$supportTestsLibVersion"
+    androidTestImplementation "com.android.support.test:rules:$supportTestsLibVersion"
+
+    //      Annotations
+    androidTestImplementation "com.android.support:support-annotations:$supportVersion"
+
+    //      Espresso
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espressoVersion"
+    androidTestImplementation("com.android.support.test.espresso:espresso-core:$espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+    // Unit tests
+    //      JUnit
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+
 }

@@ -6,6 +6,6 @@
     <color name="colorPrimaryLight">#C8E6C9</color>
 
     <!--Gray-->
-    <color name="navigation_item_color_active">#313131</color>
-    <color name="navigation_item_color_normal">#5e5e5e</color>
+    <color name="navigation_item_color_active">#252525</color>
+    <color name="navigation_item_color_normal">#808080</color>
 </resources>

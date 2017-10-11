@@ -34,8 +34,8 @@ ext {
     retrofitVersion = '2.3.0'
     okhttpVersion = '3.8.0'
     daggerVersion = '2.11'
-    roomVersion = '1.0.0-alpha3'
-    lifecycleVersion = '1.0.0-alpha3'
+    roomVersion = '1.0.0-alpha9-1'
+    lifecycleVersion = '1.0.0-alpha9-1'
     stethoVersion = '1.4.1'
 
     // tests
@@ -53,6 +53,15 @@ dependencies {
     implementation "com.android.support:cardview-v7:$supportVersion"
     implementation "com.android.support:recyclerview-v7:$supportVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    // Room DB
+    implementation "android.arch.persistence.room:runtime:$roomVersion"
+    implementation "android.arch.persistence.room:rxjava2:$roomVersion"
+    annotationProcessor "android.arch.persistence.room:compiler:$roomVersion"
+
+    // Lifecycle
+    implementation "android.arch.lifecycle:extensions:$lifecycleVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$lifecycleVersion"
 
     // Dagger
     implementation "com.google.dagger:dagger:$daggerVersion"

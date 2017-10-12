@@ -31,4 +31,10 @@ public class StoreFragment extends BaseFragment {
 
         return binding.getRoot();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.findProducts();
+    }
 }

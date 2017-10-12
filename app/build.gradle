@@ -13,12 +13,15 @@ android {
     }
     buildTypes {
         debug {
+            buildConfigField "String", "BASE_URL", "\"http://open.api.sandbox.ebay.com/\""
             minifyEnabled false
             versionNameSuffix '-DEBUG'
             applicationIdSuffix '.debug'
+
         }
 
         release {
+            buildConfigField "String", "BASE_URL", "\"http://open.api.sandbox.ebay.com/\""
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

@@ -7,7 +7,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 public class BottomNavigationBehavior extends CoordinatorLayout.Behavior<BottomNavigationView> {
@@ -43,8 +42,6 @@ public class BottomNavigationBehavior extends CoordinatorLayout.Behavior<BottomN
                                int dxUnconsumed,
                                int dyUnconsumed,
                                int type) {
-        Log.d("dyUnconsumed", "" + dyUnconsumed);
-        Log.d("dyConsumed", "" + dyConsumed);
         if (dyUnconsumed < 0) {
             showBottomNavigationView(child);
         } else if (dyUnconsumed > 0) {
@@ -53,10 +50,10 @@ public class BottomNavigationBehavior extends CoordinatorLayout.Behavior<BottomN
     }
 
     private void hideBottomNavigationView(BottomNavigationView view) {
-        view.animate().setDuration(150).translationY(view.getHeight());
+        view.animate().translationY(view.getHeight());
     }
 
     private void showBottomNavigationView(BottomNavigationView view) {
-        view.animate().setDuration(150).translationY(0);
+        view.animate().translationY(0);
     }
 }

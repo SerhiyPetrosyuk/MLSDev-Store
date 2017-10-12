@@ -9,13 +9,15 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/appbar_height"
+        android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|snap"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="@string/app_name"
             app:titleTextAppearance="@style/ToolbarTextStyle"
@@ -23,26 +25,17 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bnv_navigation_view"
+    <com.roughike.bottombar.BottomBar
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_bar_height"
-        android:layout_alignParentBottom="true"
+        android:layout_height="60dp"
         android:layout_gravity="bottom"
-        android:elevation="@dimen/bottom_bar_elevation"
-        android:translationZ="@dimen/bottom_bar_elevation"
-        app:elevation="@dimen/bottom_bar_elevation"
-        app:itemBackground="@drawable/bg_tab_item"
-        app:itemIconTint="@color/color_tab_item_text"
-        app:itemTextColor="@color/color_tab_item_text"
-        app:menu="@menu/navigation"
-        app:layout_behavior="com.mlsdev.mlsdevstore.presentaion.custom.BottomNavigationBehavior"
-        tools:targetApi="lollipop" />
+        app:bb_behavior="shy"
+        app:bb_tabXmlResource="@xml/bottom_view_tabs"/>
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </android.support.design.widget.CoordinatorLayout>

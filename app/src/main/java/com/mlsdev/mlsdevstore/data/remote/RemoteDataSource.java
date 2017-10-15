@@ -1,5 +1,7 @@
 package com.mlsdev.mlsdevstore.data.remote;
 
+import com.mlsdev.mlsdevstore.data.model.category.GetCategoryInfoRequest;
+import com.mlsdev.mlsdevstore.data.model.category.GetCategoryInfoResponse;
 import com.mlsdev.mlsdevstore.data.model.product.FindProductsRequest;
 import com.mlsdev.mlsdevstore.data.model.product.FindProductsResponse;
 
@@ -18,7 +20,16 @@ public class RemoteDataSource {
     }
 
     public Single<FindProductsResponse> findProducts(FindProductsRequest request) {
-        return shoppingService.findProducts(request)
+        return prepareSingle(shoppingService.findProducts(request));
+    }
+
+    public Single<GetCategoryInfoResponse> getCategories() {
+        return prepareSingle(shoppingService.getCategoryInfo(new GetCategoryInfoRequest()));
+
+    }
+
+    private <T> Single<T> prepareSingle(Single<T> single) {
+        return single
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

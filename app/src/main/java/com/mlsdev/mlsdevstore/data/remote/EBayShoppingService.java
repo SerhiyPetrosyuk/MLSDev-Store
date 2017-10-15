@@ -1,5 +1,7 @@
 package com.mlsdev.mlsdevstore.data.remote;
 
+import com.mlsdev.mlsdevstore.data.model.category.GetCategoryInfoRequest;
+import com.mlsdev.mlsdevstore.data.model.category.GetCategoryInfoResponse;
 import com.mlsdev.mlsdevstore.data.model.product.FindProductsRequest;
 import com.mlsdev.mlsdevstore.data.model.product.FindProductsResponse;
 
@@ -11,5 +13,8 @@ public interface EBayShoppingService {
 
     @POST("shopping")
     Single<FindProductsResponse> findProducts(@Body FindProductsRequest findProductsRequest);
+
+    @POST("shopping")
+    Single<GetCategoryInfoResponse> getCategoryInfo(@Body GetCategoryInfoRequest getCategoryInfoRequest);
 
 }

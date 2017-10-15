@@ -2,8 +2,8 @@ package com.mlsdev.mlsdevstore.presentaion.store;
 
 import android.util.Log;
 
-import com.mlsdev.mlsdevstore.data.model.FindProductsRequest;
-import com.mlsdev.mlsdevstore.data.model.FindProductsResponse;
+import com.mlsdev.mlsdevstore.data.model.product.FindProductsRequest;
+import com.mlsdev.mlsdevstore.data.model.product.FindProductsResponse;
 import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource;
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel;
 

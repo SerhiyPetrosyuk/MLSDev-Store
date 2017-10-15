@@ -1,11 +1,10 @@
 package com.mlsdev.mlsdevstore.data.remote;
 
-import com.mlsdev.mlsdevstore.data.model.FindProductsRequest;
-import com.mlsdev.mlsdevstore.data.model.FindProductsResponse;
+import com.mlsdev.mlsdevstore.data.model.product.FindProductsRequest;
+import com.mlsdev.mlsdevstore.data.model.product.FindProductsResponse;
 
 import javax.inject.Inject;
 
-import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

@@ -1,4 +1,4 @@
-package com.mlsdev.mlsdevstore.data.model;
+package com.mlsdev.mlsdevstore.data.model.product;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
@@ -40,4 +40,39 @@ public class FindProductsResponse {
     @ElementList(entry = "Product", type = Product.class, inline = true)
     private List<Product> products;
 
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public String getBuld() {
+        return buld;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public int getApproximatePages() {
+        return approximatePages;
+    }
+
+    public boolean isMoreResults() {
+        return moreResults;
+    }
+
+    public int getPageNumber() {
+        return pageNumber;
+    }
+
+    public int getTotalProducts() {
+        return totalProducts;
+    }
+
+    public String getAck() {
+        return ack;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
 }

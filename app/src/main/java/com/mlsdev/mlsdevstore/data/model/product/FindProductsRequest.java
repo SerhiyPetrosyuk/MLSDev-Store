@@ -1,4 +1,4 @@
-package com.mlsdev.mlsdevstore.data.model;
+package com.mlsdev.mlsdevstore.data.model.product;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;

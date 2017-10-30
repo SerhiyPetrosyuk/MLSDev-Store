@@ -8,7 +8,7 @@ import java.util.List;
 @Root
 public class CategoryArray {
 
-    @ElementList(entry = "Category", type = Category.class)
+    @ElementList(entry = "Category", type = Category.class, inline = true)
     private List<Category> categoryList;
 
     public List<Category> getCategoryList() {

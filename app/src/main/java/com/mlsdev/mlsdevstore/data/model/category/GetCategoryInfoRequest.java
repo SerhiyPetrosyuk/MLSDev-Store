@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.data.model.category;
 
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
@@ -7,6 +8,9 @@ import org.simpleframework.xml.Root;
 public class GetCategoryInfoRequest {
     private static final String INCLUDE_SELECTOR = "ChildCategories";
     private static final int ROOT_CATEGORY_ID = -1;
+
+    @Attribute
+    private String xmlns = "urn:ebay:apis:eBLBaseComponents";
 
     @Element(name = "CategoryID")
     private int categoryID;

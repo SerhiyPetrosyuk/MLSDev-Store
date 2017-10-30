@@ -17,7 +17,7 @@ abstract public class ApplicationModule {
 
     @Provides
     @Singleton
-    Context provideContext(MLSDevStoreApplication application) {
+    static Context provideContext(MLSDevStoreApplication application) {
         return application.getApplicationContext();
     }
 

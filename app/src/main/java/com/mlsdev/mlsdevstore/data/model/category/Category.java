@@ -18,10 +18,10 @@ public class Category {
     @Element(name = "CategoryParentID")
     private int categoryParentID;
 
-    @Element(name = "CategoryNamePath")
+    @Element(name = "CategoryNamePath", required = false)
     private String categoryNamePath;
 
-    @Element(name = "CategoryIDPath")
+    @Element(name = "CategoryIDPath", required = false)
     private String categoryIDPath;
 
     @Element(name = "LeafCategory")

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.mlsdev.mlsdevstore.MLSDevStoreApplication;
 import com.mlsdev.mlsdevstore.dependency_injection.component.scope.ActivityScope;
 import com.mlsdev.mlsdevstore.presentaion.bottom_navigation.MainActivity;
+import com.mlsdev.mlsdevstore.presentaion.splashscreen.SplashScreenActivity;
 
 import javax.inject.Singleton;
 
@@ -24,5 +25,9 @@ abstract public class ApplicationModule {
     @ContributesAndroidInjector(modules = {ActivityModule.class})
     @ActivityScope
     abstract MainActivity mainActivity();
+
+    @ContributesAndroidInjector(modules = {ActivityModule.class})
+    @ActivityScope
+    abstract SplashScreenActivity splashScreenActivity();
 
 }

@@ -13,4 +13,9 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="AppTheme.SplashScreenTheme">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/bg_splash_screen</item>
+    </style>
+
 </resources>

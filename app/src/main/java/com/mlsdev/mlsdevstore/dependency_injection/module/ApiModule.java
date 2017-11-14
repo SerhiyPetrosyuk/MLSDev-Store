@@ -1,9 +1,9 @@
 package com.mlsdev.mlsdevstore.dependency_injection.module;
 
 import com.mlsdev.mlsdevstore.BuildConfig;
-import com.mlsdev.mlsdevstore.data.model.converter.CustomXmlConverterFactory;
 import com.mlsdev.mlsdevstore.data.remote.AuthInterceptor;
-import com.mlsdev.mlsdevstore.data.remote.EBayShoppingService;
+import com.mlsdev.mlsdevstore.data.remote.AuthenticationService;
+import com.mlsdev.mlsdevstore.data.remote.BuyService;
 
 import javax.inject.Singleton;
 
@@ -13,7 +13,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class ApiModule {
@@ -25,7 +25,7 @@ public class ApiModule {
                 .baseUrl(BuildConfig.BASE_URL)
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(CustomXmlConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
@@ -42,8 +42,14 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    EBayShoppingService provideEBayShoppingService(Retrofit retrofit) {
-        return retrofit.create(EBayShoppingService.class);
+    BuyService provideBuyService(Retrofit retrofit) {
+        return retrofit.create(BuyService.class);
+    }
+
+    @Provides
+    @Singleton
+    AuthenticationService provideAuthenticationService(Retrofit retrofit) {
+        return retrofit.create(AuthenticationService.class);
     }
 
     @Provides

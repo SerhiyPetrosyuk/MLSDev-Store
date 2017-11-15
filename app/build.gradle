@@ -13,7 +13,7 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "BASE_URL", "\"http://open.api.sandbox.ebay.com/\""
+            buildConfigField "String", "BASE_URL", "\"https://api.sandbox.ebay.com/\""
             buildConfigField "String", "CLIENT_ID", "\"DickMoun-MLSDevSt-SBX-05d7a0307-0697aff6\""
             buildConfigField "String", "CLIENT_SECRET", "\"SBX-5d7a03073185-0dd8-4b87-ae38-f61d\""
             buildConfigField "String", "REDIRECT_URI", "\"Dick_Mountain-DickMoun-MLSDev-qjxfadmee\""
@@ -24,7 +24,7 @@ android {
         }
 
         release {
-            buildConfigField "String", "BASE_URL", "\"http://open.api.sandbox.ebay.com/\""
+            buildConfigField "String", "BASE_URL", "\"https://api.ebay.com/\""
             buildConfigField "String", "CLIENT_ID", "\"DickMoun-MLSDevSt-PRD-7132041a0-99f80320\""
             buildConfigField "String", "CLIENT_SECRET", "\"PRD-132041a09e1f-bfaf-41ad-a77c-1e70\""
             buildConfigField "String", "REDIRECT_URI", "\"Dick_Mountain-DickMoun-MLSDev-ckswkaq\""

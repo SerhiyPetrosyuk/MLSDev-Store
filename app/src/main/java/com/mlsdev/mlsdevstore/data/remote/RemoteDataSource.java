@@ -34,13 +34,13 @@ public class RemoteDataSource {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String encodedOAuthCredentials = Base64.encodeToString(oAuthCredentialsBytes, Base64.DEFAULT);
+        String encodedOAuthCredentials = Base64.encodeToString(oAuthCredentialsBytes, Base64.NO_WRAP);
         Map<String, String> headers = new HashMap<>(2);
         headers.put("Content-Type", "application/x-www-form-urlencoded");
-        headers.put("Authorization", encodedOAuthCredentials);
+        headers.put("Authorization", "Basic " + encodedOAuthCredentials);
         AppAccessTokenRequestBody body = new AppAccessTokenRequestBody();
 
-        return prepareSingle(authenticationService.getAppAccessToken(headers, body));
+        return prepareSingle(authenticationService.getAppAccessToken(headers, body.getFields()));
     }
 
     private <T> Single<T> prepareSingle(Single<T> single) {

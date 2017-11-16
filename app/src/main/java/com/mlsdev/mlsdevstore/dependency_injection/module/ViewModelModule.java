@@ -4,13 +4,12 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.mlsdev.mlsdevstore.dependency_injection.ViewModelFactory;
-import com.mlsdev.mlsdevstore.presentaion.account.AccountFragment;
 import com.mlsdev.mlsdevstore.presentaion.account.AccountViewModel;
 import com.mlsdev.mlsdevstore.presentaion.cart.CartViewModel;
+import com.mlsdev.mlsdevstore.presentaion.splashscreen.SplashScreenViewModel;
 import com.mlsdev.mlsdevstore.presentaion.store.StoreViewModel;
 
 import dagger.Binds;
-import dagger.MapKey;
 import dagger.Module;
 import dagger.multibindings.IntoMap;
 
@@ -31,6 +30,11 @@ public interface ViewModelModule {
     @IntoMap
     @ViewModelKey(AccountViewModel.class)
     ViewModel bindAccountViewModel(AccountViewModel accountViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SplashScreenViewModel.class)
+    ViewModel bindSplashScreenViewModel(SplashScreenViewModel splashScreenViewModel);
 
     @Binds
     ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);

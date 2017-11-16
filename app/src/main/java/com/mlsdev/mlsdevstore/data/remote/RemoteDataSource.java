@@ -1,9 +1,14 @@
 package com.mlsdev.mlsdevstore.data.remote;
 
-import com.mlsdev.mlsdevstore.data.model.category.GetCategoryInfoRequest;
-import com.mlsdev.mlsdevstore.data.model.category.GetCategoryInfoResponse;
-import com.mlsdev.mlsdevstore.data.model.product.FindProductsRequest;
-import com.mlsdev.mlsdevstore.data.model.product.FindProductsResponse;
+import android.util.Base64;
+
+import com.mlsdev.mlsdevstore.BuildConfig;
+import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken;
+import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessTokenRequestBody;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -12,20 +17,30 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class RemoteDataSource {
-    private EBayShoppingService shoppingService;
+    private BuyService buyService;
+    private AuthenticationService authenticationService;
 
     @Inject
-    public RemoteDataSource(EBayShoppingService shoppingService) {
-        this.shoppingService = shoppingService;
+    public RemoteDataSource(BuyService buyService, AuthenticationService authenticationService) {
+        this.buyService = buyService;
+        this.authenticationService = authenticationService;
     }
 
-    public Single<FindProductsResponse> findProducts(FindProductsRequest request) {
-        return prepareSingle(shoppingService.findProducts(request));
-    }
+    public Single<AppAccessToken> getAppAccessToken() {
+        String originalOAuthCredentials = BuildConfig.CLIENT_ID + ":" + BuildConfig.CLIENT_SECRET;
+        byte[] oAuthCredentialsBytes = new byte[0];
+        try {
+            oAuthCredentialsBytes = originalOAuthCredentials.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String encodedOAuthCredentials = Base64.encodeToString(oAuthCredentialsBytes, Base64.NO_WRAP);
+        Map<String, String> headers = new HashMap<>(2);
+        headers.put("Content-Type", "application/x-www-form-urlencoded");
+        headers.put("Authorization", "Basic " + encodedOAuthCredentials);
+        AppAccessTokenRequestBody body = new AppAccessTokenRequestBody();
 
-    public Single<GetCategoryInfoResponse> getCategories() {
-        return prepareSingle(shoppingService.getCategoryInfo(new GetCategoryInfoRequest()));
-
+        return prepareSingle(authenticationService.getAppAccessToken(headers, body.getFields()));
     }
 
     private <T> Single<T> prepareSingle(Single<T> single) {

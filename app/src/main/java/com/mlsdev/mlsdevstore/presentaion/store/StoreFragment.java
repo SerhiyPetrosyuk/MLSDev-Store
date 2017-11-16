@@ -4,20 +4,15 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
-import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mlsdev.mlsdevstore.R;
-import com.mlsdev.mlsdevstore.data.model.category.Category;
 import com.mlsdev.mlsdevstore.databinding.FragmentStoreBinding;
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -36,8 +31,8 @@ public class StoreFragment extends BaseFragment {
         viewModel.categories.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
-                for (Category category : ((ObservableField<List<Category>>) observable).get())
-                    Log.d("Category", category.getCategoryName());
+//                for (Category category : ((ObservableField<List<Category>>) observable).get())
+//                    Log.d("Category", category.getCategoryName());
             }
         });
 

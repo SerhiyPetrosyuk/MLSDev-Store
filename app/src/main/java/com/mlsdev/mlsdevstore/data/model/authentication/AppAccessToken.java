@@ -15,15 +15,26 @@ public class AppAccessToken {
     @SerializedName("token_type")
     private String tokenType;
 
+    @SerializedName("expiration_date")
+    private long expirationDate;
+
     public String getAccessToken() {
         return accessToken;
     }
 
     public Integer getExpiresIn() {
-        return expiresIn;
+        return expiresIn * 1000;
     }
 
     public String getRefreshToken() {
         return refreshToken;
+    }
+
+    public long getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(long expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }

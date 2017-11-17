@@ -2,7 +2,9 @@ package com.mlsdev.mlsdevstore.data.remote;
 
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.net.SocketTimeoutException;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
@@ -27,6 +29,12 @@ public class BaseObserver<T> implements SingleObserver<T> {
 
     @Override
     public void onError(Throwable throwable) {
+
+        if (throwable instanceof IOException)
+            baseViewModelWeakReference.get().onNetworkErrorOccurred();
+        else if (throwable instanceof SocketTimeoutException)
+            baseViewModelWeakReference.get().onTechnicalErrorOccurred();
+
         throwable.printStackTrace();
     }
 }

@@ -6,6 +6,8 @@ import com.mlsdev.mlsdevstore.BuildConfig;
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager;
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken;
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessTokenRequestBody;
+import com.mlsdev.mlsdevstore.data.remote.service.AuthenticationService;
+import com.mlsdev.mlsdevstore.data.remote.service.BuyService;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
@@ -15,10 +17,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.*;

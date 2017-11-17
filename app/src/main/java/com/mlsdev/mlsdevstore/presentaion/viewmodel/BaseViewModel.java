@@ -4,8 +4,25 @@ import android.arch.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public class BaseViewModel extends ViewModel{
+public abstract class BaseViewModel extends ViewModel{
     protected static final String LOG_TAG = "ViewModel.Log.Tag";
-    protected CompositeDisposable compositeDisposable = new CompositeDisposable();
+    public final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        compositeDisposable.dispose();
+    }
+
+    public void onTechnicalErrorOccurred() {
+
+    }
+
+    public void onNetworkErrorOccurred() {
+
+    }
+
+    public void onAuthorizationErrorOccurred() {
+
+    }
 }

@@ -2,8 +2,8 @@ package com.mlsdev.mlsdevstore.dependency_injection.module;
 
 import com.mlsdev.mlsdevstore.BuildConfig;
 import com.mlsdev.mlsdevstore.data.remote.AuthInterceptor;
-import com.mlsdev.mlsdevstore.data.remote.AuthenticationService;
-import com.mlsdev.mlsdevstore.data.remote.BuyService;
+import com.mlsdev.mlsdevstore.data.remote.service.AuthenticationService;
+import com.mlsdev.mlsdevstore.data.remote.service.BuyService;
 
 import javax.inject.Singleton;
 

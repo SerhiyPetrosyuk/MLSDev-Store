@@ -1,4 +1,4 @@
-package com.mlsdev.mlsdevstore.data.remote;
+package com.mlsdev.mlsdevstore.data.remote.service;
 
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken;
 

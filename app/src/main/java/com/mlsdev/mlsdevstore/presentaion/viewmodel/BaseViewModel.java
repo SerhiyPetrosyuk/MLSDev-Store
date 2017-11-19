@@ -10,6 +10,7 @@ public abstract class BaseViewModel extends ViewModel{
     public final CompositeDisposable compositeDisposable = new CompositeDisposable();
     public final ObservableBoolean technicalErrorOccurred = new ObservableBoolean();
     public final ObservableBoolean networkErrorOccurred = new ObservableBoolean();
+    public final ObservableBoolean unknownErrorOccurred = new ObservableBoolean();
 
     @Override
     protected void onCleared() {

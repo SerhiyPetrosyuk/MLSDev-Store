@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Error {
     @SerializedName("errorId")
-    private Integer errorId;
+    private int errorId;
     @SerializedName("domain")
     private String domain;
     @SerializedName("subDomain")
@@ -25,7 +25,7 @@ public class Error {
     @SerializedName("parameters")
     private List<Parameter> parameters;
 
-    public Integer getErrorId() {
+    public int getErrorId() {
         return errorId;
     }
 

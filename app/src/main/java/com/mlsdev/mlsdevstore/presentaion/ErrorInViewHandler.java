@@ -2,6 +2,7 @@ package com.mlsdev.mlsdevstore.presentaion;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.Observable;
 import android.databinding.ObservableBoolean;
 import android.support.v7.app.AlertDialog;
@@ -16,7 +17,7 @@ public class ErrorInViewHandler {
     private Observable.OnPropertyChangedCallback onNetworkErrorCallback;
     private Observable.OnPropertyChangedCallback onTechnicalErrorCallback;
     private Observable.OnPropertyChangedCallback onAuthorizationErrorCallback;
-    private Observable.OnPropertyChangedCallback onUnknownErrorCallback;
+    private Observable.OnPropertyChangedCallback onCommonErrorCallback;
     private boolean closeAppAfterError = false;
 
     @Inject
@@ -40,18 +41,18 @@ public class ErrorInViewHandler {
         showAlertDialog(context.getString(R.string.error_title_base), context.getString(R.string.error_message_network));
     }
 
-    public void showUnknownError() {
-        showAlertDialog(context.getString(R.string.error_title_base), context.getString(R.string.error_message_unknown));
+    public void showCommonError() {
+        showAlertDialog(context.getString(R.string.error_title_base), context.getString(R.string.error_message_common));
     }
 
     public void showAlertDialog(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogAppCompat)
                 .setMessage(message)
                 .setTitle(title)
-                .setPositiveButton("Close", null);
+                .setPositiveButton(context.getString(R.string.button_close), null);
 
         if (closeAppAfterError) {
-            builder.setPositiveButton("Close", (dialogInterface, i) -> {
+            builder.setPositiveButton(context.getString(R.string.button_close), (dialogInterface, i) -> {
                 if (context instanceof Activity)
                     ((Activity) context).finish();
             });
@@ -65,19 +66,26 @@ public class ErrorInViewHandler {
         viewModel.networkErrorOccurred.addOnPropertyChangedCallback(onNetworkErrorCallback);
     }
 
-    public void subscribeTeckErrorCallback(BaseViewModel viewModel) {
+    public void subscribeTechErrorCallback(BaseViewModel viewModel) {
         viewModel.technicalErrorOccurred.addOnPropertyChangedCallback(onTechnicalErrorCallback);
     }
 
-
-    public void subscribeUnknownErrorCallback(BaseViewModel viewModel) {
-        viewModel.unknownErrorOccurred.addOnPropertyChangedCallback(onUnknownErrorCallback);
+    public void subscribeCommonErrorCallback(BaseViewModel viewModel) {
+        viewModel.commonErrorOccurred.addOnPropertyChangedCallback(onCommonErrorCallback);
     }
 
-    public void subscribeAllErrorCallbacks(BaseViewModel viewModel) {
-        subscribeUnknownErrorCallback(viewModel);
-        subscribeTeckErrorCallback(viewModel);
+    public void subscribeAuthErrorCallback(BaseViewModel viewModel) {
+        viewModel.authErrorOccurred.addOnPropertyChangedCallback(onAuthorizationErrorCallback);
+    }
+
+    public void subscribeAllErrorCallbacks(BaseViewModel viewModel, boolean withAuthCallback) {
+        subscribeCommonErrorCallback(viewModel);
+        subscribeTechErrorCallback(viewModel);
         subscribeNetworkErrorCallback(viewModel);
+
+        if (withAuthCallback)
+            subscribeAuthErrorCallback(viewModel);
+
     }
 
     private void initOnPropertyChangedCallbacks() {
@@ -100,15 +108,23 @@ public class ErrorInViewHandler {
         onAuthorizationErrorCallback = new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
-                // TODO: 19.11.17 restart the app
+                if (context instanceof Activity) {
+                    Intent intent = ((Activity) context).getBaseContext().getPackageManager()
+                            .getLaunchIntentForPackage(((Activity) context).getBaseContext().getPackageName());
+                    if (intent != null) {
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        context.startActivity(intent);
+                    }
+                }
+
             }
         };
 
-        onUnknownErrorCallback = new Observable.OnPropertyChangedCallback() {
+        onCommonErrorCallback = new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
                 if (observable.getClass().isAssignableFrom(ObservableBoolean.class))
-                    showUnknownError();
+                    showCommonError();
             }
         };
     }

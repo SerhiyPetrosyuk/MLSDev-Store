@@ -5,12 +5,13 @@ import android.databinding.ObservableBoolean;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public abstract class BaseViewModel extends ViewModel{
+public abstract class BaseViewModel extends ViewModel {
     protected static final String LOG_TAG = "ViewModel.Log.Tag";
     public final CompositeDisposable compositeDisposable = new CompositeDisposable();
     public final ObservableBoolean technicalErrorOccurred = new ObservableBoolean();
     public final ObservableBoolean networkErrorOccurred = new ObservableBoolean();
-    public final ObservableBoolean unknownErrorOccurred = new ObservableBoolean();
+    public final ObservableBoolean commonErrorOccurred = new ObservableBoolean();
+    public final ObservableBoolean authErrorOccurred = new ObservableBoolean();
 
     @Override
     protected void onCleared() {
@@ -26,7 +27,11 @@ public abstract class BaseViewModel extends ViewModel{
         networkErrorOccurred.set(true);
     }
 
-    public void onAuthorizationErrorOccurred() {
+    public void onCommonErrorOccurred() {
+        commonErrorOccurred.set(true);
+    }
 
+    public void onAuthorizationErrorOccurred() {
+        authErrorOccurred.set(true);
     }
 }

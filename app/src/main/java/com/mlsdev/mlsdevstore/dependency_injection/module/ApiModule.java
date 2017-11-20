@@ -3,6 +3,7 @@ package com.mlsdev.mlsdevstore.dependency_injection.module;
 import android.support.annotation.NonNull;
 
 import com.mlsdev.mlsdevstore.BuildConfig;
+import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager;
 import com.mlsdev.mlsdevstore.data.remote.AuthInterceptor;
 import com.mlsdev.mlsdevstore.data.remote.service.AuthenticationService;
 import com.mlsdev.mlsdevstore.data.remote.service.BuyService;
@@ -88,13 +89,18 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    TaxonomyService provideTaxonomyService(Retrofit retrofit){
+    TaxonomyService provideTaxonomyService(Retrofit retrofit) {
         return retrofit.create(TaxonomyService.class);
     }
 
     @Provides
     AuthInterceptor provideAuthInterceptor() {
         return new AuthInterceptor();
+    }
+
+    @Provides
+    AuthInterceptor provideAuthInterceptor(SharedPreferencesManager sharedPreferencesManager) {
+        return new AuthInterceptor(sharedPreferencesManager);
     }
 
 }

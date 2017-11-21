@@ -6,8 +6,10 @@ import com.mlsdev.mlsdevstore.BuildConfig;
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager;
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken;
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessTokenRequestBody;
+import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
 import com.mlsdev.mlsdevstore.data.remote.service.AuthenticationService;
 import com.mlsdev.mlsdevstore.data.remote.service.BuyService;
+import com.mlsdev.mlsdevstore.data.remote.service.TaxonomyService;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
@@ -17,7 +19,9 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import io.reactivex.Single;
+import io.reactivex.SingleSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.*;
@@ -26,12 +30,16 @@ public class RemoteDataSource {
     private BuyService buyService;
     private AuthenticationService authenticationService;
     private SharedPreferencesManager sharedPreferencesManager;
+    private TaxonomyService taxonomyService;
 
     @Inject
-    public RemoteDataSource(BuyService buyService, AuthenticationService authenticationService,
+    public RemoteDataSource(BuyService buyService,
+                            AuthenticationService authenticationService,
+                            TaxonomyService taxonomyService,
                             SharedPreferencesManager sharedPreferencesManager) {
         this.buyService = buyService;
         this.authenticationService = authenticationService;
+        this.taxonomyService = taxonomyService;
         this.sharedPreferencesManager = sharedPreferencesManager;
     }
 
@@ -59,6 +67,15 @@ public class RemoteDataSource {
                 .doOnSuccess(appAccessToken -> {
                     sharedPreferencesManager.save(Key.APPLICATION_ACCESS_TOKEN, appAccessToken);
                 });
+    }
+
+    public Single<CategoryTree> getRootCategoryTree() {
+        return prepareSingle(taxonomyService.getDefaultCategoryTreeId())
+                .flatMap(rootCategoryTreeId -> taxonomyService.getCategoryTree(rootCategoryTreeId));
+    }
+
+    public Single<CategoryTree> getCategorySubtree(String categoryTreeId, String categoryId) {
+        return prepareSingle(taxonomyService.getCategorySubtree(categoryTreeId, categoryId));
     }
 
     private <T> Single<T> prepareSingle(Single<T> single) {

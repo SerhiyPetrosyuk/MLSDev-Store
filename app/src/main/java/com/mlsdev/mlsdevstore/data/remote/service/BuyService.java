@@ -12,6 +12,9 @@ public interface BuyService {
     @GET("commerce/taxonomy/v1_beta/get_default_category_tree_id?marketplace_id=EBAY_US")
     Single<CategoryTree> getDefaultCategoryTreeId();
 
+    @GET("commerce/taxonomy/v1_beta/category_tree/{defaultCategoryTreeId}")
+    Single<CategoryTree> getCategoryTree(@Path("defaultCategoryTreeId") String defaultCategoryTreeId);
+
     @GET("commerce/taxonomy/v1_beta/category_tree/{defaultCategoryTreeId}/get_category_subtree")
     Single<CategoryTree> getCategoryTree(@Path("defaultCategoryTreeId") String defaultCategoryTreeId,
                                          @Query("category_id") String categoryId);

@@ -19,12 +19,10 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.*;
+import static com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.Key;
 
 public class RemoteDataSource {
     private BuyService buyService;
@@ -69,13 +67,14 @@ public class RemoteDataSource {
                 });
     }
 
-    public Single<CategoryTree> getRootCategoryTree() {
-        return prepareSingle(taxonomyService.getDefaultCategoryTreeId())
-                .flatMap(rootCategoryTreeId -> taxonomyService.getCategoryTree(rootCategoryTreeId));
+    public Single<String> getDefaultCategoryTreeId() {
+        return prepareSingle(buyService.getDefaultCategoryTreeId())
+                .map(CategoryTree::getCategoryTreeId);
     }
 
-    public Single<CategoryTree> getCategorySubtree(String categoryTreeId, String categoryId) {
-        return prepareSingle(taxonomyService.getCategorySubtree(categoryTreeId, categoryId));
+    public Single<CategoryTree> getRootCategoryTree() {
+        return getDefaultCategoryTreeId()
+                .flatMap(defaultCategoryTreeId -> buyService.getCategoryTree(defaultCategoryTreeId));
     }
 
     private <T> Single<T> prepareSingle(Single<T> single) {

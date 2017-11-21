@@ -24,13 +24,14 @@ public class StoreViewModel extends BaseViewModel {
     public void getCategories() {
 
         remoteDataSource.getRootCategoryTree()
-                .subscribe(new BaseObserver<CategoryTree>(this){
+                .subscribe(new BaseObserver<CategoryTree>(this) {
                     @Override
                     public void onSuccess(CategoryTree defaultCategoryTree) {
                         super.onSuccess(defaultCategoryTree);
                         Log.d(LOG_TAG, "Default category tree id: " + defaultCategoryTree.getCategoryTreeId());
                     }
                 });
+
 
     }
 }

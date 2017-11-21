@@ -1,7 +1,10 @@
 package com.mlsdev.mlsdevstore.presentaion.store;
 
 import android.databinding.ObservableField;
+import android.util.Log;
 
+import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
+import com.mlsdev.mlsdevstore.data.remote.BaseObserver;
 import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource;
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel;
 
@@ -19,5 +22,15 @@ public class StoreViewModel extends BaseViewModel {
     }
 
     public void getCategories() {
+
+        remoteDataSource.getRootCategoryTree()
+                .subscribe(new BaseObserver<CategoryTree>(this){
+                    @Override
+                    public void onSuccess(CategoryTree defaultCategoryTree) {
+                        super.onSuccess(defaultCategoryTree);
+                        Log.d(LOG_TAG, "Default category tree id: " + defaultCategoryTree.getCategoryTreeId());
+                    }
+                });
+
     }
 }

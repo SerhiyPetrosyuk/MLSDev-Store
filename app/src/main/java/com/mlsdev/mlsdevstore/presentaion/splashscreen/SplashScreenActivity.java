@@ -20,7 +20,7 @@ public class SplashScreenActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(SplashScreenViewModel.class);
 
-        errorInViewHandler.subscribeAllErrorCallbacks(viewModel);
+        errorInViewHandler.subscribeAllErrorCallbacks(viewModel, false);
         errorInViewHandler.setCloseAppAfterError(true);
         viewModel.appAccessTokenValid.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override

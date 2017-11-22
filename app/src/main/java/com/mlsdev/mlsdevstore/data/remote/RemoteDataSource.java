@@ -62,19 +62,17 @@ public class RemoteDataSource {
                     appAccessToken.setExpirationDate(expirationDate);
                     return appAccessToken;
                 })
-                .doOnSuccess(appAccessToken -> {
-                    sharedPreferencesManager.save(Key.APPLICATION_ACCESS_TOKEN, appAccessToken);
-                });
+                .doOnSuccess(appAccessToken -> sharedPreferencesManager.save(Key.APPLICATION_ACCESS_TOKEN, appAccessToken));
     }
 
     public Single<String> getDefaultCategoryTreeId() {
-        return prepareSingle(buyService.getDefaultCategoryTreeId())
+        return prepareSingle(taxonomyService.getDefaultCategoryTreeId())
                 .map(CategoryTree::getCategoryTreeId);
     }
 
     public Single<CategoryTree> getRootCategoryTree() {
         return getDefaultCategoryTreeId()
-                .flatMap(defaultCategoryTreeId -> buyService.getCategoryTree(defaultCategoryTreeId));
+                .flatMap(defaultCategoryTreeId -> prepareSingle(taxonomyService.getCategoryTree(defaultCategoryTreeId)));
     }
 
     private <T> Single<T> prepareSingle(Single<T> single) {

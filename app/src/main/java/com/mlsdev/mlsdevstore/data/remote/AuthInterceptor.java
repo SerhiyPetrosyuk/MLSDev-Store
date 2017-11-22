@@ -30,11 +30,12 @@ public class AuthInterceptor implements Interceptor {
         if (appAccessToken != null && appAccessToken.getAccessToken() != null)
             appAccessTokenString = appAccessToken.getAccessToken();
 
-        Request request = chain.request().newBuilder()
+        Request original = chain.request();
+        Request request = original.newBuilder()
                 .addHeader("Authorization", "Bearer " + appAccessTokenString)
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Accept-Encoding", "application/gzip")
+                .method(original.method(), original.body())
                 .build();
 
         return chain.proceed(request);

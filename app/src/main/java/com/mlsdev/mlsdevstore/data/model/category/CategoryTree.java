@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.data.model.category;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -13,9 +14,11 @@ public class CategoryTree {
     private String categoryTreeVersion;
 
     @SerializedName(value = "rootCategoryNode", alternate = {"categorySubtreeNode"})
+    @Expose
     private CategoryTreeNode categoryTreeNode;
 
     @SerializedName("applicableMarketplaceIds")
+    @Expose
     private List<String> applicableMarketplaceIds;
 
     public String getCategoryTreeId() {

@@ -2,6 +2,7 @@ package com.mlsdev.mlsdevstore.dependency_injection.module;
 
 import android.support.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.mlsdev.mlsdevstore.BuildConfig;
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager;
 import com.mlsdev.mlsdevstore.data.remote.AuthInterceptor;
@@ -30,24 +31,25 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    Retrofit provideRetrofit(OkHttpClient client) {
-        return createRetrofit(client);
+    Retrofit provideRetrofit(OkHttpClient client, Gson gson) {
+        return createRetrofit(client, gson);
     }
 
     @Provides
     @Singleton
     @Named(Name.WITHOUT_AUTHORIZATION_INTERCEPTOR)
-    Retrofit provideRetrofitWithoutAuthInterceptor(@Named(Name.WITHOUT_AUTHORIZATION_INTERCEPTOR) OkHttpClient client) {
-        return createRetrofit(client);
+    Retrofit provideRetrofitWithoutAuthInterceptor(@Named(Name.WITHOUT_AUTHORIZATION_INTERCEPTOR) OkHttpClient client,
+                                                   Gson gson) {
+        return createRetrofit(client, gson);
     }
 
     @NonNull
-    private Retrofit createRetrofit(OkHttpClient client) {
+    private Retrofit createRetrofit(OkHttpClient client, Gson gson) {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
 

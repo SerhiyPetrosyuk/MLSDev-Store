@@ -34,7 +34,9 @@ abstract public class ApplicationModule {
     @Provides
     @Singleton
     static Gson provideGson() {
-        return new GsonBuilder().create();
+        return new GsonBuilder()
+                .setLenient()
+                .create();
     }
 
     @ContributesAndroidInjector(modules = {ActivityModule.class})

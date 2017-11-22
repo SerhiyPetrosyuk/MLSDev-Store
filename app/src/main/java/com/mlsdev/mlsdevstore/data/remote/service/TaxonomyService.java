@@ -14,7 +14,7 @@ import retrofit2.http.Query;
 public interface TaxonomyService {
 
     @GET("commerce/taxonomy/v1_beta/get_default_category_tree_id?marketplace_id=EBAY_US")
-    Single<String> getDefaultCategoryTreeId();
+    Single<CategoryTree> getDefaultCategoryTreeId();
 
     @GET("commerce/taxonomy/v1_beta/category_tree/{category_tree_id}")
     Single<CategoryTree> getCategoryTree(@Path("category_tree_id") String categoryTreeId);

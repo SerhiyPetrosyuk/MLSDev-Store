@@ -28,7 +28,7 @@ public class StoreViewModel extends BaseViewModel {
                     @Override
                     public void onSuccess(CategoryTree defaultCategoryTree) {
                         super.onSuccess(defaultCategoryTree);
-                        Log.d(LOG_TAG, "Default category tree id: " + defaultCategoryTree.getCategoryTreeId());
+                        Log.d(BaseViewModel.LOG_TAG, "Default category tree id: " + defaultCategoryTree.getCategoryTreeId());
                     }
                 });
 

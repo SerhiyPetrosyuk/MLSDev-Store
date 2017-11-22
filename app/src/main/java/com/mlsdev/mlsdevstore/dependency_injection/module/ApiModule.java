@@ -94,11 +94,6 @@ public class ApiModule {
     }
 
     @Provides
-    AuthInterceptor provideAuthInterceptor() {
-        return new AuthInterceptor();
-    }
-
-    @Provides
     AuthInterceptor provideAuthInterceptor(SharedPreferencesManager sharedPreferencesManager) {
         return new AuthInterceptor(sharedPreferencesManager);
     }

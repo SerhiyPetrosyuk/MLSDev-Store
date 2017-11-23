@@ -6,5 +6,5 @@
         android:id="@android:id/mask"
         android:drawable="@android:color/white" />
 
-    <item android:drawable="@android:color/white" />
+    <item android:drawable="@android:color/transparent" />
 </ripple>

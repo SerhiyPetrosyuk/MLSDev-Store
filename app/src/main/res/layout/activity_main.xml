@@ -15,9 +15,9 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="@dimen/appbar_height"
             android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|snap"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="@string/app_name"
             app:titleTextAppearance="@style/ToolbarTextStyle"
@@ -30,9 +30,10 @@
         android:layout_height="60dp"
         android:layout_gravity="bottom"
         app:bb_behavior="shy"
-        app:bb_tabXmlResource="@xml/bottom_view_tabs"/>
+        app:bb_titleTextAppearance="@style/BottomBarTextStyle"
+        app:bb_tabXmlResource="@xml/bottom_view_tabs" />
 
-    <android.support.v4.widget.NestedScrollView
+    <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

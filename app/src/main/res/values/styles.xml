@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="fontFamily">@font/comfortaa_regular</item>
     </style>
 
     <style name="ToolbarTextStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -23,6 +24,13 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
         <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
+    </style>
+
+    <style name="BottomBarTextStyle">
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:padding">0dp</item>
+        <item name="fontFamily">@font/comfortaa_regular</item>
     </style>
 
 </resources>

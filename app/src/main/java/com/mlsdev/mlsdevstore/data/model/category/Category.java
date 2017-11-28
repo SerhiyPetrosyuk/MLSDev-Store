@@ -2,19 +2,21 @@ package com.mlsdev.mlsdevstore.data.model.category;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import com.mlsdev.mlsdevstore.data.local.database.Column;
 import com.mlsdev.mlsdevstore.data.local.database.Table;
 
-@Entity(tableName = Table.CATEGORIES)
+@Entity(tableName = Table.CATEGORIES,
+        indices = {@Index(Column.CATEGORY_ID)})
 public class Category {
 
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = Column.CATEGORY_ID)
-    private String categoryId;
+    private String categoryId = "default";
 
     @ColumnInfo(name = Column.CATEGORY_NAME)
     private String categoryName;

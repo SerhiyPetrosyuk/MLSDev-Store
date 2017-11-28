@@ -1,12 +1,22 @@
 package com.mlsdev.mlsdevstore.data.model.category;
 
-import com.google.gson.annotations.SerializedName;
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
+import com.mlsdev.mlsdevstore.data.local.database.Column;
+import com.mlsdev.mlsdevstore.data.local.database.Table;
+
+@Entity(tableName = Table.CATEGORIES)
 public class Category {
-    @SerializedName("categoryId")
+
+    @NonNull
+    @PrimaryKey
+    @ColumnInfo(name = Column.CATEGORY_ID)
     private String categoryId;
 
-    @SerializedName("categoryName")
+    @ColumnInfo(name = Column.CATEGORY_NAME)
     private String categoryName;
 
     public String getCategoryId() {
@@ -15,5 +25,13 @@ public class Category {
 
     public String getCategoryName() {
         return categoryName;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }

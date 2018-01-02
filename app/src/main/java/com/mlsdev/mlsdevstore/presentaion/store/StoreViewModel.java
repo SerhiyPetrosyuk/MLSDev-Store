@@ -2,7 +2,9 @@ package com.mlsdev.mlsdevstore.presentaion.store;
 
 import android.databinding.ObservableField;
 
+import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode;
+import com.mlsdev.mlsdevstore.data.remote.BaseObserver;
 import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource;
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel;
 
@@ -20,16 +22,16 @@ public class StoreViewModel extends BaseViewModel {
     }
 
     public void getCategories() {
+        // TODO: 1/2/18 get five or more random categories and show about 10 products from each one
 
-//        remoteDataSource.getRootCategoryTree()
-//                .subscribe(new BaseObserver<CategoryTree>(this) {
-//                    @Override
-//                    public void onSuccess(CategoryTree defaultCategoryTree) {
-//                        super.onSuccess(defaultCategoryTree);
-//                        Log.d(BaseViewModel.LOG_TAG, "Default category tree id: " + defaultCategoryTree.getCategoryTreeId());
-//                        categories.set(defaultCategoryTree.getCategoryTreeNode().getChildCategoryTreeNodes());
-//                    }
-//                });
+        remoteDataSource.getRootCategoryTree()
+                .subscribe(new BaseObserver<CategoryTree>(this) {
+                    @Override
+                    public void onSuccess(CategoryTree defaultCategoryTree) {
+                        super.onSuccess(defaultCategoryTree);
+                        categories.set(defaultCategoryTree.getCategoryTreeNode().getChildCategoryTreeNodes());
+                    }
+                });
 
 
     }

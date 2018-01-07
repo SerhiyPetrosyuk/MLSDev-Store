@@ -3,6 +3,7 @@ package com.mlsdev.mlsdevstore.data.remote;
 import android.util.Base64;
 
 import com.mlsdev.mlsdevstore.BuildConfig;
+import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager;
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken;
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessTokenRequestBody;
@@ -24,7 +25,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import static com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.Key;
 
-public class RemoteDataSource {
+public class RemoteDataSource implements DataSource{
     private BuyService buyService;
     private AuthenticationService authenticationService;
     private SharedPreferencesManager sharedPreferencesManager;
@@ -65,17 +66,19 @@ public class RemoteDataSource {
                 .doOnSuccess(appAccessToken -> sharedPreferencesManager.save(Key.APPLICATION_ACCESS_TOKEN, appAccessToken));
     }
 
+    @Override
     public Single<String> getDefaultCategoryTreeId() {
         return prepareSingle(taxonomyService.getDefaultCategoryTreeId())
                 .map(CategoryTree::getCategoryTreeId);
     }
 
+    @Override
     public Single<CategoryTree> getRootCategoryTree() {
         return getDefaultCategoryTreeId()
                 .flatMap(defaultCategoryTreeId -> prepareSingle(taxonomyService.getCategoryTree(defaultCategoryTreeId)));
     }
 
-    private <T> Single<T> prepareSingle(Single<T> single) {
+    public  <T> Single<T> prepareSingle(Single<T> single) {
         return single
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

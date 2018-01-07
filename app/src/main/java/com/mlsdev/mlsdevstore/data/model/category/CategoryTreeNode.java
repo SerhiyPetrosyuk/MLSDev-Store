@@ -1,6 +1,7 @@
 package com.mlsdev.mlsdevstore.data.model.category;
 
 import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
@@ -11,6 +12,8 @@ import com.mlsdev.mlsdevstore.data.local.database.Table;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.http.Field;
+
 @Entity(tableName = Table.CATEGORY_TREE_NODES)
 public class CategoryTreeNode {
 
@@ -18,7 +21,7 @@ public class CategoryTreeNode {
     @ColumnInfo(name = Column.CATEGORY_TREE_NODE_ID)
     private long id;
 
-    @Ignore
+    @ColumnInfo(name = Column.CATEGORY)
     private Category category;
 
     @ColumnInfo(name = Column.PARENT_CATEGORY_TREE_NODE_HREF)

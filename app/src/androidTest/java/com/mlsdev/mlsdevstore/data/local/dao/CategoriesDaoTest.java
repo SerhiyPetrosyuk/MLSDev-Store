@@ -51,22 +51,18 @@ public class CategoriesDaoTest {
 
     @Test
     public void testReadWriteCategoryTreeNode() {
-        List<CategoryTreeNode> childCategoryTreeNodes = new ArrayList<>(1);
         CategoryTreeNode parentCategoryTreeNode = new CategoryTreeNode();
         CategoryTreeNode childCategoryTreeNode = new CategoryTreeNode();
         childCategoryTreeNode.setParentCategoryTreeNodeHref("parent_href");
         childCategoryTreeNode.setCategory(new Category());
         childCategoryTreeNode.setLeafCategoryTreeNode(true);
         childCategoryTreeNode.setCategoryTreeNodeLevel(1);
-        childCategoryTreeNodes.add(childCategoryTreeNode);
-        parentCategoryTreeNode.setChildCategoryTreeNodes(childCategoryTreeNodes);
 
         database.categoriesDao().insertCategoryTreeNode(parentCategoryTreeNode);
         database.categoriesDao().queryCategoryTreeNode()
                 .test()
                 .assertValue(Objects::nonNull)
-                .assertValue(nodes -> !nodes.isEmpty())
-                .assertValue(nodes -> !nodes.get(0).getChildCategoryTreeNodes().isEmpty());
+                .assertValue(nodes -> !nodes.isEmpty());
     }
 
     @After

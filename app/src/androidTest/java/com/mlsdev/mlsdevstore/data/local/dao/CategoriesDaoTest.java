@@ -51,6 +51,8 @@ public class CategoriesDaoTest {
 
     @Test
     public void testReadWriteCategoryTreeNode() {
+        Category category = new Category();
+        category.setCategoryId("some_cat_id");
         CategoryTreeNode parentCategoryTreeNode = new CategoryTreeNode();
         CategoryTreeNode childCategoryTreeNode = new CategoryTreeNode();
         childCategoryTreeNode.setParentCategoryTreeNodeHref("parent_href");

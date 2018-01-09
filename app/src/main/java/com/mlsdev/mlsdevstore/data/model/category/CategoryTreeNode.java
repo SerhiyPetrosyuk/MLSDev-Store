@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
@@ -17,15 +18,15 @@ import java.util.List;
 
 import retrofit2.http.Field;
 
-@Entity(tableName = Table.CATEGORY_TREE_NODES)
+@Entity(tableName = Table.CATEGORY_TREE_NODES,
+        indices = {@Index(Column.CATEGORY_TREE_NODE_ID)})
 public class CategoryTreeNode {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = Column.CATEGORY_TREE_NODE_ID)
     private long id;
 
-    @ColumnInfo(name = Column.CATEGORY)
-    @TypeConverters({CategoryConverter.class})
+    @Embedded
     private Category category;
 
     @ColumnInfo(name = Column.PARENT_CATEGORY_TREE_NODE_HREF)

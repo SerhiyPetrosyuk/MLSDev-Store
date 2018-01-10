@@ -7,6 +7,7 @@ import android.databinding.Observable;
 import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class StoreFragment extends BaseFragment {
+public class StoreFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private FragmentStoreBinding binding;
     private StoreViewModel viewModel;
     private CategoriesAdapter categoriesAdapter;
@@ -35,6 +36,7 @@ public class StoreFragment extends BaseFragment {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(StoreViewModel.class);
         viewModel.categories.addOnPropertyChangedCallback(onCategoriesChangedCallback);
         binding.setViewModel(viewModel);
+        binding.refreshLayout.setOnRefreshListener(this);
         initRecyclerView();
         return binding.getRoot();
     }
@@ -54,11 +56,17 @@ public class StoreFragment extends BaseFragment {
             }
 
             binding.rvCategories.notifyDataSetChanged();
+            binding.refreshLayout.setRefreshing(false);
         }
     };
 
     private void initRecyclerView() {
         categoriesAdapter = new CategoriesAdapter();
         binding.rvCategories.setAdapter(categoriesAdapter);
+    }
+
+    @Override
+    public void onRefresh() {
+        viewModel.refresh();
     }
 }

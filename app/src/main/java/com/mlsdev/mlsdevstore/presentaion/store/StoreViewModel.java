@@ -6,7 +6,6 @@ import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode;
 import com.mlsdev.mlsdevstore.data.remote.BaseObserver;
-import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource;
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel;
 
 import java.util.List;
@@ -26,15 +25,22 @@ public class StoreViewModel extends BaseViewModel {
         // TODO: 1/2/18 get five or more random categories and show about 10 products from each one
 
         dataSource.getRootCategoryTree()
-                .subscribe(new BaseObserver<CategoryTree>(this) {
-                    @Override
-                    public void onSuccess(CategoryTree defaultCategoryTree) {
-                        super.onSuccess(defaultCategoryTree);
-                        categories.set(defaultCategoryTree.getCategoryTreeNode().getChildCategoryTreeNodes());
-                        categories.notifyChange();
-                    }
-                });
+                .subscribe(categoryTreeObserver);
 
 
     }
+
+    public void refresh() {
+        dataSource.refreshRootCategoryTree()
+                .subscribe(categoryTreeObserver);
+    }
+
+    private BaseObserver<CategoryTree> categoryTreeObserver = new BaseObserver<CategoryTree>(this) {
+        @Override
+        public void onSuccess(CategoryTree defaultCategoryTree) {
+            super.onSuccess(defaultCategoryTree);
+            categories.set(defaultCategoryTree.getCategoryTreeNode().getChildCategoryTreeNodes());
+            categories.notifyChange();
+        }
+    };
 }

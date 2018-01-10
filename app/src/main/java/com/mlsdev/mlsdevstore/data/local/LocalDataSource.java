@@ -11,6 +11,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class LocalDataSource implements DataSource {
 
@@ -55,7 +57,10 @@ public class LocalDataSource implements DataSource {
             database.categoriesDao().deleteAllCategoryTreeNodel();
             database.categoriesDao().deleteAllCategoryTrees();
             return 1;
-        }).flatMap(integer -> remoteDataSource.refreshRootCategoryTree());
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(integer -> remoteDataSource.refreshRootCategoryTree());
     }
 
 

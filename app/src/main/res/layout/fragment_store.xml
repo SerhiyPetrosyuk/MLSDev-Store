@@ -12,15 +12,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.mlsdev.animatedrv.AnimatedRecyclerView
-            android:id="@+id/rv_categories"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutAnimation="@anim/layout_animation_from_bottom"
-            app:layoutManagerOrientation="vertical"
-            app:layoutManagerReverse="false"
-            app:layoutManagerType="linear"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_height="match_parent">
 
+            <com.mlsdev.animatedrv.AnimatedRecyclerView
+                android:id="@+id/rv_categories"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutAnimation="@anim/layout_animation_from_bottom"
+                app:layoutManagerOrientation="vertical"
+                app:layoutManagerReverse="false"
+                app:layoutManagerType="linear"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>
 </layout>

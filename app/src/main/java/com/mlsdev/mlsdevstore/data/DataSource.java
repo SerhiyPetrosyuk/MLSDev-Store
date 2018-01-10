@@ -18,6 +18,9 @@ public interface DataSource {
      * */
     Single<CategoryTree> getRootCategoryTree();
 
+    /**
+     * Deletes all data in the local data storage
+     * */
     Single<CategoryTree> refreshRootCategoryTree();
 
 }

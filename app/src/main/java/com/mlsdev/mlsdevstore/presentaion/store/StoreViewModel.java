@@ -22,12 +22,8 @@ public class StoreViewModel extends BaseViewModel {
     }
 
     public void getCategories() {
-        // TODO: 1/2/18 get five or more random categories and show about 10 products from each one
-
         dataSource.getRootCategoryTree()
                 .subscribe(categoryTreeObserver);
-
-
     }
 
     public void refresh() {

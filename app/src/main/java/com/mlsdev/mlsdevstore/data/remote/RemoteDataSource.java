@@ -78,6 +78,11 @@ public class RemoteDataSource implements DataSource{
                 .flatMap(defaultCategoryTreeId -> prepareSingle(taxonomyService.getCategoryTree(defaultCategoryTreeId)));
     }
 
+    @Override
+    public Single<CategoryTree> refreshRootCategoryTree() {
+        return null;
+    }
+
     public  <T> Single<T> prepareSingle(Single<T> single) {
         return single
                 .subscribeOn(Schedulers.io())

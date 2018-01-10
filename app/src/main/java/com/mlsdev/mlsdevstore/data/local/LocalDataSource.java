@@ -9,13 +9,10 @@ import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import io.reactivex.Completable;
-import io.reactivex.CompletableEmitter;
-import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.Single;
-import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class LocalDataSource implements DataSource {
 
@@ -61,9 +58,20 @@ public class LocalDataSource implements DataSource {
                 });
     }
 
+    @Override
+    public Single<CategoryTree> refreshRootCategoryTree() {
+
+        return Single.fromCallable(() -> {
+            database.categoriesDao().deleteAllCategoryTreeNodel();
+            database.categoriesDao().deleteAllCategoryTrees();
+            return 1;
+        }).flatMap(integer -> getRootCategoryTree());
+    }
+
     private void saveCategoryTreeNodes(CategoryTree categoryTree) {
         Completable.create(e ->
                 database.categoriesDao().insertCategoryTreeNode(categoryTree.getCategoryTreeNode().getChildCategoryTreeNodes()))
+                .subscribeOn(Schedulers.io())
                 .subscribe();
     }
 
@@ -71,6 +79,7 @@ public class LocalDataSource implements DataSource {
         CategoryTree categoryTree = new CategoryTree();
         categoryTree.setCategoryTreeId(categoryTreeId);
         Completable.create(e -> database.categoriesDao().insertCategoryTree(categoryTree))
+                .subscribeOn(Schedulers.io())
                 .subscribe();
     }
 }

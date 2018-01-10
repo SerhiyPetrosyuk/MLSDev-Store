@@ -18,4 +18,6 @@ public interface DataSource {
      * */
     Single<CategoryTree> getRootCategoryTree();
 
+    Single<CategoryTree> refreshRootCategoryTree();
+
 }

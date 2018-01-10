@@ -3,6 +3,7 @@ package com.mlsdev.mlsdevstore.data.local.database.dao;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
@@ -13,7 +14,6 @@ import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode;
 
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Single;
 
 @Dao
@@ -28,25 +28,31 @@ public interface CategoriesDao {
     @Delete
     void deleteCategories(Category... categories);
 
+    @Query("delete from " + Table.CATEGORY_TREE_NODES)
+    int deleteAllCategoryTreeNodel();
+
     @Query("select * from " + Table.CATEGORIES)
     Single<List<Category>> queryAllCategories();
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertCategoryTreeNode(CategoryTreeNode... categoryTreeNodes);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertCategoryTreeNode(List<CategoryTreeNode> categoryTreeNodes);
 
     @Query("select * from " + Table.CATEGORY_TREE_NODES)
     Single<List<CategoryTreeNode>> queryCategoryTreeNode();
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertCategoryTree(CategoryTree categoryTree);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertCategoryTree(CategoryTree... categoryTree);
 
     @Query("select * from " + Table.CATEGORY_TREES + " limit 1")
     Single<List<CategoryTree>> queryDefaultCategoryTree();
+
+    @Query("delete from " + Table.CATEGORY_TREES)
+    int deleteAllCategoryTrees();
 
 }

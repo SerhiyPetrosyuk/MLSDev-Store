@@ -15,11 +15,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-
-import io.reactivex.functions.Predicate;
 
 @RunWith(AndroidJUnit4.class)
 public class CategoriesDaoTest {
@@ -52,19 +48,29 @@ public class CategoriesDaoTest {
     @Test
     public void testReadWriteCategoryTreeNode() {
         Category category = new Category();
+        Category category1 = new Category();
         category.setCategoryId("some_cat_id");
+        category1.setCategoryId("some_cat_id1");
         CategoryTreeNode childCategoryTreeNode = new CategoryTreeNode();
+        CategoryTreeNode childCategoryTreeNode1 = new CategoryTreeNode();
+
         childCategoryTreeNode.setParentCategoryTreeNodeHref("parent_href");
         childCategoryTreeNode.setCategory(category);
         childCategoryTreeNode.setLeafCategoryTreeNode(true);
         childCategoryTreeNode.setCategoryTreeNodeLevel(1);
 
-        database.categoriesDao().insertCategoryTreeNode(childCategoryTreeNode);
+        childCategoryTreeNode1.setParentCategoryTreeNodeHref("parent_href1");
+        childCategoryTreeNode1.setCategory(category1);
+        childCategoryTreeNode1.setLeafCategoryTreeNode(true);
+        childCategoryTreeNode1.setCategoryTreeNodeLevel(1);
+
+        database.categoriesDao().insertCategoryTreeNode(childCategoryTreeNode, childCategoryTreeNode1);
         database.categoriesDao().queryCategoryTreeNode()
                 .test()
                 .assertValue(Objects::nonNull)
-                .assertValue(nodes -> !nodes.isEmpty())
-                .assertValue(nodes -> nodes.get(0).getCategory().getCategoryId().equals(category.getCategoryId()));
+                .assertValue(nodes -> nodes.size() == 2)
+                .assertValue(nodes -> nodes.get(0).getCategory().getCategoryId().equals(category.getCategoryId()))
+                .assertValue(nodes -> nodes.get(1).getCategory().getCategoryId().equals(category1.getCategoryId()));
     }
 
     @After

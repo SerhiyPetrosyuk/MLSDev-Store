@@ -6,17 +6,12 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverter;
-import android.arch.persistence.room.TypeConverters;
 
 import com.mlsdev.mlsdevstore.data.local.database.Column;
 import com.mlsdev.mlsdevstore.data.local.database.Table;
-import com.mlsdev.mlsdevstore.data.local.database.converter.CategoryConverter;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.http.Field;
 
 @Entity(tableName = Table.CATEGORY_TREE_NODES,
         indices = {@Index(Column.CATEGORY_TREE_NODE_ID)})

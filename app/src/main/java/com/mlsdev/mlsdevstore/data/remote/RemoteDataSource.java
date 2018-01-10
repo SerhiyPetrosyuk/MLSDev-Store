@@ -5,6 +5,7 @@ import android.util.Base64;
 import com.mlsdev.mlsdevstore.BuildConfig;
 import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager;
+import com.mlsdev.mlsdevstore.data.local.database.AppDatabase;
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken;
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessTokenRequestBody;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -30,16 +32,19 @@ public class RemoteDataSource implements DataSource{
     private AuthenticationService authenticationService;
     private SharedPreferencesManager sharedPreferencesManager;
     private TaxonomyService taxonomyService;
+    private AppDatabase database;
 
     @Inject
     public RemoteDataSource(BuyService buyService,
                             AuthenticationService authenticationService,
                             TaxonomyService taxonomyService,
-                            SharedPreferencesManager sharedPreferencesManager) {
+                            SharedPreferencesManager sharedPreferencesManager,
+                            AppDatabase database) {
         this.buyService = buyService;
         this.authenticationService = authenticationService;
         this.taxonomyService = taxonomyService;
         this.sharedPreferencesManager = sharedPreferencesManager;
+        this.database = database;
     }
 
     public Single<AppAccessToken> getAppAccessToken() {
@@ -69,23 +74,40 @@ public class RemoteDataSource implements DataSource{
     @Override
     public Single<String> getDefaultCategoryTreeId() {
         return prepareSingle(taxonomyService.getDefaultCategoryTreeId())
-                .map(CategoryTree::getCategoryTreeId);
+                .map(CategoryTree::getCategoryTreeId)
+                .doOnSuccess(this::saveDefaultCategoryTreeId);
     }
 
     @Override
     public Single<CategoryTree> getRootCategoryTree() {
         return getDefaultCategoryTreeId()
-                .flatMap(defaultCategoryTreeId -> prepareSingle(taxonomyService.getCategoryTree(defaultCategoryTreeId)));
+                .flatMap(defaultCategoryTreeId -> prepareSingle(taxonomyService.getCategoryTree(defaultCategoryTreeId)))
+                .doOnSuccess(this::saveCategoryTreeNodes);
     }
 
     @Override
     public Single<CategoryTree> refreshRootCategoryTree() {
-        return null;
+        return getRootCategoryTree();
     }
 
     public  <T> Single<T> prepareSingle(Single<T> single) {
         return single
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    private void saveCategoryTreeNodes(CategoryTree categoryTree) {
+        Completable.create(e ->
+                database.categoriesDao().insertCategoryTreeNode(categoryTree.getCategoryTreeNode().getChildCategoryTreeNodes()))
+                .subscribeOn(Schedulers.io())
+                .subscribe();
+    }
+
+    private void saveDefaultCategoryTreeId(String categoryTreeId) {
+        CategoryTree categoryTree = new CategoryTree();
+        categoryTree.setCategoryTreeId(categoryTreeId);
+        Completable.create(e -> database.categoriesDao().insertCategoryTree(categoryTree))
+                .subscribeOn(Schedulers.io())
+                .subscribe();
     }
 }

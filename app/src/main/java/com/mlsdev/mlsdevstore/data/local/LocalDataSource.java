@@ -10,9 +10,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 
 public class LocalDataSource implements DataSource {
 
@@ -27,23 +25,15 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public Single<String> getDefaultCategoryTreeId() {
-        Single<String> singleRemote = remoteDataSource.getDefaultCategoryTreeId()
-                .doOnSuccess(this::saveDefaultCategoryTreeId);
-
-
         Single<String> single = database.categoriesDao().queryDefaultCategoryTree()
                 .flatMap(list -> !list.isEmpty()
                         ? Single.just(list.get(0).getCategoryTreeId())
-                        : singleRemote);
+                        : remoteDataSource.getDefaultCategoryTreeId());
         return remoteDataSource.prepareSingle(single);
     }
 
     @Override
     public Single<CategoryTree> getRootCategoryTree() {
-        Single<CategoryTree> remoteSingle = remoteDataSource.getRootCategoryTree()
-                .doOnSuccess(this::saveCategoryTreeNodes);
-
-
         Single<List<CategoryTreeNode>> listSingle = database.categoriesDao().queryCategoryTreeNode();
         return remoteDataSource.prepareSingle(listSingle)
                 .flatMap(nodes -> {
@@ -54,7 +44,7 @@ public class LocalDataSource implements DataSource {
 
                     return !nodes.isEmpty()
                             ? Single.just(categoryTree)
-                            : remoteSingle;
+                            : remoteDataSource.getRootCategoryTree();
                 });
     }
 
@@ -65,21 +55,8 @@ public class LocalDataSource implements DataSource {
             database.categoriesDao().deleteAllCategoryTreeNodel();
             database.categoriesDao().deleteAllCategoryTrees();
             return 1;
-        }).flatMap(integer -> getRootCategoryTree());
+        }).flatMap(integer -> remoteDataSource.refreshRootCategoryTree());
     }
 
-    private void saveCategoryTreeNodes(CategoryTree categoryTree) {
-        Completable.create(e ->
-                database.categoriesDao().insertCategoryTreeNode(categoryTree.getCategoryTreeNode().getChildCategoryTreeNodes()))
-                .subscribeOn(Schedulers.io())
-                .subscribe();
-    }
 
-    private void saveDefaultCategoryTreeId(String categoryTreeId) {
-        CategoryTree categoryTree = new CategoryTree();
-        categoryTree.setCategoryTreeId(categoryTreeId);
-        Completable.create(e -> database.categoriesDao().insertCategoryTree(categoryTree))
-                .subscribeOn(Schedulers.io())
-                .subscribe();
-    }
 }

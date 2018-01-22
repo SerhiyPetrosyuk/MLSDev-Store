@@ -3,16 +3,13 @@ package com.mlsdev.mlsdevstore.data.remote;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.mlsdev.mlsdevstore.data.model.error.Error;
 import com.mlsdev.mlsdevstore.data.model.error.ErrorsWrapper;
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Type;
 import java.net.SocketTimeoutException;
-import java.util.List;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
@@ -44,9 +41,9 @@ public class BaseObserver<T> implements SingleObserver<T> {
     @Override
     public void onError(Throwable throwable) {
 
-        if (throwable instanceof IOException) {
+        if (throwable instanceof SocketTimeoutException) {
             baseViewModelWeakReference.get().onNetworkErrorOccurred();
-        } else if (throwable instanceof SocketTimeoutException) {
+        } else if (throwable instanceof IOException) {
             baseViewModelWeakReference.get().onTechnicalErrorOccurred();
         } else if (throwable instanceof HttpException) {
             HttpException httpException = (HttpException) throwable;

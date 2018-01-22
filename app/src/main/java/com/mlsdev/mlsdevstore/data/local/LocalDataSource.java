@@ -4,9 +4,11 @@ import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode;
+import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
 import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -61,6 +63,11 @@ public class LocalDataSource implements DataSource {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(integer -> remoteDataSource.refreshRootCategoryTree());
+    }
+
+    @Override
+    public Single<SearchResult> searchItemsByCategoryId(Map<String, String> queries) {
+        return remoteDataSource.searchItemsByCategoryId(queries);
     }
 
 

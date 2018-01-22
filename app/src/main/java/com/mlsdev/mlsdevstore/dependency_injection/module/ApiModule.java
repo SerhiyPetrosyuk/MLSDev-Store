@@ -7,7 +7,7 @@ import com.mlsdev.mlsdevstore.BuildConfig;
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager;
 import com.mlsdev.mlsdevstore.data.remote.AuthInterceptor;
 import com.mlsdev.mlsdevstore.data.remote.service.AuthenticationService;
-import com.mlsdev.mlsdevstore.data.remote.service.BuyService;
+import com.mlsdev.mlsdevstore.data.remote.service.BrowseService;
 import com.mlsdev.mlsdevstore.data.remote.service.TaxonomyService;
 import com.mlsdev.mlsdevstore.dependency_injection.Named;
 
@@ -79,8 +79,8 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    BuyService provideBuyService(Retrofit retrofit) {
-        return retrofit.create(BuyService.class);
+    BrowseService provideBuyService(Retrofit retrofit) {
+        return retrofit.create(BrowseService.class);
     }
 
     @Provides

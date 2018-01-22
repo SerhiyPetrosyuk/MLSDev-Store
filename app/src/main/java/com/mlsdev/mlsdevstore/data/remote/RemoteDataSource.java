@@ -9,8 +9,9 @@ import com.mlsdev.mlsdevstore.data.local.database.AppDatabase;
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken;
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessTokenRequestBody;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
+import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
 import com.mlsdev.mlsdevstore.data.remote.service.AuthenticationService;
-import com.mlsdev.mlsdevstore.data.remote.service.BuyService;
+import com.mlsdev.mlsdevstore.data.remote.service.BrowseService;
 import com.mlsdev.mlsdevstore.data.remote.service.TaxonomyService;
 
 import java.io.UnsupportedEncodingException;
@@ -28,19 +29,19 @@ import io.reactivex.schedulers.Schedulers;
 import static com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.Key;
 
 public class RemoteDataSource implements DataSource{
-    private BuyService buyService;
+    private BrowseService browseService;
     private AuthenticationService authenticationService;
     private SharedPreferencesManager sharedPreferencesManager;
     private TaxonomyService taxonomyService;
     private AppDatabase database;
 
     @Inject
-    public RemoteDataSource(BuyService buyService,
+    public RemoteDataSource(BrowseService browseService,
                             AuthenticationService authenticationService,
                             TaxonomyService taxonomyService,
                             SharedPreferencesManager sharedPreferencesManager,
                             AppDatabase database) {
-        this.buyService = buyService;
+        this.browseService = browseService;
         this.authenticationService = authenticationService;
         this.taxonomyService = taxonomyService;
         this.sharedPreferencesManager = sharedPreferencesManager;
@@ -88,6 +89,11 @@ public class RemoteDataSource implements DataSource{
     @Override
     public Single<CategoryTree> refreshRootCategoryTree() {
         return getRootCategoryTree();
+    }
+
+    @Override
+    public Single<SearchResult> searchItemsByCategoryId(Map<String, String> queries) {
+        return prepareSingle(browseService.searchItemsByCategoryId(queries));
     }
 
     public  <T> Single<T> prepareSingle(Single<T> single) {

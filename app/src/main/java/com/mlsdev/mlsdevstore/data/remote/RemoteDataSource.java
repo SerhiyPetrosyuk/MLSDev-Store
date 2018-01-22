@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.data.remote;
 
+import android.util.ArrayMap;
 import android.util.Base64;
 
 import com.mlsdev.mlsdevstore.BuildConfig;
@@ -22,13 +23,14 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.Key;
 
-public class RemoteDataSource implements DataSource{
+public class RemoteDataSource implements DataSource {
     private BrowseService browseService;
     private AuthenticationService authenticationService;
     private SharedPreferencesManager sharedPreferencesManager;
@@ -96,7 +98,23 @@ public class RemoteDataSource implements DataSource{
         return prepareSingle(browseService.searchItemsByCategoryId(queries));
     }
 
-    public  <T> Single<T> prepareSingle(Single<T> single) {
+    @Override
+    public Single<SearchResult> searchItemsByRandomCategory() {
+        return prepareSingle(database.categoriesDao().queryCategoryTreeNode())
+                .toFlowable()
+                .flatMap(Flowable::fromIterable)
+                .filter(node -> node != null && node.getCategory() != null && node.getCategory().getCategoryId() != null)
+                .toList()
+                .map(nodes -> nodes.get((int) (Math.random() * nodes.size())))
+                .flatMap(node -> {
+                    Map<String, String> queries = new ArrayMap<>();
+                    queries.put("category_ids", node.getCategory().getCategoryId());
+                    queries.put("limit", String.valueOf(10));
+                    return prepareSingle(browseService.searchItemsByCategoryId(queries));
+                });
+    }
+
+    public <T> Single<T> prepareSingle(Single<T> single) {
         return single
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

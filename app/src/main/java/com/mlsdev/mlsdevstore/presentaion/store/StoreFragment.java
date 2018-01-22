@@ -13,28 +13,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mlsdev.mlsdevstore.R;
-import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode;
+import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
 import com.mlsdev.mlsdevstore.databinding.FragmentStoreBinding;
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
 public class StoreFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private FragmentStoreBinding binding;
     private StoreViewModel viewModel;
-    private CategoriesAdapter categoriesAdapter;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+
+    @Inject
+    ProductsAdapter productsAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_store, container, false);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(StoreViewModel.class);
-        viewModel.categories.addOnPropertyChangedCallback(onCategoriesChangedCallback);
+        viewModel.searchResult.addOnPropertyChangedCallback(onProductsChangedCallback);
         binding.setViewModel(viewModel);
         binding.refreshLayout.setOnRefreshListener(this);
         initRecyclerView();
@@ -44,25 +44,23 @@ public class StoreFragment extends BaseFragment implements SwipeRefreshLayout.On
     @Override
     public void onResume() {
         super.onResume();
-        viewModel.getCategories();
+        viewModel.getProducts();
     }
 
-    private Observable.OnPropertyChangedCallback onCategoriesChangedCallback = new Observable.OnPropertyChangedCallback() {
+    private Observable.OnPropertyChangedCallback onProductsChangedCallback = new Observable.OnPropertyChangedCallback() {
         @Override
-        public void onPropertyChanged(Observable observable, int propertyId) {
-
-            if (observable.getClass().isAssignableFrom(ObservableField.class)) {
-                categoriesAdapter.setData((List<CategoryTreeNode>) ((ObservableField) observable).get());
+        public void onPropertyChanged(Observable observable, int i) {
+            if (observable instanceof ObservableField){
+                ObservableField<SearchResult> results = (ObservableField<SearchResult>) observable;
+                productsAdapter.setData(results.get());
+                binding.rvProducts.notifyDataSetChanged();
             }
-
-            binding.rvCategories.notifyDataSetChanged();
-            binding.refreshLayout.setRefreshing(false);
         }
     };
 
     private void initRecyclerView() {
-        categoriesAdapter = new CategoriesAdapter();
-        binding.rvCategories.setAdapter(categoriesAdapter);
+        binding.rvProducts.setAdapter(productsAdapter);
+        binding.refreshLayout.setRefreshing(false);
     }
 
     @Override

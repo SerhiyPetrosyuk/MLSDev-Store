@@ -18,7 +18,7 @@
             android:layout_height="match_parent">
 
             <com.mlsdev.animatedrv.AnimatedRecyclerView
-                android:id="@+id/rv_categories"
+                android:id="@+id/rv_products"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutAnimation="@anim/layout_animation_from_bottom"

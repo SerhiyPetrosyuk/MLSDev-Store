@@ -11,6 +11,7 @@ public class SearchResult {
     private String next;
     private String prev;
     private List<Item> itemSummaries;
+    private Refinement refinement;
 
     public SearchResult() {
         itemSummaries = new ArrayList<>();
@@ -38,5 +39,9 @@ public class SearchResult {
 
     public List<Item> getItemSummaries() {
         return itemSummaries;
+    }
+
+    public Refinement getRefinement() {
+        return refinement;
     }
 }

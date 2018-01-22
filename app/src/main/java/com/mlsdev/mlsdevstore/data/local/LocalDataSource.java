@@ -70,5 +70,10 @@ public class LocalDataSource implements DataSource {
         return remoteDataSource.searchItemsByCategoryId(queries);
     }
 
+    @Override
+    public Single<SearchResult> searchItemsByRandomCategory() {
+        return getRootCategoryTree()
+                .flatMap(categoryTree -> remoteDataSource.searchItemsByRandomCategory());
+    }
 
 }

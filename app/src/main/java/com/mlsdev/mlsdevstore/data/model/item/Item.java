@@ -8,7 +8,7 @@ import com.mlsdev.mlsdevstore.data.model.seller.Seller;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Item implements Parcelable {
+public class Item implements Parcelable, ListItem {
     private String itemId;
     private String title;
     private String itemHref;
@@ -24,12 +24,40 @@ public class Item implements Parcelable {
     private List<ShippingOption> shippingOptions = new ArrayList<>();
     private ItemLocation itemLocation;
 
+    @Override
+    public String getId() {
+        return itemId;
+    }
+
+    @Override
+    public String getTitle() {
+        return title;
+    }
+
+    @Override
+    public String getImage() {
+        return image != null ? image.getImageUrl() : null;
+    }
+
+    @Override
+    public String getPrice() {
+        return price.getValue() + " " + price.getCurrency();
+    }
+
     public @interface Condition {
         String New = "New";
         String Used = "Used";
     }
 
     public Item() {
+    }
+
+    public Item(String title) {
+        this.title = title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     //region Parcelable

@@ -32,4 +32,6 @@ public interface DataSource {
      */
     Single<SearchResult> searchItemsByCategoryId(Map<String, String> queries);
 
+    Single<SearchResult> searchItemsByRandomCategory();
+
 }

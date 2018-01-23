@@ -60,6 +60,7 @@ public class SharedPreferencesManager {
 
     public @interface Key {
         String APPLICATION_ACCESS_TOKEN = "application_access_token";
+        String RANDOM_CATEGORY_TREE_NODE = "random_category_tree_node";
     }
 
 }

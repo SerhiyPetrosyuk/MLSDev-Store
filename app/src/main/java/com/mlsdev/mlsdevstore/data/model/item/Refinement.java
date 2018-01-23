@@ -10,4 +10,8 @@ public class Refinement {
     public List<CategoryDistribution> getCategoryDistributions() {
         return categoryDistributions;
     }
+
+    public void setCategoryDistributions(List<CategoryDistribution> categoryDistributions) {
+        this.categoryDistributions = categoryDistributions;
+    }
 }

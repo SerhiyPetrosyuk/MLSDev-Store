@@ -23,6 +23,7 @@ public class Item implements Parcelable, ListItem {
     private List<String> buyingOptions = new ArrayList<>();
     private List<ShippingOption> shippingOptions = new ArrayList<>();
     private ItemLocation itemLocation;
+    private List<Image> additionalImages = new ArrayList<>();
 
     @Override
     public String getId() {
@@ -36,12 +37,17 @@ public class Item implements Parcelable, ListItem {
 
     @Override
     public String getImage() {
-        return image != null ? image.getImageUrl() : null;
+        String imageUrl = image != null ? image.getImageUrl() : null;
+
+        if (imageUrl == null && !additionalImages.isEmpty())
+            imageUrl = additionalImages.get(0).getImageUrl();
+
+        return imageUrl;
     }
 
     @Override
-    public String getPrice() {
-        return price.getValue() + " " + price.getCurrency();
+    public Price getPrice() {
+        return price;
     }
 
     public @interface Condition {

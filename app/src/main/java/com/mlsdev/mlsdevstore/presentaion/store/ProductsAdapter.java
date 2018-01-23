@@ -1,8 +1,11 @@
 package com.mlsdev.mlsdevstore.presentaion.store;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.mlsdev.mlsdevstore.R;
 import com.mlsdev.mlsdevstore.data.model.item.Item;
 import com.mlsdev.mlsdevstore.data.model.item.ListItem;
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
@@ -18,8 +21,14 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class ProductsAdapter extends RecyclerView.Adapter<BaseViewHolder<ListItem>> {
-
+    private static final int VIEW_TYPE_HEADER = 0;
+    private static final int VIEW_TYPE_FOOTER = 1;
+    private static final int VIEW_TYPE_ITEM = 2;
+    private static final int HEADER_AND_FOOTER = 2;
+    private static final int HEADER_OR_FOOTER = 1;
     private List<ListItem> items;
+    private boolean withHeader = false;
+    private boolean withFooter = false;
 
     @Inject
     public ProductsAdapter() {
@@ -28,7 +37,33 @@ public class ProductsAdapter extends RecyclerView.Adapter<BaseViewHolder<ListIte
 
     @Override
     public BaseViewHolder<ListItem> onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+
+        BaseViewHolder<ListItem> viewHolder;
+
+        if (viewType == VIEW_TYPE_HEADER) {
+            viewHolder = new CategoryNameHeaderViewHolder(
+                    DataBindingUtil.inflate(
+                            LayoutInflater.from(parent.getContext()),
+                            R.layout.item_header_category,
+                            parent,
+                            false));
+        } else if (viewType == VIEW_TYPE_FOOTER) {
+            viewHolder = new ReadMoreInCategoryFooter(
+                    DataBindingUtil.inflate(
+                            LayoutInflater.from(parent.getContext()),
+                            R.layout.item_footer_category,
+                            parent,
+                            false));
+        } else {
+            viewHolder = new ProductViewHolder(
+                    DataBindingUtil.inflate(
+                            LayoutInflater.from(parent.getContext()),
+                            R.layout.item_product,
+                            parent,
+                            false));
+        }
+
+        return viewHolder;
     }
 
     @Override
@@ -39,6 +74,16 @@ public class ProductsAdapter extends RecyclerView.Adapter<BaseViewHolder<ListIte
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (withHeader && position == 0)
+            return VIEW_TYPE_HEADER;
+        else if (withFooter && (position == (items.size() - HEADER_OR_FOOTER)))
+            return VIEW_TYPE_FOOTER;
+        else
+            return VIEW_TYPE_ITEM;
     }
 
     public class ProductViewHolder extends BaseViewHolder<ListItem> {
@@ -99,11 +144,14 @@ public class ProductsAdapter extends RecyclerView.Adapter<BaseViewHolder<ListIte
 
         if (searchResult.getRefinement() == null)
             return;
-        
+
         if (!searchResult.getRefinement().getCategoryDistributions().isEmpty() && !items.isEmpty()) {
             String title = searchResult.getRefinement().getCategoryDistributions().get(0).getCategoryName();
             ListItem headerAndFooter = new Item(title);
             items.add(0, headerAndFooter);
+            items.add(headerAndFooter);
+            withHeader = true;
+            withFooter = true;
         }
     }
 

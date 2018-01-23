@@ -44,4 +44,8 @@ public class SearchResult {
     public Refinement getRefinement() {
         return refinement;
     }
+
+    public void setRefinement(Refinement refinement) {
+        this.refinement = refinement;
+    }
 }

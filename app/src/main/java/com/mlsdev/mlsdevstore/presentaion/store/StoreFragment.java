@@ -50,10 +50,11 @@ public class StoreFragment extends BaseFragment implements SwipeRefreshLayout.On
     private Observable.OnPropertyChangedCallback onProductsChangedCallback = new Observable.OnPropertyChangedCallback() {
         @Override
         public void onPropertyChanged(Observable observable, int i) {
-            if (observable instanceof ObservableField){
+            if (observable instanceof ObservableField) {
                 ObservableField<SearchResult> results = (ObservableField<SearchResult>) observable;
                 productsAdapter.setData(results.get());
                 binding.rvProducts.notifyDataSetChanged();
+                binding.refreshLayout.setRefreshing(false);
             }
         }
     };

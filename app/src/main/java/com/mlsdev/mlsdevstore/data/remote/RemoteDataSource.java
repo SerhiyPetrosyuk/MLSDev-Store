@@ -10,14 +10,19 @@ import com.mlsdev.mlsdevstore.data.local.database.AppDatabase;
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken;
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessTokenRequestBody;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
+import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode;
+import com.mlsdev.mlsdevstore.data.model.item.CategoryDistribution;
+import com.mlsdev.mlsdevstore.data.model.item.Refinement;
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
 import com.mlsdev.mlsdevstore.data.remote.service.AuthenticationService;
 import com.mlsdev.mlsdevstore.data.remote.service.BrowseService;
 import com.mlsdev.mlsdevstore.data.remote.service.TaxonomyService;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -107,10 +112,23 @@ public class RemoteDataSource implements DataSource {
                 .toList()
                 .map(nodes -> nodes.get((int) (Math.random() * nodes.size())))
                 .flatMap(node -> {
+                    sharedPreferencesManager.save(Key.RANDOM_CATEGORY_TREE_NODE, node);
                     Map<String, String> queries = new ArrayMap<>();
                     queries.put("category_ids", node.getCategory().getCategoryId());
                     queries.put("limit", String.valueOf(10));
                     return prepareSingle(browseService.searchItemsByCategoryId(queries));
+                })
+                .flatMap(searchResult -> searchResult.getItemSummaries().isEmpty() ? searchItemsByRandomCategory() : Single.just(searchResult))
+                .doOnSuccess(searchResult -> {
+                    CategoryTreeNode node = sharedPreferencesManager.get(Key.RANDOM_CATEGORY_TREE_NODE, CategoryTreeNode.class);
+                    Refinement refinement = new Refinement();
+                    List<CategoryDistribution> distributionList = new ArrayList<>(1);
+                    CategoryDistribution distribution = new CategoryDistribution();
+                    distribution.setCategoryId(node.getCategory().getCategoryId());
+                    distribution.setCategoryName(node.getCategory().getCategoryName());
+                    distributionList.add(distribution);
+                    refinement.setCategoryDistributions(distributionList);
+                    searchResult.setRefinement(refinement);
                 });
     }
 

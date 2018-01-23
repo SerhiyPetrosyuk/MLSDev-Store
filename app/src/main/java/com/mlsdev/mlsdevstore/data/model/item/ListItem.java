@@ -7,5 +7,5 @@ public interface ListItem {
 
     String getImage();
 
-    String getPrice();
+    Price getPrice();
 }

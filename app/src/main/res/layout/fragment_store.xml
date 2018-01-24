@@ -21,10 +21,11 @@
                 android:id="@+id/rv_products"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layoutAnimation="@anim/layout_animation_from_bottom"
+                app:gridLayoutManagerColumns="2"
+                app:layoutAnimation="@anim/layout_animation_from_bottom_random"
                 app:layoutManagerOrientation="vertical"
                 app:layoutManagerReverse="false"
-                app:layoutManagerType="linear"
+                app:layoutManagerType="grid"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </android.support.v4.widget.SwipeRefreshLayout>

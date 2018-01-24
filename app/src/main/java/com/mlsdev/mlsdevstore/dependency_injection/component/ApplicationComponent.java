@@ -7,6 +7,7 @@ import com.mlsdev.mlsdevstore.dependency_injection.module.ApplicationModule;
 import com.mlsdev.mlsdevstore.dependency_injection.module.DataSourceModule;
 import com.mlsdev.mlsdevstore.dependency_injection.module.DatabaseModule;
 import com.mlsdev.mlsdevstore.dependency_injection.module.FragmentBuilderModule;
+import com.mlsdev.mlsdevstore.dependency_injection.module.ProductsAdapterModule;
 import com.mlsdev.mlsdevstore.dependency_injection.module.ViewModelModule;
 
 import javax.inject.Singleton;
@@ -23,7 +24,8 @@ import dagger.android.support.AndroidSupportInjectionModule;
         ViewModelModule.class,
         ApiModule.class,
         DatabaseModule.class,
-        DataSourceModule.class
+        DataSourceModule.class,
+        ProductsAdapterModule.class
 })
 public interface ApplicationComponent extends AndroidInjector<MLSDevStoreApplication> {
 

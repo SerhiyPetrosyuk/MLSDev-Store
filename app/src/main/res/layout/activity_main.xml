@@ -30,8 +30,8 @@
         android:layout_height="60dp"
         android:layout_gravity="bottom"
         app:bb_behavior="shy"
-        app:bb_titleTextAppearance="@style/BottomBarTextStyle"
-        app:bb_tabXmlResource="@xml/bottom_view_tabs" />
+        app:bb_tabXmlResource="@xml/bottom_view_tabs"
+        app:bb_titleTextAppearance="@style/BottomBarTextStyle" />
 
     <FrameLayout
         android:id="@+id/content"

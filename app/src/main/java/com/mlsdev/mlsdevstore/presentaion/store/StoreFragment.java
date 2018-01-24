@@ -8,6 +8,7 @@ import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import android.view.ViewGroup;
 import com.mlsdev.mlsdevstore.R;
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
 import com.mlsdev.mlsdevstore.databinding.FragmentStoreBinding;
+import com.mlsdev.mlsdevstore.dependency_injection.Named;
+import com.mlsdev.mlsdevstore.dependency_injection.module.ProductsAdapterModule;
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment;
 
 import javax.inject.Inject;
@@ -27,6 +30,7 @@ public class StoreFragment extends BaseFragment implements SwipeRefreshLayout.On
     ViewModelProvider.Factory viewModelFactory;
 
     @Inject
+    @Named(ProductsAdapterModule.Type.RandomProducts)
     ProductsAdapter productsAdapter;
 
     @Nullable
@@ -61,7 +65,19 @@ public class StoreFragment extends BaseFragment implements SwipeRefreshLayout.On
 
     private void initRecyclerView() {
         binding.rvProducts.setAdapter(productsAdapter);
-        binding.refreshLayout.setRefreshing(false);
+        ((GridLayoutManager) binding.rvProducts.getLayoutManager()).setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                int viewType = productsAdapter.getItemViewType(position);
+
+                if (viewType == RandomProductsAdapter.VIEW_TYPE_FOOTER || viewType == RandomProductsAdapter.VIEW_TYPE_HEADER)
+                    return 2;
+                else if (viewType == ProductsAdapter.VIEW_TYPE_ITEM)
+                    return 1;
+                else
+                    return -1;
+            }
+        });
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.mlsdev.mlsdevstore.presentaion.store;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.mlsdev.mlsdevstore.R;
@@ -67,12 +68,15 @@ public class ProductsAdapter extends RecyclerView.Adapter<BaseViewHolder<ListIte
         }
     }
 
-
     public void setData(SearchResult searchResult) {
-        if (searchResult.getOffset() == 0)
-            items.clear();
-
+        int startPosition = getItemCount() - 2;
+        items.clear();
         items.addAll(searchResult.getItemSummaries());
+        notifyItemRangeChanged(startPosition, getItemCount());
+    }
+
+    public void setOnFooterClickListener(View.OnClickListener onFooterClickListener) {
+
     }
 
 }

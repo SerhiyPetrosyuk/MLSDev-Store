@@ -57,7 +57,8 @@ public class StoreFragment extends BaseFragment implements SwipeRefreshLayout.On
             if (observable instanceof ObservableField) {
                 ObservableField<SearchResult> results = (ObservableField<SearchResult>) observable;
                 productsAdapter.setData(results.get());
-                binding.rvProducts.notifyDataSetChanged();
+                if (results.get().getOffset() == 0)
+                    binding.rvProducts.notifyDataSetChanged();
                 binding.refreshLayout.setRefreshing(false);
             }
         }
@@ -78,6 +79,8 @@ public class StoreFragment extends BaseFragment implements SwipeRefreshLayout.On
                     return -1;
             }
         });
+
+        productsAdapter.setOnFooterClickListener(view -> viewModel.loadMoreItemsFromRandomCategory());
     }
 
     @Override

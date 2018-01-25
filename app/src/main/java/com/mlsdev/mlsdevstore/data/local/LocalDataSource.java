@@ -76,4 +76,9 @@ public class LocalDataSource implements DataSource {
                 .flatMap(categoryTree -> remoteDataSource.searchItemsByRandomCategory());
     }
 
+    @Override
+    public Single<SearchResult> searchMoreItemsByRandomCategory() {
+        return remoteDataSource.searchMoreItemsByRandomCategory();
+    }
+
 }

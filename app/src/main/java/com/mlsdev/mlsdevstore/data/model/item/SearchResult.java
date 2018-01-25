@@ -48,4 +48,8 @@ public class SearchResult {
     public void setRefinement(Refinement refinement) {
         this.refinement = refinement;
     }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
 }

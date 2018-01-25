@@ -12,6 +12,7 @@ import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessTokenRequestBod
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode;
 import com.mlsdev.mlsdevstore.data.model.item.CategoryDistribution;
+import com.mlsdev.mlsdevstore.data.model.item.Item;
 import com.mlsdev.mlsdevstore.data.model.item.Refinement;
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
 import com.mlsdev.mlsdevstore.data.remote.service.AuthenticationService;
@@ -31,6 +32,8 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.Key;
@@ -41,6 +44,9 @@ public class RemoteDataSource implements DataSource {
     private SharedPreferencesManager sharedPreferencesManager;
     private TaxonomyService taxonomyService;
     private AppDatabase database;
+    private int searchOffset = 0;
+    private int searchLimit = 10;
+    private List<Item> searchItems = new ArrayList<>();
 
     @Inject
     public RemoteDataSource(BrowseService browseService,
@@ -105,6 +111,11 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public Single<SearchResult> searchItemsByRandomCategory() {
+        searchLimit = 10;
+        searchOffset = 0;
+        searchItems.clear();
+        sharedPreferencesManager.remove(Key.RANDOM_CATEGORY_TREE_NODE);
+
         return prepareSingle(database.categoriesDao().queryCategoryTreeNode())
                 .toFlowable()
                 .flatMap(Flowable::fromIterable)
@@ -113,23 +124,41 @@ public class RemoteDataSource implements DataSource {
                 .map(nodes -> nodes.get((int) (Math.random() * nodes.size())))
                 .flatMap(node -> {
                     sharedPreferencesManager.save(Key.RANDOM_CATEGORY_TREE_NODE, node);
-                    Map<String, String> queries = new ArrayMap<>();
-                    queries.put("category_ids", node.getCategory().getCategoryId());
-                    queries.put("limit", String.valueOf(10));
+                    Map<String, String> queries = prepareSearchQueryMap();
                     return prepareSingle(browseService.searchItemsByCategoryId(queries));
                 })
                 .flatMap(searchResult -> searchResult.getItemSummaries().isEmpty() ? searchItemsByRandomCategory() : Single.just(searchResult))
-                .doOnSuccess(searchResult -> {
-                    CategoryTreeNode node = sharedPreferencesManager.get(Key.RANDOM_CATEGORY_TREE_NODE, CategoryTreeNode.class);
-                    Refinement refinement = new Refinement();
-                    List<CategoryDistribution> distributionList = new ArrayList<>(1);
-                    CategoryDistribution distribution = new CategoryDistribution();
-                    distribution.setCategoryId(node.getCategory().getCategoryId());
-                    distribution.setCategoryName(node.getCategory().getCategoryName());
-                    distributionList.add(distribution);
-                    refinement.setCategoryDistributions(distributionList);
-                    searchResult.setRefinement(refinement);
-                });
+                .doOnSuccess(searchResultConsumer);
+    }
+
+    @Override
+    public Single<SearchResult> searchMoreItemsByRandomCategory() {
+        return prepareSingle(browseService.searchItemsByCategoryId(prepareSearchQueryMap()))
+                .doOnSuccess(searchResultConsumer);
+    }
+
+    private Consumer<SearchResult> searchResultConsumer = searchResult -> {
+        searchItems.addAll(searchResult.getItemSummaries());
+        searchLimit = searchResult.getLimit();
+        searchOffset += searchLimit;
+        CategoryTreeNode node = sharedPreferencesManager.get(Key.RANDOM_CATEGORY_TREE_NODE, CategoryTreeNode.class);
+        Refinement refinement = new Refinement();
+        List<CategoryDistribution> distributionList = new ArrayList<>(1);
+        CategoryDistribution distribution = new CategoryDistribution();
+        distribution.setCategoryId(node.getCategory().getCategoryId());
+        distribution.setCategoryName(node.getCategory().getCategoryName());
+        distributionList.add(distribution);
+        refinement.setCategoryDistributions(distributionList);
+        searchResult.setRefinement(refinement);
+    };
+
+    private Map<String, String> prepareSearchQueryMap(){
+        CategoryTreeNode node = sharedPreferencesManager.get(Key.RANDOM_CATEGORY_TREE_NODE, CategoryTreeNode.class);
+        Map<String, String> queries = new ArrayMap<>();
+        queries.put("category_ids", node.getCategory().getCategoryId());
+        queries.put("limit", String.valueOf(searchLimit));
+        queries.put("offset", String.valueOf(searchOffset));
+        return queries;
     }
 
     public <T> Single<T> prepareSingle(Single<T> single) {

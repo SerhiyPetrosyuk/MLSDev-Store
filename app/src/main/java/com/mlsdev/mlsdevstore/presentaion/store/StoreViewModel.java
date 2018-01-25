@@ -28,6 +28,19 @@ public class StoreViewModel extends BaseViewModel {
                 .subscribe(searchResultBaseObserver);
     }
 
+    public void loadMoreItemsFromRandomCategory() {
+        dataSource.searchMoreItemsByRandomCategory()
+                .subscribe(new BaseObserver<SearchResult>(this) {
+                    @Override
+                    public void onSuccess(SearchResult data) {
+                        super.onSuccess(data);
+                        searchResult.get().setOffset(data.getOffset());
+                        searchResult.get().getItemSummaries().addAll(data.getItemSummaries());
+                        searchResult.notifyChange();
+                    }
+                });
+    }
+
     private BaseObserver<SearchResult> searchResultBaseObserver = new BaseObserver<SearchResult>(this) {
         @Override
         public void onSuccess(SearchResult searchResult) {

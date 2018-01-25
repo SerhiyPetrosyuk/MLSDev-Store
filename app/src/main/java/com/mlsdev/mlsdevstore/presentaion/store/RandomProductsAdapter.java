@@ -2,6 +2,7 @@ package com.mlsdev.mlsdevstore.presentaion.store;
 
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.mlsdev.mlsdevstore.R;
@@ -17,6 +18,7 @@ public class RandomProductsAdapter extends ProductsAdapter {
 
     private boolean withHeader = false;
     private boolean withFooter = false;
+    private View.OnClickListener onFooterClickListener;
 
     public RandomProductsAdapter() {
         super();
@@ -80,6 +82,9 @@ public class RandomProductsAdapter extends ProductsAdapter {
         public ReadMoreInCategoryFooter(ItemFooterCategoryBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.getRoot().setClickable(true);
+            binding.getRoot().setFocusable(true);
+            binding.getRoot().setOnClickListener(onFooterClickListener);
         }
 
         @Override
@@ -106,5 +111,10 @@ public class RandomProductsAdapter extends ProductsAdapter {
             withHeader = true;
             withFooter = true;
         }
+    }
+
+    @Override
+    public void setOnFooterClickListener(View.OnClickListener onFooterClickListener) {
+        this.onFooterClickListener = onFooterClickListener;
     }
 }

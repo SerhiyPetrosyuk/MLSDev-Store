@@ -6,6 +6,8 @@ import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
 
 import java.util.Map;
 
+import javax.inject.Singleton;
+
 import io.reactivex.Single;
 
 public interface DataSource {
@@ -33,5 +35,7 @@ public interface DataSource {
     Single<SearchResult> searchItemsByCategoryId(Map<String, String> queries);
 
     Single<SearchResult> searchItemsByRandomCategory();
+
+    Single<SearchResult> searchMoreItemsByRandomCategory();
 
 }

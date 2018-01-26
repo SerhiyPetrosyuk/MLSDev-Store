@@ -111,10 +111,12 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public Single<SearchResult> searchItemsByRandomCategory() {
-        searchLimit = 10;
-        searchOffset = 0;
-        searchItems.clear();
-        sharedPreferencesManager.remove(Key.RANDOM_CATEGORY_TREE_NODE);
+        if (!searchItems.isEmpty()) {
+            SearchResult searchResult = new SearchResult();
+            searchResult.setItemSummaries(searchItems);
+            searchResult.setRefinement(getCategoryRefinement());
+            return Single.just(searchResult);
+        }
 
         return prepareSingle(database.categoriesDao().queryCategoryTreeNode())
                 .toFlowable()
@@ -137,10 +139,21 @@ public class RemoteDataSource implements DataSource {
                 .doOnSuccess(searchResultConsumer);
     }
 
+    @Override
+    public void resetSearchResults() {
+        searchOffset = 0;
+        searchItems.clear();
+        sharedPreferencesManager.remove(Key.RANDOM_CATEGORY_TREE_NODE);
+    }
+
     private Consumer<SearchResult> searchResultConsumer = searchResult -> {
         searchItems.addAll(searchResult.getItemSummaries());
         searchLimit = searchResult.getLimit();
-        searchOffset += searchLimit;
+        searchOffset = searchItems.size();
+        searchResult.setRefinement(getCategoryRefinement());
+    };
+
+    private Refinement getCategoryRefinement() {
         CategoryTreeNode node = sharedPreferencesManager.get(Key.RANDOM_CATEGORY_TREE_NODE, CategoryTreeNode.class);
         Refinement refinement = new Refinement();
         List<CategoryDistribution> distributionList = new ArrayList<>(1);
@@ -149,15 +162,15 @@ public class RemoteDataSource implements DataSource {
         distribution.setCategoryName(node.getCategory().getCategoryName());
         distributionList.add(distribution);
         refinement.setCategoryDistributions(distributionList);
-        searchResult.setRefinement(refinement);
-    };
+        return refinement;
+    }
 
     private Map<String, String> prepareSearchQueryMap(){
         CategoryTreeNode node = sharedPreferencesManager.get(Key.RANDOM_CATEGORY_TREE_NODE, CategoryTreeNode.class);
         Map<String, String> queries = new ArrayMap<>();
         queries.put("category_ids", node.getCategory().getCategoryId());
         queries.put("limit", String.valueOf(searchLimit));
-        queries.put("offset", String.valueOf(searchOffset));
+        queries.put("offset", String.valueOf(searchItems.size()));
         return queries;
     }
 

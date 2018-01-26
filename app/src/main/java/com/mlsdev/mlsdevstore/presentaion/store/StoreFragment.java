@@ -42,13 +42,8 @@ public class StoreFragment extends BaseFragment implements SwipeRefreshLayout.On
         binding.setViewModel(viewModel);
         binding.refreshLayout.setOnRefreshListener(this);
         initRecyclerView();
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         viewModel.getProducts();
+        return binding.getRoot();
     }
 
     private Observable.OnPropertyChangedCallback onProductsChangedCallback = new Observable.OnPropertyChangedCallback() {
@@ -56,8 +51,9 @@ public class StoreFragment extends BaseFragment implements SwipeRefreshLayout.On
         public void onPropertyChanged(Observable observable, int i) {
             if (observable instanceof ObservableField) {
                 ObservableField<SearchResult> results = (ObservableField<SearchResult>) observable;
+                boolean animate = binding.refreshLayout.isRefreshing() || productsAdapter.getItemCount() == 0;
                 productsAdapter.setData(results.get());
-                if (results.get().getOffset() == 0)
+                if (animate)
                     binding.rvProducts.notifyDataSetChanged();
                 binding.refreshLayout.setRefreshing(false);
             }

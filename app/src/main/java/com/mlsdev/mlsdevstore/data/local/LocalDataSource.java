@@ -81,4 +81,9 @@ public class LocalDataSource implements DataSource {
         return remoteDataSource.searchMoreItemsByRandomCategory();
     }
 
+    @Override
+    public void resetSearchResults() {
+        remoteDataSource.resetSearchResults();
+    }
+
 }

@@ -82,9 +82,7 @@ public class RandomProductsAdapter extends ProductsAdapter {
         public ReadMoreInCategoryFooter(ItemFooterCategoryBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.getRoot().setClickable(true);
-            binding.getRoot().setFocusable(true);
-            binding.getRoot().setOnClickListener(onFooterClickListener);
+            this.binding.btnGetMoreItems.setOnClickListener(onFooterClickListener);
         }
 
         @Override
@@ -98,12 +96,13 @@ public class RandomProductsAdapter extends ProductsAdapter {
 
     @Override
     public void setData(SearchResult searchResult) {
-        super.setData(searchResult);
+        int startPosition = searchResult.getItemSummaries().size() == items.size() && searchResult.getOffset() > 0 ? getItemCount() : 0;
+        items.clear();
+        items.addAll(searchResult.getItemSummaries());
 
-        if (searchResult.getRefinement() == null)
-            return;
-
-        if (!searchResult.getRefinement().getCategoryDistributions().isEmpty() && !items.isEmpty()) {
+        if (searchResult.getRefinement() != null
+                && !searchResult.getRefinement().getCategoryDistributions().isEmpty()
+                && !items.isEmpty()) {
             String title = searchResult.getRefinement().getCategoryDistributions().get(0).getCategoryName();
             ListItem headerAndFooter = new Item(title);
             items.add(0, headerAndFooter);
@@ -111,6 +110,8 @@ public class RandomProductsAdapter extends ProductsAdapter {
             withHeader = true;
             withFooter = true;
         }
+
+        notifyItemRangeChanged(startPosition, getItemCount());
     }
 
     @Override

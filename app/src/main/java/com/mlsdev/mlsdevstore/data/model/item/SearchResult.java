@@ -52,4 +52,24 @@ public class SearchResult {
     public void setOffset(int offset) {
         this.offset = offset;
     }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public void setNext(String next) {
+        this.next = next;
+    }
+
+    public void setPrev(String prev) {
+        this.prev = prev;
+    }
+
+    public void setItemSummaries(List<Item> itemSummaries) {
+        this.itemSummaries = itemSummaries;
+    }
 }

@@ -11,21 +11,21 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:gravity="center">
 
-        <TextView
+        <Button
+            android:id="@+id/btn_get_more_items"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="find more in " />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.header}"
-            android:textStyle="bold" />
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@drawable/button_bg_rounded_green"
+            android:drawableEnd="@mipmap/ic_cloud_download_white"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:text="get more items "
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 

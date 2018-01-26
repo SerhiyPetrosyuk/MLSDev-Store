@@ -69,10 +69,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<BaseViewHolder<ListIte
     }
 
     public void setData(SearchResult searchResult) {
-        int startPosition = getItemCount() - 2;
         items.clear();
         items.addAll(searchResult.getItemSummaries());
-        notifyItemRangeChanged(startPosition, getItemCount());
     }
 
     public void setOnFooterClickListener(View.OnClickListener onFooterClickListener) {

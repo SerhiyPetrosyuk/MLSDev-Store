@@ -24,6 +24,7 @@ public class StoreViewModel extends BaseViewModel {
     }
 
     public void refresh() {
+        dataSource.resetSearchResults();
         dataSource.searchItemsByRandomCategory()
                 .subscribe(searchResultBaseObserver);
     }

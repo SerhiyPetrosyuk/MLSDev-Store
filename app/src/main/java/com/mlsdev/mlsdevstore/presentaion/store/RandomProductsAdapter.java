@@ -19,6 +19,8 @@ public class RandomProductsAdapter extends ProductsAdapter {
     private boolean withHeader = false;
     private boolean withFooter = false;
     private View.OnClickListener onFooterClickListener;
+    private View.OnClickListener onAllCategoriesListener;
+    private View.OnClickListener onAuthorizeListener;
 
     public RandomProductsAdapter() {
         super();
@@ -73,6 +75,9 @@ public class RandomProductsAdapter extends ProductsAdapter {
                 binding.setViewModel(new BaseHeaderViewModel());
 
             binding.getViewModel().setHeader(item.getTitle());
+            binding.btnAllCategories.setOnClickListener(onAllCategoriesListener);
+            binding.btnSignIn.setOnClickListener(onAuthorizeListener);
+            binding.btnSignUp.setOnClickListener(onAuthorizeListener);
         }
     }
 
@@ -115,7 +120,16 @@ public class RandomProductsAdapter extends ProductsAdapter {
     }
 
     @Override
-    public void setOnFooterClickListener(View.OnClickListener onFooterClickListener) {
-        this.onFooterClickListener = onFooterClickListener;
+    public void setOnClickListeners(View.OnClickListener... listeners) {
+
+        if (listeners.length > 0)
+            onAuthorizeListener = listeners[0];
+
+        if (listeners.length > 1)
+            onAllCategoriesListener = listeners[1];
+
+        if (listeners.length > 2)
+            onFooterClickListener = listeners[2];
+
     }
 }

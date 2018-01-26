@@ -76,7 +76,13 @@ public class StoreFragment extends BaseFragment implements SwipeRefreshLayout.On
             }
         });
 
-        productsAdapter.setOnFooterClickListener(view -> viewModel.loadMoreItemsFromRandomCategory());
+        productsAdapter.setOnClickListeners(
+                view -> {
+                }, // TODO: 26.01.18 select the account tab
+                view -> {
+                }, // TODO: 26.01.18 launch all categories activity
+                view -> viewModel.loadMoreItemsFromRandomCategory()
+        );
     }
 
     @Override

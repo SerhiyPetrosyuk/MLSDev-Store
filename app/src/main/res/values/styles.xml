@@ -42,4 +42,17 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="GreenRoundedButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingStart">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingEnd">@dimen/activity_horizontal_margin</item>
+        <item name="android:background">@drawable/button_bg_rounded_green</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>

@@ -15,17 +15,9 @@
 
         <Button
             android:id="@+id/btn_get_more_items"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:gravity="center"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:background="@drawable/button_bg_rounded_green"
+            style="@style/GreenRoundedButton"
             android:drawableEnd="@mipmap/ic_cloud_download_white"
-            android:paddingEnd="@dimen/activity_horizontal_margin"
-            android:paddingStart="@dimen/activity_horizontal_margin"
-            android:text="get more items "
-            android:textAllCaps="false"
-            android:textColor="@android:color/white" />
+            android:text="get more items " />
 
     </LinearLayout>
 

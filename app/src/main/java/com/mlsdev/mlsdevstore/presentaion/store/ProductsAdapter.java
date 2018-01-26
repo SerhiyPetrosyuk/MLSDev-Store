@@ -73,7 +73,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<BaseViewHolder<ListIte
         items.addAll(searchResult.getItemSummaries());
     }
 
-    public void setOnFooterClickListener(View.OnClickListener onFooterClickListener) {
+    public void setOnClickListeners(View.OnClickListener... listeners){
 
     }
 

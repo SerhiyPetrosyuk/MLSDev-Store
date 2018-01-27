@@ -21,6 +21,7 @@ public class BaseObserver<T> implements SingleObserver<T> {
     public static final int SERVER_ERROR = 500;
     public static final int OAUTH_ERROR_ID_1001 = 1001;
     public static final int OAUTH_ERROR_ID_1100 = 1199;
+    public static final int UNAUTHORIZED_ERROR_CODE_401 = 401;
     private final WeakReference<BaseViewModel> baseViewModelWeakReference;
 
     public BaseObserver(BaseViewModel viewModel) {
@@ -47,13 +48,14 @@ public class BaseObserver<T> implements SingleObserver<T> {
             baseViewModelWeakReference.get().onTechnicalErrorOccurred();
         } else if (throwable instanceof HttpException) {
             HttpException httpException = (HttpException) throwable;
-            ResponseBody responseBody = httpException.response().errorBody();
 
-            Log.e(LOG_TAG, "Code: " + httpException.code());
-
-            if (httpException.code() >= SERVER_ERROR) {
+            if (httpException.code() == UNAUTHORIZED_ERROR_CODE_401) {
+                baseViewModelWeakReference.get().onAuthorizationErrorOccurred();
+            } else if (httpException.code() >= SERVER_ERROR) {
                 baseViewModelWeakReference.get().onTechnicalErrorOccurred();
-            } else if (responseBody != null) {
+            } else if (httpException.response().errorBody() != null) {
+                ResponseBody responseBody = httpException.response().errorBody();
+
                 try {
                     String json = responseBody.string();
                     ErrorsWrapper errorsWrapper = new Gson().fromJson(json, ErrorsWrapper.class);

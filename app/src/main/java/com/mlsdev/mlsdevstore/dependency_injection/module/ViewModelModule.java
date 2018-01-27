@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import com.mlsdev.mlsdevstore.dependency_injection.ViewModelFactory;
 import com.mlsdev.mlsdevstore.presentaion.account.AccountViewModel;
 import com.mlsdev.mlsdevstore.presentaion.cart.CartViewModel;
+import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesViewModel;
 import com.mlsdev.mlsdevstore.presentaion.splashscreen.SplashScreenViewModel;
 import com.mlsdev.mlsdevstore.presentaion.store.StoreViewModel;
 
@@ -35,6 +36,11 @@ public interface ViewModelModule {
     @IntoMap
     @ViewModelKey(SplashScreenViewModel.class)
     ViewModel bindSplashScreenViewModel(SplashScreenViewModel splashScreenViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CategoriesViewModel.class)
+    ViewModel bindCategoriesViewModel(CategoriesViewModel categoriesViewModel);
 
     @Binds
     ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);

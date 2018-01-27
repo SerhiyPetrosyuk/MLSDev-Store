@@ -18,6 +18,7 @@ import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
 import com.mlsdev.mlsdevstore.databinding.FragmentStoreBinding;
 import com.mlsdev.mlsdevstore.dependency_injection.Named;
 import com.mlsdev.mlsdevstore.dependency_injection.module.ProductsAdapterModule;
+import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesActivity;
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment;
 
 import javax.inject.Inject;
@@ -79,8 +80,7 @@ public class StoreFragment extends BaseFragment implements SwipeRefreshLayout.On
         productsAdapter.setOnClickListeners(
                 view -> {
                 }, // TODO: 26.01.18 select the account tab
-                view -> {
-                }, // TODO: 26.01.18 launch all categories activity
+                view -> CategoriesActivity.launch(getContext()),
                 view -> viewModel.loadMoreItemsFromRandomCategory()
         );
     }

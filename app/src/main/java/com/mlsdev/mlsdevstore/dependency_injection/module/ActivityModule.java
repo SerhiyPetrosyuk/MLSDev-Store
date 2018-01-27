@@ -1,6 +1,7 @@
 package com.mlsdev.mlsdevstore.dependency_injection.module;
 
 import com.mlsdev.mlsdevstore.presentaion.bottom_navigation.MainActivity;
+import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesActivity;
 import com.mlsdev.mlsdevstore.presentaion.splashscreen.SplashScreenActivity;
 
 import dagger.Module;
@@ -14,5 +15,8 @@ interface ActivityModule {
 
     @ContributesAndroidInjector
     SplashScreenActivity contributeSplashScreenActivity();
+
+    @ContributesAndroidInjector
+    CategoriesActivity contributeCategoriesActivity();
 
 }

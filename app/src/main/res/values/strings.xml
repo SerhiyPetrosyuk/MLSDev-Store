@@ -14,5 +14,6 @@
 
     <!--Button-->
     <string name="button_close">Close</string>
+    <string name="title_categories">Categories</string>
 
 </resources>

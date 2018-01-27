@@ -12,7 +12,7 @@
     <style name="ToolbarTextStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
-        <item name="fontFamily">@font/comfortaa_bold</item>
+        <item name="android:fontFamily">@font/comfortaa_bold</item>
     </style>
 
     <style name="AppTheme.SplashScreenTheme">

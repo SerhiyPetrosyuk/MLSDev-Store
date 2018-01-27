@@ -13,9 +13,15 @@ import com.mlsdev.mlsdevstore.databinding.ItemCategoryBinding;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
 
     private List<CategoryTreeNode> categoryTreeNodes = new ArrayList<>();
+
+    @Inject
+    public CategoriesAdapter() {
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

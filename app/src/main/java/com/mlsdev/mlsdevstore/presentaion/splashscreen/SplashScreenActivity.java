@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.Observable;
 import android.databinding.ObservableBoolean;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 
 import com.mlsdev.mlsdevstore.R;
 import com.mlsdev.mlsdevstore.presentaion.BaseActivity;

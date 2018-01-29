@@ -25,6 +25,8 @@ public class StoreViewModel extends BaseViewModel {
             return;
         }
 
+        isLoading.set(true);
+        isLoading.notifyChange();
         dataSource.searchItemsByRandomCategory()
                 .subscribe(searchResultBaseObserver);
     }

@@ -23,11 +23,12 @@ public class CategoriesViewModel extends BaseViewModel {
     }
 
     public void getRootCategories() {
-        if (!utils.isNetworkAvailable()){
+        if (!utils.isNetworkAvailable()) {
             onNetworkErrorOccurred();
             return;
         }
 
+        isLoading.set(true);
         dataSource.getRootCategoryTree()
                 .subscribe(new BaseObserver<CategoryTree>(this) {
                     @Override

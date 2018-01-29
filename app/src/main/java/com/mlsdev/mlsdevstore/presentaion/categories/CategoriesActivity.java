@@ -37,6 +37,7 @@ public class CategoriesActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_categories);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CategoriesViewModel.class);
         viewModel.listObservableField.addOnPropertyChangedCallback(onCategoriesListChangedListener);
+        binding.setViewModel(viewModel);
         initRecyclerView();
         initToolbar(binding.toolbar);
         displayBackArrow(true);

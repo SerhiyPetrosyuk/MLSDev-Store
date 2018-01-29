@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -39,6 +42,11 @@
             app:layoutManagerReverse="false"
             app:layoutManagerType="linear"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <include
+            android:id="@+id/loading_indicator"
+            layout="@layout/layout_loading_indicator"
+            bind:viewModel="@{viewModel}" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

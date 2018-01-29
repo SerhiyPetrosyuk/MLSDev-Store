@@ -40,7 +40,7 @@ public class CategoriesActivity extends BaseActivity {
         initRecyclerView();
         initToolbar(binding.toolbar);
         displayBackArrow(true);
-
+        errorInViewHandler.subscribeAllErrorCallbacks(viewModel, true);
         viewModel.getRootCategories();
     }
 

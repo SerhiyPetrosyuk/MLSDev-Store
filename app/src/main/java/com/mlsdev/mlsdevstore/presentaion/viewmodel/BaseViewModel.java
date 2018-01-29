@@ -15,6 +15,7 @@ public abstract class BaseViewModel extends ViewModel {
     public final ObservableBoolean networkErrorOccurred = new ObservableBoolean();
     public final ObservableBoolean commonErrorOccurred = new ObservableBoolean();
     public final ObservableBoolean authErrorOccurred = new ObservableBoolean();
+    public final ObservableBoolean isRefreshing = new ObservableBoolean();
     protected DataSource dataSource;
     protected Utils utils;
 
@@ -26,17 +27,26 @@ public abstract class BaseViewModel extends ViewModel {
 
     public void onTechnicalErrorOccurred() {
         technicalErrorOccurred.set(true);
+        setIsRefreshing(false);
     }
 
     public void onNetworkErrorOccurred() {
         networkErrorOccurred.set(true);
+        setIsRefreshing(false);
     }
 
     public void onCommonErrorOccurred() {
         commonErrorOccurred.set(true);
+        setIsRefreshing(false);
     }
 
     public void onAuthorizationErrorOccurred() {
         authErrorOccurred.set(true);
+        setIsRefreshing(false);
+    }
+
+    protected void setIsRefreshing(boolean isRefreshing) {
+        this.isRefreshing.set(isRefreshing);
+        this.isRefreshing.notifyChange();
     }
 }

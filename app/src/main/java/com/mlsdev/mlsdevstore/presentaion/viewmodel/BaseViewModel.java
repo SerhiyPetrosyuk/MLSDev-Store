@@ -3,6 +3,9 @@ package com.mlsdev.mlsdevstore.presentaion.viewmodel;
 import android.arch.lifecycle.ViewModel;
 import android.databinding.ObservableBoolean;
 
+import com.mlsdev.mlsdevstore.data.DataSource;
+import com.mlsdev.mlsdevstore.presentaion.utils.Utils;
+
 import io.reactivex.disposables.CompositeDisposable;
 
 public abstract class BaseViewModel extends ViewModel {
@@ -12,6 +15,8 @@ public abstract class BaseViewModel extends ViewModel {
     public final ObservableBoolean networkErrorOccurred = new ObservableBoolean();
     public final ObservableBoolean commonErrorOccurred = new ObservableBoolean();
     public final ObservableBoolean authErrorOccurred = new ObservableBoolean();
+    protected DataSource dataSource;
+    protected Utils utils;
 
     @Override
     protected void onCleared() {

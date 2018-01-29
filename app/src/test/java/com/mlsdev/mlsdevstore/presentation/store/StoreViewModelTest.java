@@ -4,6 +4,7 @@ import com.mlsdev.mlsdevstore.BuildConfig;
 import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
 import com.mlsdev.mlsdevstore.presentaion.store.StoreViewModel;
+import com.mlsdev.mlsdevstore.presentaion.utils.Utils;
 import com.mlsdev.mlsdevstore.presentation.viewmodel.BaseViewModelTest;
 import com.mlsdev.mlsdevstore.utils.RxUtils;
 import com.mlsdev.mlsdevstore.utils.UnitAssetsUtils;
@@ -33,12 +34,16 @@ public class StoreViewModelTest extends BaseViewModelTest {
     @Mock
     DataSource dataSource;
 
+    @Mock
+    Utils utils;
+
     private StoreViewModel viewModel;
 
     @Before
     public void beforeTest() {
         MockitoAnnotations.initMocks(this);
-        viewModel = spy(new StoreViewModel(dataSource));
+        viewModel = spy(new StoreViewModel(dataSource, utils));
+        when(utils.isNetworkAvailable()).thenReturn(true);
     }
 
     @Test
@@ -53,6 +58,14 @@ public class StoreViewModelTest extends BaseViewModelTest {
     }
 
     @Test
+    public void getProducts_NoNetworkConnection() {
+        when(utils.isNetworkAvailable()).thenReturn(false);
+        viewModel.getProducts();
+        Assert.assertTrue(viewModel.networkErrorOccurred.get());
+        verify(dataSource, times(0)).searchItemsByRandomCategory();
+    }
+
+    @Test
     public void refresh() {
         SearchResult searchResult = UnitAssetsUtils.getSearchItemsResult();
         when(dataSource.searchItemsByRandomCategory()).thenReturn(Single.just(searchResult));
@@ -62,6 +75,15 @@ public class StoreViewModelTest extends BaseViewModelTest {
         verify(dataSource, times(1)).resetSearchResults();
         verify(dataSource, times(1)).searchItemsByRandomCategory();
         Assert.assertEquals(viewModel.searchResult.get(), searchResult);
+    }
+
+    @Test
+    public void refresh_NoNetworkConnection() {
+        when(utils.isNetworkAvailable()).thenReturn(false);
+        viewModel.refresh();
+        Assert.assertTrue(viewModel.networkErrorOccurred.get());
+        verify(dataSource, times(0)).resetSearchResults();
+        verify(dataSource, times(0)).searchItemsByRandomCategory();
     }
 
     @Test
@@ -79,6 +101,14 @@ public class StoreViewModelTest extends BaseViewModelTest {
                 viewModel.searchResult.get().getItemSummaries().get(10).getId(),
                 searchResultSecondPage.getItemSummaries().get(0).getId());
 
+    }
+
+    @Test
+    public void loadMoreItemsFromRandomCategory_NoNetworkConnection() {
+        when(utils.isNetworkAvailable()).thenReturn(false);
+        viewModel.loadMoreItemsFromRandomCategory();
+        Assert.assertTrue(viewModel.networkErrorOccurred.get());
+        verify(dataSource, times(0)).searchMoreItemsByRandomCategory();
     }
 
 }

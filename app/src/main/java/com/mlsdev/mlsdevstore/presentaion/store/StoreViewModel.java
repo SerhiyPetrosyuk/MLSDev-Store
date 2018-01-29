@@ -5,31 +5,47 @@ import android.databinding.ObservableField;
 import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
 import com.mlsdev.mlsdevstore.data.remote.BaseObserver;
+import com.mlsdev.mlsdevstore.presentaion.utils.Utils;
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel;
 
 import javax.inject.Inject;
 
 public class StoreViewModel extends BaseViewModel {
-    private DataSource dataSource;
     public final ObservableField<SearchResult> searchResult = new ObservableField<>();
 
     @Inject
-    public StoreViewModel(DataSource dataSource) {
+    public StoreViewModel(DataSource dataSource, Utils utils) {
         this.dataSource = dataSource;
+        this.utils = utils;
     }
 
     public void getProducts() {
+        if (!utils.isNetworkAvailable()) {
+            onNetworkErrorOccurred();
+            return;
+        }
+
         dataSource.searchItemsByRandomCategory()
                 .subscribe(searchResultBaseObserver);
     }
 
     public void refresh() {
+        if (!utils.isNetworkAvailable()) {
+            onNetworkErrorOccurred();
+            return;
+        }
+
         dataSource.resetSearchResults();
         dataSource.searchItemsByRandomCategory()
                 .subscribe(searchResultBaseObserver);
     }
 
     public void loadMoreItemsFromRandomCategory() {
+        if (!utils.isNetworkAvailable()) {
+            onNetworkErrorOccurred();
+            return;
+        }
+
         dataSource.searchMoreItemsByRandomCategory()
                 .subscribe(new BaseObserver<SearchResult>(this) {
                     @Override

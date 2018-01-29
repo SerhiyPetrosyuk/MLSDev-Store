@@ -4,6 +4,7 @@ import com.mlsdev.mlsdevstore.BuildConfig;
 import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
 import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesViewModel;
+import com.mlsdev.mlsdevstore.presentation.viewmodel.BaseViewModelTest;
 import com.mlsdev.mlsdevstore.utils.RxUtils;
 import com.mlsdev.mlsdevstore.utils.UnitAssetsUtils;
 
@@ -27,7 +28,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, manifest = Config.NONE, sdk = 26)
-public class CategoriesViewModelTest {
+public class CategoriesViewModelTest extends BaseViewModelTest {
 
     @Mock
     DataSource dataSource;
@@ -38,16 +39,6 @@ public class CategoriesViewModelTest {
     public void before() {
         MockitoAnnotations.initMocks(this);
         viewModel = spy(new CategoriesViewModel(dataSource));
-    }
-
-    @BeforeClass
-    public static void beforeClass() {
-        RxUtils.setUpRxSchedulers();
-    }
-
-    @AfterClass
-    public static void afterClass() {
-        RxJavaPlugins.reset();
     }
 
     @Test

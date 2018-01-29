@@ -4,6 +4,7 @@ import com.mlsdev.mlsdevstore.BuildConfig;
 import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
 import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesViewModel;
+import com.mlsdev.mlsdevstore.presentaion.utils.Utils;
 import com.mlsdev.mlsdevstore.presentation.viewmodel.BaseViewModelTest;
 import com.mlsdev.mlsdevstore.utils.RxUtils;
 import com.mlsdev.mlsdevstore.utils.UnitAssetsUtils;
@@ -33,12 +34,16 @@ public class CategoriesViewModelTest extends BaseViewModelTest {
     @Mock
     DataSource dataSource;
 
+    @Mock
+    Utils utils;
+
     private CategoriesViewModel viewModel;
 
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
-        viewModel = spy(new CategoriesViewModel(dataSource));
+        viewModel = spy(new CategoriesViewModel(dataSource, utils));
+        when(utils.isNetworkAvailable()).thenReturn(true);
     }
 
     @Test
@@ -51,6 +56,15 @@ public class CategoriesViewModelTest extends BaseViewModelTest {
         Assert.assertEquals(
                 categoryTree.getCategoryTreeNode().getChildCategoryTreeNodes().size(),
                 viewModel.listObservableField.get().size());
+    }
+
+    @Test
+    public void getAllRootCategories_NoNetworkConnection() {
+        when(utils.isNetworkAvailable()).thenReturn(false);
+        viewModel.getRootCategories();
+        verify(dataSource, times(0)).getRootCategoryTree();
+        Assert.assertTrue(viewModel.networkErrorOccurred.get());
+        Assert.assertNull(viewModel.listObservableField.get());
     }
 
     @Test

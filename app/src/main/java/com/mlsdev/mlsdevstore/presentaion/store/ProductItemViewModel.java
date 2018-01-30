@@ -2,7 +2,9 @@ package com.mlsdev.mlsdevstore.presentaion.store;
 
 import android.databinding.ObservableField;
 
+import com.mlsdev.mlsdevstore.data.model.item.Item;
 import com.mlsdev.mlsdevstore.data.model.item.ListItem;
+import com.mlsdev.mlsdevstore.presentaion.utils.CustomObservableBoolean;
 
 public class ProductItemViewModel {
 
@@ -11,6 +13,7 @@ public class ProductItemViewModel {
     public final ObservableField<String> priceSecondPart = new ObservableField<>();
     public final ObservableField<String> currency = new ObservableField<>();
     public final ObservableField<String> imageUrl = new ObservableField<>();
+    public final CustomObservableBoolean isNew = new CustomObservableBoolean();
 
     public void setItem(ListItem listItem) {
         String[] priceArray = String.valueOf(listItem.getPrice().getValue()).split("\\.");
@@ -27,6 +30,7 @@ public class ProductItemViewModel {
             currency.set(listItem.getPrice().getCurrency());
         }
         imageUrl.set(listItem.getImage());
+        isNew.set(listItem.getCondition().equals(Item.Condition.New));
     }
 
 }

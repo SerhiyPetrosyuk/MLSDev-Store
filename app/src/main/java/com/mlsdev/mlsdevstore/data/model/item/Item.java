@@ -50,6 +50,11 @@ public class Item implements Parcelable, ListItem {
         return price;
     }
 
+    @Override
+    public String getCondition() {
+        return condition;
+    }
+
     public @interface Condition {
         String New = "New";
         String Used = "Used";

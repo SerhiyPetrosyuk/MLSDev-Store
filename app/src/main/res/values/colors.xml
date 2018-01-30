@@ -9,4 +9,5 @@
     <color name="navigation_item_color_active">#252525</color>
     <color name="navigation_item_color_normal">#808080</color>
     <color name="item_category">#252525</color>
+    <color name="red">#e64141</color>
 </resources>

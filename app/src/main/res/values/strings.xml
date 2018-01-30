@@ -16,4 +16,8 @@
     <string name="button_close">Close</string>
     <string name="title_categories">Categories</string>
 
+    <!--Label-->
+    <string name="label_item_condition_new">New</string>
+    <string name="label_item_condition_used">Used</string>
+
 </resources>

@@ -8,4 +8,7 @@ public interface ListItem {
     String getImage();
 
     Price getPrice();
+
+    @Item.Condition
+    String getCondition();
 }

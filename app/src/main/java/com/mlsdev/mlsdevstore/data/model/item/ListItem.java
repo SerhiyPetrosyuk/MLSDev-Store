@@ -1,5 +1,7 @@
 package com.mlsdev.mlsdevstore.data.model.item;
 
+import android.os.Parcelable;
+
 public interface ListItem {
     String getId();
 
@@ -11,4 +13,6 @@ public interface ListItem {
 
     @Item.Condition
     String getCondition();
+
+    Parcelable getParcelable();
 }

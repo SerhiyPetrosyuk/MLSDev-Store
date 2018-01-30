@@ -55,6 +55,11 @@ public class Item implements Parcelable, ListItem {
         return condition;
     }
 
+    @Override
+    public Parcelable getParcelable() {
+        return this;
+    }
+
     public @interface Condition {
         String New = "New";
         String Used = "Used";

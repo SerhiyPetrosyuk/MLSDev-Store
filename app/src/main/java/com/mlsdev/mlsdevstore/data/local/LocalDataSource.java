@@ -4,6 +4,7 @@ import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode;
+import com.mlsdev.mlsdevstore.data.model.item.Item;
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
 import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource;
 
@@ -79,6 +80,11 @@ public class LocalDataSource implements DataSource {
     @Override
     public Single<SearchResult> searchMoreItemsByRandomCategory() {
         return remoteDataSource.searchMoreItemsByRandomCategory();
+    }
+
+    @Override
+    public Single<Item> getItem(String itemId) {
+        return remoteDataSource.getItem(itemId);
     }
 
     @Override

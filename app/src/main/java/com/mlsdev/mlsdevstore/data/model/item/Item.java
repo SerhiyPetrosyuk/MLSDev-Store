@@ -15,6 +15,7 @@ public class Item implements Parcelable, ListItem {
     @Condition
     private String condition;
     private String conditionId;
+    private String description;
     private boolean adultOnly;
     private Image image;
     private Price price;

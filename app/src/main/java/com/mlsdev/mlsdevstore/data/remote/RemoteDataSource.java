@@ -140,6 +140,11 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
+    public Single<Item> getItem(String itemId) {
+        return prepareSingle(browseService.getItem(itemId));
+    }
+
+    @Override
     public void resetSearchResults() {
         searchOffset = 0;
         searchItems.clear();

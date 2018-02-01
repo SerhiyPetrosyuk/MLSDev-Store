@@ -2,6 +2,7 @@ package com.mlsdev.mlsdevstore.data;
 
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode;
+import com.mlsdev.mlsdevstore.data.model.item.Item;
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
 
 import java.util.Map;
@@ -35,6 +36,8 @@ public interface DataSource {
     Single<SearchResult> searchItemsByRandomCategory();
 
     Single<SearchResult> searchMoreItemsByRandomCategory();
+
+    Single<Item> getItem(String itemId);
 
     void resetSearchResults();
 }

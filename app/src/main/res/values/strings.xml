@@ -15,9 +15,14 @@
     <!--Button-->
     <string name="button_close">Close</string>
     <string name="title_categories">Categories</string>
+    <string name="btn_full_specs">full specs</string>
+    <string name="btn_description">description</string>
 
     <!--Label-->
     <string name="label_item_condition_new">New</string>
     <string name="label_item_condition_used">Used</string>
+    <string name="label_feedback_score">feedback \nscore</string>
+    <string name="label_positive_feedback">positive \nfeedback</string>
+    <string name="label_seller_info">Seller info</string>
 
 </resources>

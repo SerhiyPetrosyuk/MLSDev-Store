@@ -15,6 +15,10 @@
         <item name="android:fontFamily">@font/comfortaa_bold</item>
     </style>
 
+    <style name="ToolbarTextStyle.Expanded">
+        <item name="android:textColor">@android:color/transparent</item>
+    </style>
+
     <style name="AppTheme.SplashScreenTheme">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@drawable/bg_splash_screen</item>

@@ -7,6 +7,7 @@ import com.mlsdev.mlsdevstore.dependency_injection.ViewModelFactory;
 import com.mlsdev.mlsdevstore.presentaion.account.AccountViewModel;
 import com.mlsdev.mlsdevstore.presentaion.cart.CartViewModel;
 import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesViewModel;
+import com.mlsdev.mlsdevstore.presentaion.product.ProductDetailsViewModel;
 import com.mlsdev.mlsdevstore.presentaion.splashscreen.SplashScreenViewModel;
 import com.mlsdev.mlsdevstore.presentaion.store.StoreViewModel;
 
@@ -41,6 +42,11 @@ public interface ViewModelModule {
     @IntoMap
     @ViewModelKey(CategoriesViewModel.class)
     ViewModel bindCategoriesViewModel(CategoriesViewModel categoriesViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProductDetailsViewModel.class)
+    ViewModel bindProductDetailsViewModel(ProductDetailsViewModel productDetailsViewModel);
 
     @Binds
     ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);

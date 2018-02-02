@@ -15,7 +15,6 @@
     <!--Button-->
     <string name="button_close">Close</string>
     <string name="title_categories">Categories</string>
-    <string name="btn_full_specs">full specs</string>
     <string name="btn_description">description</string>
 
     <!--Label-->
@@ -24,8 +23,15 @@
     <string name="label_feedback_score">feedback \nscore</string>
     <string name="label_positive_feedback">positive \nfeedback</string>
     <string name="label_seller_info">Seller info</string>
+    <string name="label_full_specs">Full specs</string>
 
     <string name="value_percent">%1$s%%</string>
     <string name="label_description">Description</string>
+    <string name="label_condition">Condition:</string>
+    <string name="label_brand">Brand:</string>
+    <string name="label_size">Size:</string>
+    <string name="label_gender">Gender</string>
+    <string name="label_color">Color</string>
+    <string name="label_material">Material</string>
 
 </resources>

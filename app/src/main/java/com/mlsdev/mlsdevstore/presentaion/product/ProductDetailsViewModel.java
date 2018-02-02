@@ -23,6 +23,12 @@ public class ProductDetailsViewModel extends BaseViewModel {
     public final ObservableField<String> feedbackPercent = new ObservableField<>();
     public final CustomObservableBoolean descriptionIsDisplayed = new CustomObservableBoolean();
     public final ObservableField<String> description = new ObservableField<>();
+    public final ObservableField<String> condition = new ObservableField<>();
+    public final ObservableField<String> brand = new ObservableField<>();
+    public final ObservableField<String> size = new ObservableField<>();
+    public final ObservableField<String> gender = new ObservableField<>();
+    public final ObservableField<String> color = new ObservableField<>();
+    public final ObservableField<String> material = new ObservableField<>();
 
     @Inject
     public ProductDetailsViewModel(DataSource dataSource, Utils utils) {
@@ -43,6 +49,7 @@ public class ProductDetailsViewModel extends BaseViewModel {
         imageUrl.set(item.getImage());
         price.set(String.valueOf(item.getPrice().getValue()));
         currency.set(item.getPrice().getCurrency());
+        condition.set(item.getCondition());
         retrieveDetailedInfo(item.getId());
 
     }
@@ -60,6 +67,11 @@ public class ProductDetailsViewModel extends BaseViewModel {
                     public void onSuccess(Item data) {
                         super.onSuccess(data);
                         description.set(data.getDescription());
+                        brand.set(data.getBrand());
+                        size.set(data.getSize());
+                        gender.set(data.getGender());
+                        color.set(data.getColor());
+                        material.set(data.getMaterial());
                         feedbackScore.set(String.valueOf((int) item.getSeller().getFeedbackScore()));
                         feedbackPercent.set(item.getSeller().getFeedbackPercentage());
                     }

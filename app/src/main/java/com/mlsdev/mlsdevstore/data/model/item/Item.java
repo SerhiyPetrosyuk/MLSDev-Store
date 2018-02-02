@@ -16,6 +16,11 @@ public class Item implements Parcelable, ListItem {
     private String condition;
     private String conditionId;
     private String description;
+    private String brand;
+    private String size;
+    private String gender;
+    private String color;
+    private String material;
     private boolean adultOnly;
     private Image image;
     private Price price;
@@ -28,6 +33,26 @@ public class Item implements Parcelable, ListItem {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public String getMaterial() {
+        return material;
     }
 
     @Override

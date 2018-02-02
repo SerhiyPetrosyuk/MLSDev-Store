@@ -11,6 +11,7 @@ import com.mlsdev.mlsdevstore.R;
 import com.mlsdev.mlsdevstore.databinding.ActivityProductDetailsBinding;
 import com.mlsdev.mlsdevstore.presentaion.BaseActivity;
 import com.mlsdev.mlsdevstore.presentaion.utils.CustomObservableBoolean;
+import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys;
 
 public class ProductDetailsActivity extends BaseActivity {
     private ActivityProductDetailsBinding binding;
@@ -37,8 +38,11 @@ public class ProductDetailsActivity extends BaseActivity {
     private Observable.OnPropertyChangedCallback descriptionCallBack = new Observable.OnPropertyChangedCallback() {
         @Override
         public void onPropertyChanged(Observable observable, int i) {
-            if (observable instanceof CustomObservableBoolean && ((CustomObservableBoolean)observable).get()) {
+            if (observable instanceof CustomObservableBoolean && ((CustomObservableBoolean) observable).get()) {
+                Bundle data = new Bundle();
+                data.putString(ExtrasKeys.PRODUCT_DESCRIPTION, viewModel.description.get());
                 DescriptionBottomSheetFragment bottomSheet = new DescriptionBottomSheetFragment();
+                bottomSheet.setArguments(data);
                 bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
             }
         }

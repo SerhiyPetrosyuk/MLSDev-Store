@@ -1,13 +1,18 @@
 package com.mlsdev.mlsdevstore.presentaion.product;
 
+import android.annotation.SuppressLint;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mlsdev.mlsdevstore.R;
+import com.mlsdev.mlsdevstore.databinding.FragmentBottomSheetBinding;
+import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys;
 
 public class DescriptionBottomSheetFragment extends BottomSheetDialogFragment {
 
@@ -19,13 +24,22 @@ public class DescriptionBottomSheetFragment extends BottomSheetDialogFragment {
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bottom_sheet, container, false);
+        Bundle data = getArguments();
+        FragmentBottomSheetBinding binding = DataBindingUtil.inflate(
+                inflater,
+                R.layout.fragment_bottom_sheet,
+                container,
+                false);
 
+        if (data != null && data.containsKey(ExtrasKeys.PRODUCT_DESCRIPTION)) {
+            binding.description.getSettings().setJavaScriptEnabled(true);
+            binding.description.loadDataWithBaseURL("", data.getString(ExtrasKeys.PRODUCT_DESCRIPTION), "text/html", "UTF-8", "");
+        }
 
-
-        return view;
+        return binding.getRoot();
     }
 }

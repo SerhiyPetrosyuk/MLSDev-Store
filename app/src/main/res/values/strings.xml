@@ -25,4 +25,7 @@
     <string name="label_positive_feedback">positive \nfeedback</string>
     <string name="label_seller_info">Seller info</string>
 
+    <string name="value_percent">%1$s%%</string>
+    <string name="label_description">Description</string>
+
 </resources>

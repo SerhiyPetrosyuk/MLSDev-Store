@@ -6,9 +6,9 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 
 public class Seller implements Parcelable {
-
-    @Expose
     private double feedbackScore;
+    private String username;
+    private String feedbackPercentage;
 
     public Seller() {
     }
@@ -17,8 +17,12 @@ public class Seller implements Parcelable {
         return feedbackScore;
     }
 
-    public void setFeedbackScore(double feedbackScore) {
-        this.feedbackScore = feedbackScore;
+    public String getUsername() {
+        return username;
+    }
+
+    public String getFeedbackPercentage() {
+        return feedbackPercentage != null ? feedbackPercentage : "0";
     }
 
     //regionParcelable
@@ -30,10 +34,14 @@ public class Seller implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeDouble(this.feedbackScore);
+        dest.writeString(this.username);
+        dest.writeString(this.feedbackPercentage);
     }
 
     protected Seller(Parcel in) {
         this.feedbackScore = in.readDouble();
+        this.username = in.readString();
+        this.feedbackPercentage = in.readString();
     }
 
     public static final Parcelable.Creator<Seller> CREATOR = new Parcelable.Creator<Seller>() {

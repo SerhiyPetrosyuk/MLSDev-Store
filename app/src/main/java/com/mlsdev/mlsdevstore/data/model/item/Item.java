@@ -26,6 +26,10 @@ public class Item implements Parcelable, ListItem {
     private ItemLocation itemLocation;
     private List<Image> additionalImages = new ArrayList<>();
 
+    public String getDescription() {
+        return description;
+    }
+
     @Override
     public String getId() {
         return itemId;
@@ -54,6 +58,10 @@ public class Item implements Parcelable, ListItem {
     @Override
     public String getCondition() {
         return condition;
+    }
+
+    public Seller getSeller() {
+        return seller;
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.model.item.Item;
 import com.mlsdev.mlsdevstore.data.remote.BaseObserver;
+import com.mlsdev.mlsdevstore.presentaion.utils.CustomObservableBoolean;
 import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys;
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils;
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel;
@@ -18,6 +19,10 @@ public class ProductDetailsViewModel extends BaseViewModel {
     public final ObservableField<String> imageUrl = new ObservableField<>();
     public final ObservableField<String> price = new ObservableField<>();
     public final ObservableField<String> currency = new ObservableField<>();
+    public final ObservableField<String> feedbackScore = new ObservableField<>();
+    public final ObservableField<String> feedbackPercent = new ObservableField<>();
+    public final CustomObservableBoolean descriptionIsDisplayed = new CustomObservableBoolean();
+    public final ObservableField<String> description = new ObservableField<>();
 
     @Inject
     public ProductDetailsViewModel(DataSource dataSource, Utils utils) {
@@ -54,9 +59,16 @@ public class ProductDetailsViewModel extends BaseViewModel {
                     @Override
                     public void onSuccess(Item data) {
                         super.onSuccess(data);
+                        description.set(data.getDescription());
+                        feedbackScore.set(String.valueOf((int) item.getSeller().getFeedbackScore()));
+                        feedbackPercent.set(item.getSeller().getFeedbackPercentage());
                     }
                 });
 
+    }
+
+    public void onDescriptionClick() {
+        descriptionIsDisplayed.set(true);
     }
 
 }

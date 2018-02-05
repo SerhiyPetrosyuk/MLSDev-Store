@@ -9,7 +9,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.mlsdev.mlsdevstore.TestRunner"
     }
     buildTypes {
         debug {
@@ -41,6 +41,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    android.applicationVariants.all {
+        def aptOutputDir = new File(buildDir, "generated/source/apt/${it.unitTestVariant.dirName}")
+        it.unitTestVariant.addJavaSourceFoldersToModel(aptOutputDir)
+    }
 }
 
 ext {
@@ -49,7 +54,7 @@ ext {
     okhttpVersion = '3.8.0'
     daggerVersion = '2.11'
     roomVersion = '1.0.0'
-    lifecycleVersion = '1.0.0'
+    lifecycleVersion = '1.1.0'
     stethoVersion = '1.4.1'
 
     // tests
@@ -84,6 +89,8 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
+    androidTestAnnotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 
     // RxJava
     implementation 'io.reactivex.rxjava2:rxjava:2.1.3'

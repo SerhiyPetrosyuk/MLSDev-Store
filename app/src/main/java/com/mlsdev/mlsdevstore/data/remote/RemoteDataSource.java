@@ -26,14 +26,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.Key;
@@ -48,7 +45,6 @@ public class RemoteDataSource implements DataSource {
     private int searchLimit = 10;
     private List<Item> searchItems = new ArrayList<>();
 
-    @Inject
     public RemoteDataSource(BrowseService browseService,
                             AuthenticationService authenticationService,
                             TaxonomyService taxonomyService,

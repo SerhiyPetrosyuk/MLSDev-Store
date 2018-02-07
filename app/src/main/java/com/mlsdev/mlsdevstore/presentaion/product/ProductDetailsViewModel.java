@@ -19,8 +19,8 @@ public class ProductDetailsViewModel extends BaseViewModel {
     public final ObservableField<String> imageUrl = new ObservableField<>();
     public final ObservableField<String> price = new ObservableField<>();
     public final ObservableField<String> currency = new ObservableField<>();
-    public final ObservableField<String> feedbackScore = new ObservableField<>();
-    public final ObservableField<String> feedbackPercent = new ObservableField<>();
+    public final ObservableField<String> feedbackScore = new ObservableField<>("0.0");
+    public final ObservableField<String> feedbackPercent = new ObservableField<>("0.0");
     public final CustomObservableBoolean descriptionIsDisplayed = new CustomObservableBoolean();
     public final ObservableField<String> description = new ObservableField<>();
     public final ObservableField<String> condition = new ObservableField<>();
@@ -54,7 +54,7 @@ public class ProductDetailsViewModel extends BaseViewModel {
 
     }
 
-    private void retrieveDetailedInfo(String itemId) {
+    public void retrieveDetailedInfo(String itemId) {
 
         if (!utils.isNetworkAvailable()) {
             onNetworkErrorOccurred();
@@ -72,8 +72,8 @@ public class ProductDetailsViewModel extends BaseViewModel {
                         gender.set(data.getGender());
                         color.set(data.getColor());
                         material.set(data.getMaterial());
-                        feedbackScore.set(String.valueOf((int) item.getSeller().getFeedbackScore()));
-                        feedbackPercent.set(item.getSeller().getFeedbackPercentage());
+                        feedbackScore.set(String.valueOf(data.getSeller().getFeedbackScore()));
+                        feedbackPercent.set(data.getSeller().getFeedbackPercentage());
                     }
                 });
 

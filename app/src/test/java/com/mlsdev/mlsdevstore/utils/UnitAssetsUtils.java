@@ -44,7 +44,7 @@ public final class UnitAssetsUtils {
                 .create();
     }
 
-    private static String getJsonStringFromResources(String fileName) {
+    public static String getJsonStringFromResources(String fileName) {
         Context context = RuntimeEnvironment.application;
         String json = null;
         try {

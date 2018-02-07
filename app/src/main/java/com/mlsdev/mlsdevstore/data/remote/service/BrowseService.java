@@ -15,7 +15,7 @@ public interface BrowseService {
     @GET("/buy/browse/v1/item_summary/search")
     Single<SearchResult> searchItemsByCategoryId(@QueryMap Map<String, String> queries);
 
-    @GET("/buy/browse/v1/item/{id}")
+    @GET("/buy/browse/v1/item/{id}?fieldgroups=PRODUCT")
     Single<Item> getItem(@Path("id") String itemId);
 
 }

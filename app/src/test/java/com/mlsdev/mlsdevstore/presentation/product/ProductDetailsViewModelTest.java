@@ -22,6 +22,11 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import io.reactivex.Single;
+import okhttp3.ResponseBody;
+import retrofit2.HttpException;
+import retrofit2.Response;
+
+import static org.mockito.Mockito.*;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, manifest = Config.NONE, sdk = 26)
@@ -42,38 +47,51 @@ public class ProductDetailsViewModelTest extends BaseViewModelTest {
         item = UnitAssetsUtils.getProductItem();
         itemData = new Bundle();
         itemData.putParcelable(ExtrasKeys.PRODUCT_DETAILS, item);
-        viewModel = Mockito.spy(new ProductDetailsViewModel(dataSource, utils));
+        viewModel = spy(new ProductDetailsViewModel(dataSource, utils));
     }
 
     @Test
     public void setProductDetailsData() {
-        Mockito.when(dataSource.getItem(item.getId())).thenReturn(Single.just(item));
-        Mockito.when(utils.isNetworkAvailable()).thenReturn(true);
+        when(dataSource.getItem(item.getId())).thenReturn(Single.just(item));
+        when(utils.isNetworkAvailable()).thenReturn(true);
         viewModel.setProductDetailsData(itemData);
         Assert.assertEquals(item.getTitle(), viewModel.title.get());
         Assert.assertEquals(item.getImage(), viewModel.imageUrl.get());
         Assert.assertEquals(String.valueOf(item.getPrice().getValue()), viewModel.price.get());
         Assert.assertEquals(item.getPrice().getCurrency(), viewModel.currency.get());
-        Mockito.verify(dataSource, Mockito.times(1)).getItem(item.getId());
+        verify(dataSource, times(1)).getItem(item.getId());
     }
 
     @Test
     public void setProductDetailsData_NoNetworkConnection() {
-        Mockito.when(dataSource.getItem(item.getId())).thenReturn(Single.just(item));
-        Mockito.when(utils.isNetworkAvailable()).thenReturn(false);
+        when(dataSource.getItem(item.getId())).thenReturn(Single.just(item));
+        when(utils.isNetworkAvailable()).thenReturn(false);
         viewModel.setProductDetailsData(itemData);
-        Mockito.verify(dataSource, Mockito.never()).getItem(item.getId());
+        verify(dataSource, never()).getItem(item.getId());
     }
 
     @Test
     public void setProductDetailsData_DataIsNull() {
-        Mockito.when(dataSource.getItem(Mockito.anyString())).thenReturn(Single.just(item));
+        when(dataSource.getItem(anyString())).thenReturn(Single.just(item));
         viewModel.setProductDetailsData(null);
         Assert.assertNull(viewModel.title.get());
         Assert.assertNull(viewModel.imageUrl.get());
         Assert.assertNull(viewModel.price.get());
         Assert.assertNull(viewModel.currency.get());
-        Mockito.verify(dataSource, Mockito.never()).getItem(Mockito.anyString());
+        verify(dataSource, never()).getItem(anyString());
+    }
+
+    @Test
+    public void getProductDetails_ProductWasNotFound() {
+        String errorBody = UnitAssetsUtils.getJsonStringFromResources("item_not_found.json");
+        Response response = Response.error(404, ResponseBody.create(null, errorBody));
+        HttpException exception = mock(HttpException.class);
+        when(exception.response()).thenReturn(response);
+        when(dataSource.getItem(item.getId())).thenReturn(Single.error(exception));
+        when(utils.isNetworkAvailable()).thenReturn(true);
+        viewModel.setProductDetailsData(itemData);
+        verify(dataSource, times(1)).getItem(item.getId());
+        verify(viewModel, times(1)).onCommonErrorOccurred();
     }
 
 }

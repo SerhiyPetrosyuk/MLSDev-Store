@@ -2,7 +2,7 @@ package com.mlsdev.mlsdevstore.data.model.error;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Patameter {
+public class Parameter {
     @SerializedName("name")
     private String name;
     @SerializedName("value")

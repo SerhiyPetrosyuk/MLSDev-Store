@@ -38,7 +38,7 @@ public class AssetUtils {
         return new Gson().fromJson(getJsonStringFromAssets("item_details.json"), Item.class);
     }
 
-    private static String getJsonStringFromAssets(String fileName) {
+    public static String getJsonStringFromAssets(String fileName) {
         Context context = InstrumentationRegistry.getInstrumentation().getContext();
         String json = null;
         try {

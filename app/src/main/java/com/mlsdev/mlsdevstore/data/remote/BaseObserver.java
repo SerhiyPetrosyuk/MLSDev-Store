@@ -64,7 +64,7 @@ public class BaseObserver<T> implements SingleObserver<T> {
                     ErrorsWrapper errorsWrapper = new Gson().fromJson(json, ErrorsWrapper.class);
                     Error error = errorsWrapper.getErrors().get(0);
 
-                    Log.e(LOG_TAG, error.getLongMessage());
+                    Log.e(LOG_TAG, error.getMessage());
 
                     if (error.getErrorId() >= OAUTH_ERROR_ID_1001 && error.getErrorId() <= OAUTH_ERROR_ID_1100) {
                         baseViewModelWeakReference.get().onAuthorizationErrorOccurred();

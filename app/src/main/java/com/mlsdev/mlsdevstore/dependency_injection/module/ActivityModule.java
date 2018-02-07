@@ -9,7 +9,7 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
 @Module
-interface ActivityModule {
+public interface ActivityModule {
 
     @ContributesAndroidInjector(modules = {FragmentBuilderModule.class})
     MainActivity contributeMainActivity();

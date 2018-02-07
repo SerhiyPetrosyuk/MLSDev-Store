@@ -17,6 +17,10 @@ public class ProductDetailsActivity extends BaseActivity {
     private ActivityProductDetailsBinding binding;
     private ProductDetailsViewModel viewModel;
 
+    public ProductDetailsViewModel getViewModel() {
+        return viewModel;
+    }
+
     public static void launch(Context context, Bundle bundleProductData) {
         Intent intent = new Intent(context, ProductDetailsActivity.class);
         intent.putExtras(bundleProductData);
@@ -28,6 +32,7 @@ public class ProductDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product_details);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProductDetailsViewModel.class);
+        errorInViewHandler.subscribeAllErrorCallbacks(viewModel, true);
         binding.setViewModel(viewModel);
         viewModel.setProductDetailsData(getIntent().getExtras());
         viewModel.descriptionIsDisplayed.addOnPropertyChangedCallback(descriptionCallBack);

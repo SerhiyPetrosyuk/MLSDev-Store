@@ -1,20 +1,21 @@
 package com.mlsdev.mlsdevstore;
 
 import com.mlsdev.mlsdevstore.inject.component.DaggerMockApplicationComponent;
+import com.mlsdev.mlsdevstore.inject.component.MockApplicationComponent;
 
 import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
 
 public class MockMLSDevStoreApplication extends MLSDevStoreApplication {
-    DaggerMockApplicationComponent component;
+    private AndroidInjector<? extends DaggerApplication> injector;
 
     @Override
     protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
-        component = (DaggerMockApplicationComponent) DaggerMockApplicationComponent.builder().create(this);
-        return DaggerMockApplicationComponent.builder().create(this);
+        injector = DaggerMockApplicationComponent.builder().create(this);
+        return injector;
     }
 
-    public DaggerMockApplicationComponent getComponent() {
-        return component;
+    public MockApplicationComponent getComponent() {
+        return (MockApplicationComponent) injector;
     }
 }

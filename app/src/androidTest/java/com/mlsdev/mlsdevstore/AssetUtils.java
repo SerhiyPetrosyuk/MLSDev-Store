@@ -35,7 +35,7 @@ public class AssetUtils {
     }
 
     public static Item getProductItem() {
-        return new Gson().fromJson(getJsonStringFromAssets("item_details.json"), Item.class);
+        return new Gson().fromJson(getJsonStringFromAssets("item_details_extended.json"), Item.class);
     }
 
     public static String getJsonStringFromAssets(String fileName) {

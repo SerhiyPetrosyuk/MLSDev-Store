@@ -11,6 +11,16 @@ android {
         versionName "1.0"
         testInstrumentationRunner "com.mlsdev.mlsdevstore.TestRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file('mlsdev_store_keystore.jks')
+            storePassword '11111111'
+            keyAlias 'alias_mlsdev_store'
+            keyPassword '11111111'
+        }
+    }
+
     buildTypes {
         debug {
             buildConfigField "String", "BASE_URL", "\"https://api.sandbox.ebay.com/\""
@@ -29,6 +39,7 @@ android {
             buildConfigField "String", "CLIENT_SECRET", "\"PRD-132041a09e1f-bfaf-41ad-a77c-1e70\""
             buildConfigField "String", "REDIRECT_URI", "\"Dick_Mountain-DickMoun-MLSDev-ckswkaq\""
             minifyEnabled true
+            signingConfig = android.signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

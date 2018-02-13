@@ -16,39 +16,19 @@
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/appbar_expanded_height"
+            android:layout_height="@dimen/appbar_height"
             android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:contentScrim="?attr/colorPrimary"
-                app:expandedTitleMarginEnd="10dp"
-                app:expandedTitleMarginStart="10dp"
-                app:expandedTitleTextAppearance="@style/ToolbarTextStyle.Expanded"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
-                <ImageView
-                    android:id="@+id/iv_recipe_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:foreground="@drawable/item_title_bg"
-                    android:scaleType="centerCrop"
-                    app:imageUrl="@{viewModel.imageUrl}"
-                    app:layout_collapseMode="parallax" />
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/appbar_height"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:title="Item details"
-                    app:titleTextAppearance="@style/ToolbarTextStyle"
-                    app:titleTextColor="@android:color/white" />
-            </android.support.design.widget.CollapsingToolbarLayout>
+                android:layout_height="@dimen/appbar_height"
+                app:layout_scrollFlags="scroll|snap"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="Item details"
+                app:titleTextAppearance="@style/ToolbarTextStyle"
+                app:titleTextColor="@android:color/white" />
 
         </android.support.design.widget.AppBarLayout>
 
@@ -69,6 +49,11 @@
                     android:text="@{viewModel.title}"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp_product_gallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="212dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

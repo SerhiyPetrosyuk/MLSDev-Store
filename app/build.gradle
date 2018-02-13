@@ -38,7 +38,7 @@ android {
             buildConfigField "String", "CLIENT_ID", "\"DickMoun-MLSDevSt-PRD-7132041a0-99f80320\""
             buildConfigField "String", "CLIENT_SECRET", "\"PRD-132041a09e1f-bfaf-41ad-a77c-1e70\""
             buildConfigField "String", "REDIRECT_URI", "\"Dick_Mountain-DickMoun-MLSDev-ckswkaq\""
-            minifyEnabled true
+            minifyEnabled false
             signingConfig = android.signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

@@ -2,7 +2,6 @@ package com.mlsdev.mlsdevstore.data.model.error;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.lang.reflect.Parameter;
 import java.util.List;
 
 public class Error {

@@ -33,5 +33,6 @@
     <string name="label_gender">Gender</string>
     <string name="label_color">Color</string>
     <string name="label_material">Material</string>
+    <string name="btn_add_to_cart">Add to cart</string>
 
 </resources>

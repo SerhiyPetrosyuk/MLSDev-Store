@@ -2,6 +2,8 @@ package com.mlsdev.mlsdevstore.presentaion.product;
 
 import android.databinding.ObservableField;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.model.item.Item;
@@ -74,9 +76,15 @@ public class ProductDetailsViewModel extends BaseViewModel {
                         material.set(data.getMaterial());
                         feedbackScore.set(String.valueOf(data.getSeller().getFeedbackScore()));
                         feedbackPercent.set(data.getSeller().getFeedbackPercentage());
+                        imageUrl.set(data.getImage());
+                        imageUrl.notifyChange();
                     }
                 });
 
+    }
+
+    public void onAddToCartClicked(View button) {
+        Toast.makeText(button.getContext(), "Add to cart has been clicked", Toast.LENGTH_SHORT).show();
     }
 
     public void onDescriptionClick() {

@@ -69,7 +69,7 @@ public class Item implements Parcelable, ListItem {
     public String getImage() {
         String imageUrl = image != null ? image.getImageUrl() : null;
 
-        if (imageUrl == null && !additionalImages.isEmpty())
+        if (!additionalImages.isEmpty())
             imageUrl = additionalImages.get(0).getImageUrl();
 
         return imageUrl;

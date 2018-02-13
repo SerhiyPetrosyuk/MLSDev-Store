@@ -12,7 +12,6 @@ public final class DataBinder {
     public static void setImageUrl(ImageView imageView, String imageUrl) {
         Picasso.with(imageView.getContext())
                 .load(imageUrl)
-                .placeholder(R.drawable.bg_splash_screen)
                 .error(R.drawable.bg_splash_screen)
                 .into(imageView);
     }

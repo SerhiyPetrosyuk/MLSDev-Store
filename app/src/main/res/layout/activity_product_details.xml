@@ -185,5 +185,22 @@
 
         </android.support.v4.widget.NestedScrollView>
 
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            app:layout_anchorGravity="bottom|right|end"
+            app:layout_behavior="com.mlsdev.mlsdevstore.presentaion.utils.behaviors.BottomNavigationBehavior">
+
+            <Button
+                style="@style/GreenRoundedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="300dp"
+                android:onClick="@{(button) -> viewModel.onAddToCartClicked(button)}"
+                android:text="@string/btn_add_to_cart"
+                android:textSize="16sp" />
+        </FrameLayout>
+
     </android.support.design.widget.CoordinatorLayout>
 </layout>

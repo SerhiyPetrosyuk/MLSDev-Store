@@ -6,12 +6,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.mlsdev.mlsdevstore.data.DataSource;
+import com.mlsdev.mlsdevstore.data.model.item.Image;
 import com.mlsdev.mlsdevstore.data.model.item.Item;
 import com.mlsdev.mlsdevstore.data.remote.BaseObserver;
 import com.mlsdev.mlsdevstore.presentaion.utils.CustomObservableBoolean;
 import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys;
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils;
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -31,6 +34,7 @@ public class ProductDetailsViewModel extends BaseViewModel {
     public final ObservableField<String> gender = new ObservableField<>();
     public final ObservableField<String> color = new ObservableField<>();
     public final ObservableField<String> material = new ObservableField<>();
+    public final ObservableField<List<Image>> imageList = new ObservableField<>();
 
     @Inject
     public ProductDetailsViewModel(DataSource dataSource, Utils utils) {
@@ -48,7 +52,7 @@ public class ProductDetailsViewModel extends BaseViewModel {
             return;
 
         title.set(item.getTitle());
-        imageUrl.set(item.getImage());
+        imageUrl.set(item.getImageUrl());
         price.set(String.valueOf(item.getPrice().getValue()));
         currency.set(item.getPrice().getCurrency());
         condition.set(item.getCondition());
@@ -76,8 +80,15 @@ public class ProductDetailsViewModel extends BaseViewModel {
                         material.set(data.getMaterial());
                         feedbackScore.set(String.valueOf(data.getSeller().getFeedbackScore()));
                         feedbackPercent.set(data.getSeller().getFeedbackPercentage());
-                        imageUrl.set(data.getImage());
+                        imageUrl.set(data.getImageUrl());
                         imageUrl.notifyChange();
+
+                        List<Image> images = data.getAdditionalImages();
+                        if (images.isEmpty())
+                            images.add(data.getImage());
+
+                        imageList.set(data.getAdditionalImages());
+                        imageList.notifyChange();
                     }
                 });
 

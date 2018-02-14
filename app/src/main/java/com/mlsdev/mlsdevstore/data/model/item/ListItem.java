@@ -7,7 +7,7 @@ public interface ListItem {
 
     String getTitle();
 
-    String getImage();
+    String getImageUrl();
 
     Price getPrice();
 

@@ -31,6 +31,10 @@ public class Item implements Parcelable, ListItem {
     private ItemLocation itemLocation;
     private List<Image> additionalImages = new ArrayList<>();
 
+    public List<Image> getAdditionalImages() {
+        return additionalImages;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -66,13 +70,17 @@ public class Item implements Parcelable, ListItem {
     }
 
     @Override
-    public String getImage() {
+    public String getImageUrl() {
         String imageUrl = image != null ? image.getImageUrl() : null;
 
         if (!additionalImages.isEmpty())
             imageUrl = additionalImages.get(0).getImageUrl();
 
         return imageUrl;
+    }
+
+    public Image getImage() {
+        return image;
     }
 
     @Override

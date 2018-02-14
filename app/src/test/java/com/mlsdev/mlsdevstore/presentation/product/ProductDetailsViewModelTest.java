@@ -16,7 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -56,7 +55,7 @@ public class ProductDetailsViewModelTest extends BaseViewModelTest {
         when(utils.isNetworkAvailable()).thenReturn(true);
         viewModel.setProductDetailsData(itemData);
         Assert.assertEquals(item.getTitle(), viewModel.title.get());
-        Assert.assertEquals(item.getImage(), viewModel.imageUrl.get());
+        Assert.assertEquals(item.getImageUrl(), viewModel.imageUrl.get());
         Assert.assertEquals(String.valueOf(item.getPrice().getValue()), viewModel.price.get());
         Assert.assertEquals(item.getPrice().getCurrency(), viewModel.currency.get());
         verify(dataSource, times(1)).getItem(item.getId());

@@ -34,7 +34,7 @@ public class ProductItemViewModel {
             priceSecondPart.set(priceArray[1]);
             currency.set(listItem.getPrice().getCurrency());
         }
-        imageUrl.set(listItem.getImage());
+        imageUrl.set(listItem.getImageUrl());
         isNew.set(listItem.getCondition().equals(Item.Condition.New));
     }
 

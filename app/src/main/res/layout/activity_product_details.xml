@@ -51,9 +51,11 @@
                     android:textSize="16sp" />
 
                 <android.support.v4.view.ViewPager
-                    android:id="@+id/vp_product_gallery"
+                    android:id="@+id/product_images_gallery"
                     android:layout_width="match_parent"
-                    android:layout_height="212dp" />
+                    android:layout_height="300dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

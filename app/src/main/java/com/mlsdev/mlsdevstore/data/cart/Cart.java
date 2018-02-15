@@ -56,4 +56,8 @@ public class Cart {
     public interface OnItemCountChangeListener {
         void onItemCountChanged(int count);
     }
+
+    public List<Item> getItems() {
+        return items;
+    }
 }

@@ -14,6 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.mlsdev.animatedrv.AnimatedRecyclerView
+            android:id="@+id/items_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <LinearLayout
             android:id="@+id/empty_cart_placeholder"
             android:layout_width="match_parent"

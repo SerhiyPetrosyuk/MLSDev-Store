@@ -20,7 +20,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<BaseViewHolder<ListIte
     static final int VIEW_TYPE_FOOTER = 1;
     static final int VIEW_TYPE_ITEM = 2;
     static final int HEADER_OR_FOOTER = 1;
-    final List<ListItem> items;
+    protected final List<ListItem> items;
 
     public ProductsAdapter() {
         items = new ArrayList<>();

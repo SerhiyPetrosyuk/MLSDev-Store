@@ -12,9 +12,14 @@ import com.mlsdev.mlsdevstore.R;
 import com.mlsdev.mlsdevstore.databinding.FragmentCartBinding;
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment;
 
+import javax.inject.Inject;
+
 public class CartFragment extends BaseFragment {
     private FragmentCartBinding binding;
     private CartViewModel viewModel;
+
+    @Inject
+    ItemsAdapter itemsAdapter;
 
     @Nullable
     @Override
@@ -22,7 +27,19 @@ public class CartFragment extends BaseFragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cart, container, false);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CartViewModel.class);
         binding.setViewModel(viewModel);
+        getLifecycle().addObserver(viewModel);
+        getLifecycle().addObserver(itemsAdapter);
+
+        binding.itemsRecycler.setAdapter(itemsAdapter);
+
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroy() {
+        getLifecycle().removeObserver(viewModel);
+        getLifecycle().removeObserver(itemsAdapter);
+        super.onDestroy();
     }
 
     @Override

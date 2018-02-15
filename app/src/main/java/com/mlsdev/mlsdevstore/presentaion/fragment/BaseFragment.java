@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion.fragment;
 
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +13,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class BaseFragment extends DaggerFragment {
+public class BaseFragment extends DaggerFragment implements LifecycleOwner {
 
     @Inject
     protected ErrorInViewHandler errorInViewHandler;

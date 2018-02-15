@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion.cart;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,11 +14,14 @@ import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment;
 
 public class CartFragment extends BaseFragment {
     private FragmentCartBinding binding;
+    private CartViewModel viewModel;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cart, container, false);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CartViewModel.class);
+        binding.setViewModel(viewModel);
         return binding.getRoot();
     }
 

@@ -3,11 +3,38 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.mlsdev.mlsdevstore.presentaion.cart.CartViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/empty_cart_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="60dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="@{viewModel.cartIsEmpty ? View.VISIBLE : View.GONE}">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/ic_empty_cart"
+                android:tint="@color/colorAccent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_empty_cart" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 </layout>

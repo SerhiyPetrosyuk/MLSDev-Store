@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion.fragment;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -15,6 +16,9 @@ public class BaseFragment extends DaggerFragment {
 
     @Inject
     protected ErrorInViewHandler errorInViewHandler;
+
+    @Inject
+    protected ViewModelProvider.Factory viewModelFactory;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

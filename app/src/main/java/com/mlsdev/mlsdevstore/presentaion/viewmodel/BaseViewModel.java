@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion.viewmodel;
 
+import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.ViewModel;
 import android.databinding.ObservableBoolean;
 
@@ -9,7 +10,7 @@ import com.mlsdev.mlsdevstore.presentaion.utils.Utils;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public abstract class BaseViewModel extends ViewModel {
+public abstract class BaseViewModel extends ViewModel implements LifecycleObserver {
     protected static final String LOG_TAG = "ViewModel.Log.Tag";
     public final CompositeDisposable compositeDisposable = new CompositeDisposable();
     public final ObservableBoolean technicalErrorOccurred = new ObservableBoolean();

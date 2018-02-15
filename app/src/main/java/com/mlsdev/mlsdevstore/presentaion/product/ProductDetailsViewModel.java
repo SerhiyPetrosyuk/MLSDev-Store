@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.mlsdev.mlsdevstore.R;
 import com.mlsdev.mlsdevstore.data.DataSource;
+import com.mlsdev.mlsdevstore.data.cart.Cart;
 import com.mlsdev.mlsdevstore.data.model.item.Image;
 import com.mlsdev.mlsdevstore.data.model.item.Item;
 import com.mlsdev.mlsdevstore.data.remote.BaseObserver;
@@ -20,6 +22,7 @@ import javax.inject.Inject;
 
 public class ProductDetailsViewModel extends BaseViewModel {
     private Item item;
+    private Cart cart;
     public final ObservableField<String> title = new ObservableField<>();
     public final ObservableField<String> imageUrl = new ObservableField<>();
     public final ObservableField<String> price = new ObservableField<>();
@@ -37,9 +40,10 @@ public class ProductDetailsViewModel extends BaseViewModel {
     public final ObservableField<List<Image>> imageList = new ObservableField<>();
 
     @Inject
-    public ProductDetailsViewModel(DataSource dataSource, Utils utils) {
+    public ProductDetailsViewModel(DataSource dataSource, Utils utils, Cart cart) {
         this.dataSource = dataSource;
         this.utils = utils;
+        this.cart = cart;
     }
 
     public void setProductDetailsData(Bundle productDetailsData) {
@@ -95,7 +99,8 @@ public class ProductDetailsViewModel extends BaseViewModel {
     }
 
     public void onAddToCartClicked(View button) {
-        Toast.makeText(button.getContext(), "Add to cart has been clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(button.getContext(), R.string.message_item_added, Toast.LENGTH_SHORT).show();
+        cart.addItem(item);
     }
 
     public void onDescriptionClick() {

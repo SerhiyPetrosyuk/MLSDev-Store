@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion.bottom_navigation;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -19,13 +20,22 @@ public class MainActivity extends BaseActivity {
 
     private ActivityMainBinding binding;
     private BottomNavigationController navigationController;
+    private BottomNavigationViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(BottomNavigationViewModel.class);
+        binding.setBottomViewModel(viewModel);
+        getLifecycle().addObserver(viewModel);
         initBottomNavigation();
+    }
+
+    @Override
+    protected void onDestroy() {
+        getLifecycle().removeObserver(viewModel);
+        super.onDestroy();
     }
 
     @Override

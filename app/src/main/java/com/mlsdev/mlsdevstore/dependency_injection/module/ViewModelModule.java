@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider;
 
 import com.mlsdev.mlsdevstore.dependency_injection.ViewModelFactory;
 import com.mlsdev.mlsdevstore.presentaion.account.AccountViewModel;
+import com.mlsdev.mlsdevstore.presentaion.bottom_navigation.BottomNavigationViewModel;
 import com.mlsdev.mlsdevstore.presentaion.cart.CartViewModel;
 import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesViewModel;
 import com.mlsdev.mlsdevstore.presentaion.product.ProductDetailsViewModel;
@@ -47,6 +48,11 @@ public interface ViewModelModule {
     @IntoMap
     @ViewModelKey(ProductDetailsViewModel.class)
     ViewModel bindProductDetailsViewModel(ProductDetailsViewModel productDetailsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(BottomNavigationViewModel.class)
+    ViewModel bindBottomNavigationViewModel(BottomNavigationViewModel bottomNavigationViewModel);
 
     @Binds
     ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);

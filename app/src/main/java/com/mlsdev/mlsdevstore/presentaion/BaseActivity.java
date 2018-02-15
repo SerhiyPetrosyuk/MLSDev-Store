@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion;
 
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
@@ -10,7 +11,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
-public abstract class BaseActivity extends DaggerAppCompatActivity {
+public abstract class BaseActivity extends DaggerAppCompatActivity implements LifecycleOwner {
 
     @Inject
     protected ViewModelProvider.Factory viewModelFactory;

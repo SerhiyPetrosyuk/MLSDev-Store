@@ -1,6 +1,8 @@
 package com.mlsdev.mlsdevstore.data.cart;
 
 
+import android.text.TextUtils;
+
 import com.mlsdev.mlsdevstore.data.model.item.Item;
 
 import java.util.ArrayList;
@@ -21,6 +23,9 @@ public class Cart {
     }
 
     public void addItem(Item item) {
+        if (item == null)
+            return;
+
         for (Item itemFromCart : items)
             if (itemFromCart.getId().equals(item.getId()))
                 return;
@@ -29,6 +34,9 @@ public class Cart {
     }
 
     public void removeItem(String itemId) {
+        if (TextUtils.isEmpty(itemId))
+            return;
+
         for (Item item : items)
             if (item.getId().equals(itemId)) {
                 items.remove(item);

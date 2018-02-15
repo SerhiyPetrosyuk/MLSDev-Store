@@ -6,10 +6,15 @@
         <variable
             name="title"
             type="String" />
+
+        <variable
+            name="bottomViewModel"
+            type="com.mlsdev.mlsdevstore.presentaion.bottom_navigation.BottomNavigationViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -39,9 +44,11 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_gravity="bottom"
+            app:bb_badgeBackgroundColor="@color/colorAccent"
             app:bb_behavior="shy"
             app:bb_tabXmlResource="@xml/bottom_view_tabs"
-            app:bb_titleTextAppearance="@style/BottomBarTextStyle" />
+            app:bb_titleTextAppearance="@style/BottomBarTextStyle"
+            bind:badgeCount="@{bottomViewModel.itemCount}" />
 
         <FrameLayout
             android:id="@+id/content"

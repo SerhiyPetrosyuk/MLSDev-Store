@@ -3,6 +3,9 @@
 
     <data>
 
+        <variable
+            name="title"
+            type="String" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,7 +28,7 @@
                 android:fitsSystemWindows="true"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:title="@string/app_name"
+                app:title="@{title}"
                 app:titleTextAppearance="@style/ToolbarTextStyle"
                 app:titleTextColor="@android:color/white" />
 

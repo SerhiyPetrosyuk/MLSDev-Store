@@ -18,6 +18,7 @@ import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
 import com.mlsdev.mlsdevstore.databinding.FragmentStoreBinding;
 import com.mlsdev.mlsdevstore.dependency_injection.Named;
 import com.mlsdev.mlsdevstore.dependency_injection.module.ProductsAdapterModule;
+import com.mlsdev.mlsdevstore.presentaion.bottom_navigation.MainActivity;
 import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesActivity;
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment;
 
@@ -48,6 +49,12 @@ public class StoreFragment extends BaseFragment implements SwipeRefreshLayout.On
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setTitle(R.string.app_name);
+    }
+
     private Observable.OnPropertyChangedCallback onProductsChangedCallback = new Observable.OnPropertyChangedCallback() {
         @Override
         public void onPropertyChanged(Observable observable, int i) {
@@ -76,8 +83,7 @@ public class StoreFragment extends BaseFragment implements SwipeRefreshLayout.On
         });
 
         productsAdapter.setOnClickListeners(
-                view -> {
-                }, // TODO: 26.01.18 select the account tab
+                view -> ((MainActivity) getActivity()).selectTab(R.id.navigation_item_account),
                 view -> CategoriesActivity.launch(getContext()),
                 view -> viewModel.loadMoreItemsFromRandomCategory()
         );

@@ -2,10 +2,9 @@ package com.mlsdev.mlsdevstore.presentaion.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.annotation.StringRes;
 
+import com.mlsdev.mlsdevstore.presentaion.BaseActivity;
 import com.mlsdev.mlsdevstore.presentaion.ErrorInViewHandler;
 
 import javax.inject.Inject;
@@ -21,5 +20,9 @@ public class BaseFragment extends DaggerFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         errorInViewHandler.setContext(getActivity());
+    }
+
+    protected void setTitle(@StringRes int title) {
+        ((BaseActivity)getActivity()).setToolBarTitle(title);
     }
 }

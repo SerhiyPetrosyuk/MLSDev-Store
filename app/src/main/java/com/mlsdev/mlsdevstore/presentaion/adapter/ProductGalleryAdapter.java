@@ -47,7 +47,7 @@ public class ProductGalleryAdapter extends PagerAdapter {
                 container,
                 false);
 
-        binding.setImageUrl(image.getImageUrl());
+        binding.setImageUrl(image != null ? image.getImageUrl() : null);
 
         container.addView(binding.getRoot());
         return binding.getRoot();

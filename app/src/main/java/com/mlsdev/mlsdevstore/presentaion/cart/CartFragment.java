@@ -20,4 +20,10 @@ public class CartFragment extends BaseFragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cart, container, false);
         return binding.getRoot();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setTitle(R.string.navigation_title_cart);
+    }
 }

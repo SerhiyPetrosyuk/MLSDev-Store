@@ -2,6 +2,7 @@ package com.mlsdev.mlsdevstore.presentaion;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -29,7 +30,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
         }
     }
 
-    public void initToolbar(Toolbar toolbar){
+    public void initToolbar(Toolbar toolbar) {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
@@ -43,5 +44,10 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void setToolBarTitle(@StringRes int title) {
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle(title);
     }
 }

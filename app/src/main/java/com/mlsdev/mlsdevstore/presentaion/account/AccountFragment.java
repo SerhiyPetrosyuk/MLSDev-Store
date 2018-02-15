@@ -20,4 +20,11 @@ public class AccountFragment extends BaseFragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false);
         return binding.getRoot();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setTitle(R.string.navigation_title_account);
+    }
+
 }

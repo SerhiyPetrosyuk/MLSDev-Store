@@ -2,6 +2,7 @@ package com.mlsdev.mlsdevstore.dependency_injection.component;
 
 
 import com.mlsdev.mlsdevstore.MLSDevStoreApplication;
+import com.mlsdev.mlsdevstore.dependency_injection.module.AdapterModule;
 import com.mlsdev.mlsdevstore.dependency_injection.module.ApiModule;
 import com.mlsdev.mlsdevstore.dependency_injection.module.ApplicationModule;
 import com.mlsdev.mlsdevstore.dependency_injection.module.DataSourceModule;
@@ -20,6 +21,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
 @Component(modules = {
         AndroidSupportInjectionModule.class,
         ApplicationModule.class,
+        AdapterModule.class,
         FragmentBuilderModule.class,
         ViewModelModule.class,
         ApiModule.class,

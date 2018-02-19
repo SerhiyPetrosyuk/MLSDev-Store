@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion.store;
 
+import android.arch.lifecycle.LifecycleObserver;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mlsdev.mlsdevstore.R;
+import com.mlsdev.mlsdevstore.data.cart.Cart;
 import com.mlsdev.mlsdevstore.data.model.item.ListItem;
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
 import com.mlsdev.mlsdevstore.databinding.ItemProductBinding;
@@ -15,7 +17,10 @@ import com.mlsdev.mlsdevstore.presentaion.adapter.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductsAdapter extends RecyclerView.Adapter<BaseViewHolder<ListItem>> {
+public class ProductsAdapter
+        extends RecyclerView.Adapter<BaseViewHolder<ListItem>>
+        implements LifecycleObserver {
+    protected Cart cart;
     static final int VIEW_TYPE_HEADER = 0;
     static final int VIEW_TYPE_FOOTER = 1;
     static final int VIEW_TYPE_ITEM = 2;
@@ -24,6 +29,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<BaseViewHolder<ListIte
 
     public ProductsAdapter() {
         items = new ArrayList<>();
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     @Override
@@ -64,7 +73,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<BaseViewHolder<ListIte
             if (binding.getViewModel() == null)
                 binding.setViewModel(new ProductItemViewModel());
 
-            binding.getViewModel().setItem(item);
+            binding.getViewModel().setItem(cart, item);
         }
     }
 
@@ -73,7 +82,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<BaseViewHolder<ListIte
         items.addAll(searchResult.getItemSummaries());
     }
 
-    public void setOnClickListeners(View.OnClickListener... listeners){
+    public void setOnClickListeners(View.OnClickListener... listeners) {
 
     }
 

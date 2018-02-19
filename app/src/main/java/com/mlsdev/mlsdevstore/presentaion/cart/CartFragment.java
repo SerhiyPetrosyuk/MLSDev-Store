@@ -10,16 +10,20 @@ import android.view.ViewGroup;
 
 import com.mlsdev.mlsdevstore.R;
 import com.mlsdev.mlsdevstore.databinding.FragmentCartBinding;
+import com.mlsdev.mlsdevstore.dependency_injection.NamedAdapter;
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment;
+import com.mlsdev.mlsdevstore.presentaion.store.ProductsAdapter;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 public class CartFragment extends BaseFragment {
     private FragmentCartBinding binding;
     private CartViewModel viewModel;
 
     @Inject
-    ItemsAdapter itemsAdapter;
+    @Named(NamedAdapter.CART_ITEMS_ADAPTER)
+    ProductsAdapter itemsAdapter;
 
     @Nullable
     @Override

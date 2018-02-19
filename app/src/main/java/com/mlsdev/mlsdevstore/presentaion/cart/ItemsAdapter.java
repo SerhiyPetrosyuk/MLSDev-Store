@@ -1,7 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion.cart;
 
 import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
@@ -15,27 +14,21 @@ import com.mlsdev.mlsdevstore.presentaion.adapter.BaseViewHolder;
 import com.mlsdev.mlsdevstore.presentaion.store.ProductItemViewModel;
 import com.mlsdev.mlsdevstore.presentaion.store.ProductsAdapter;
 
-import javax.inject.Inject;
-
-public class ItemsAdapter extends ProductsAdapter implements
-        LifecycleObserver,
-        Cart.OnItemCountChangeListener {
-
-    private Cart cart;
-
-    @Inject
-    public ItemsAdapter(Cart cart) {
-        this.cart = cart;
-    }
+public class ItemsAdapter extends ProductsAdapter
+        implements
+        Cart.OnItemCountChangeListener,
+        Cart.OnItemRemovedListener {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void onStart() {
         cart.addOnItemCountChangeListener(this);
+        cart.addOnItemRemovedListener(this);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     public void onStop() {
         cart.removeOnItemCountChangeListener(this);
+        cart.removeOnItemRemovedListener(this);
     }
 
     @Override
@@ -50,9 +43,24 @@ public class ItemsAdapter extends ProductsAdapter implements
 
     @Override
     public void onItemCountChanged(int count) {
+        if (!items.isEmpty())
+            return;
+
         items.clear();
         items.addAll(cart.getItems());
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemRemoved(String itemId) {
+        int removedItemPosition = -1;
+
+        for (ListItem item : items)
+            if (item.getId().equals(itemId))
+                removedItemPosition = items.indexOf(item);
+
+        items.remove(removedItemPosition);
+        notifyItemRemoved(removedItemPosition);
     }
 
     public class ProductViewHolder extends BaseViewHolder<ListItem> {
@@ -69,7 +77,7 @@ public class ItemsAdapter extends ProductsAdapter implements
                 binding.setViewModel(new ProductItemViewModel());
 
             if (binding.getViewModel() != null)
-                binding.getViewModel().setItem(item);
+                binding.getViewModel().setItem(cart, item);
         }
     }
 

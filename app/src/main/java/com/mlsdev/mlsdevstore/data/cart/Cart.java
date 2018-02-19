@@ -80,4 +80,13 @@ public class Cart {
     public List<Item> getItems() {
         return items;
     }
+
+    public double getTotalSum() {
+        double totalSum = 0d;
+
+        for (Item item : items)
+            totalSum += item.getPrice().getValue();
+
+        return totalSum;
+    }
 }

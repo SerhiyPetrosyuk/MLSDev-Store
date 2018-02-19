@@ -21,10 +21,12 @@ public class ProductsAdapter
         extends RecyclerView.Adapter<BaseViewHolder<ListItem>>
         implements LifecycleObserver {
     protected Cart cart;
-    static final int VIEW_TYPE_HEADER = 0;
-    static final int VIEW_TYPE_FOOTER = 1;
-    static final int VIEW_TYPE_ITEM = 2;
-    static final int HEADER_OR_FOOTER = 1;
+    public static final int VIEW_TYPE_HEADER = 0;
+    public static final int VIEW_TYPE_FOOTER = 1;
+    public static final int VIEW_TYPE_ITEM = 2;
+    public static final int HEADER_OR_FOOTER = 1;
+    protected boolean withHeader = false;
+    protected boolean withFooter = false;
     protected final List<ListItem> items;
 
     public ProductsAdapter() {
@@ -57,7 +59,12 @@ public class ProductsAdapter
 
     @Override
     public int getItemViewType(int position) {
-        return VIEW_TYPE_ITEM;
+        if (withHeader && position == 0)
+            return VIEW_TYPE_HEADER;
+        else if (withFooter && (position == (items.size() - HEADER_OR_FOOTER)))
+            return VIEW_TYPE_FOOTER;
+        else
+            return VIEW_TYPE_ITEM;
     }
 
     public class ProductViewHolder extends BaseViewHolder<ListItem> {

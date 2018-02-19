@@ -16,8 +16,6 @@ import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseHeaderViewModel;
 
 public class RandomProductsAdapter extends ProductsAdapter {
 
-    private boolean withHeader = false;
-    private boolean withFooter = false;
     private View.OnClickListener onFooterClickListener;
     private View.OnClickListener onAllCategoriesListener;
     private View.OnClickListener onAuthorizeListener;
@@ -49,16 +47,6 @@ public class RandomProductsAdapter extends ProductsAdapter {
         }
 
         return viewHolder;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (withHeader && position == 0)
-            return VIEW_TYPE_HEADER;
-        else if (withFooter && (position == (items.size() - HEADER_OR_FOOTER)))
-            return VIEW_TYPE_FOOTER;
-        else
-            return super.getItemViewType(position);
     }
 
     public class CategoryNameHeaderViewHolder extends BaseViewHolder<ListItem> {

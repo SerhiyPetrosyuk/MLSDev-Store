@@ -17,7 +17,8 @@
         <com.mlsdev.animatedrv.AnimatedRecyclerView
             android:id="@+id/items_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_above="@+id/button_checkout" />
 
         <LinearLayout
             android:id="@+id/empty_cart_placeholder"
@@ -40,6 +41,18 @@
                 android:text="@string/label_empty_cart" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/button_checkout"
+            style="@style/AccentButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:onClick="@{(button) -> viewModel.onCheckoutClick(button)}"
+            android:text="@string/btn_checkout"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="@{!viewModel.cartIsEmpty ? View.VISIBLE : View.GONE}" />
 
     </RelativeLayout>
 </layout>

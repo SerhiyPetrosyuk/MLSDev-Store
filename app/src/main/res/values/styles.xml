@@ -59,6 +59,10 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="AccentButton" parent="GreenRoundedButton">
+        <item name="android:background">@drawable/button_bg_accent</item>
+    </style>
+
     <style name="MatchParentWidthButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

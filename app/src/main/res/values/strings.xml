@@ -38,5 +38,6 @@
     <string name="message_item_added">added to cart</string>
     <string name="label_total_sum">Total sum:</string>
     <string name="label_total_sum_value">$%1$s</string>
+    <string name="btn_checkout">Checkout</string>
 
 </resources>

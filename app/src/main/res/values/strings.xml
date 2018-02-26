@@ -35,7 +35,7 @@
     <string name="label_material">Material</string>
     <string name="btn_add_to_cart">Add to cart</string>
     <string name="label_empty_cart">No items - no fun :(</string>
-    <string name="message_item_added">Item has been added to cart</string>
+    <string name="message_item_added">added to cart</string>
     <string name="label_total_sum">Total sum:</string>
     <string name="label_total_sum_value">$%1$s</string>
 

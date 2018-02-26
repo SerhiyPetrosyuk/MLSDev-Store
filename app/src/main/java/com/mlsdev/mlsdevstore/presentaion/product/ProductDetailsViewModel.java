@@ -3,7 +3,9 @@ package com.mlsdev.mlsdevstore.presentaion.product;
 import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
+import com.mlsdev.mlsdevstore.R;
 import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.cart.Cart;
 import com.mlsdev.mlsdevstore.data.model.item.Image;
@@ -97,6 +99,7 @@ public class ProductDetailsViewModel extends BaseViewModel {
     }
 
     public void onAddToCartClicked(View button) {
+        Toast.makeText(button.getContext(), R.string.message_item_added, Toast.LENGTH_SHORT).show();
         cart.addItem(item);
     }
 

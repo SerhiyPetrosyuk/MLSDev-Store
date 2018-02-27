@@ -33,6 +33,7 @@ public class Cart {
                 return;
 
         items.add(item);
+        notifyItemCountChanged();
     }
 
     public void removeItem(String itemId) {
@@ -48,6 +49,10 @@ public class Cart {
         for (OnItemRemovedListener listener : itemRemovedListeners)
             listener.onItemRemoved(itemId);
 
+        notifyItemCountChanged();
+    }
+
+    private void notifyItemCountChanged() {
         for (OnItemCountChangeListener listener : itemCountChangeListeners)
             listener.onItemCountChanged(items.size());
     }

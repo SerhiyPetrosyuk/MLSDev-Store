@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.mlsdev.mlsdevstore.BuildConfig;
 import com.mlsdev.mlsdevstore.data.DataSource;
+import com.mlsdev.mlsdevstore.data.cart.Cart;
 import com.mlsdev.mlsdevstore.data.model.item.Item;
 import com.mlsdev.mlsdevstore.presentaion.product.ProductDetailsViewModel;
 import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys;
@@ -40,13 +41,16 @@ public class ProductDetailsViewModelTest extends BaseViewModelTest {
     @Mock
     Utils utils;
 
+    @Mock
+    Cart cart;
+
     @Before
     public void beforeTest() {
         MockitoAnnotations.initMocks(this);
         item = UnitAssetsUtils.getProductItem();
         itemData = new Bundle();
         itemData.putParcelable(ExtrasKeys.PRODUCT_DETAILS, item);
-        viewModel = spy(new ProductDetailsViewModel(dataSource, utils));
+        viewModel = spy(new ProductDetailsViewModel(dataSource, utils, cart));
     }
 
     @Test

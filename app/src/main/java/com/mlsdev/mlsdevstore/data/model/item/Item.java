@@ -118,6 +118,18 @@ public class Item implements Parcelable, ListItem {
         this.title = title;
     }
 
+    public void setCondition(@Condition String condition) {
+        this.condition = condition;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    public void setPrice(Price price) {
+        this.price = price;
+    }
+
     //region Parcelable
     @Override
     public int describeContents() {

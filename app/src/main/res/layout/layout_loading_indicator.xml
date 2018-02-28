@@ -13,8 +13,8 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
         android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}">
 
         <ProgressBar
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="loading data..."/>
+            android:text="loading data..." />
 
     </LinearLayout>
 

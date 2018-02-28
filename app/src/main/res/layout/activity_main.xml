@@ -22,9 +22,9 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            android:background="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="@dimen/appbar_height"
+            android:background="@color/colorPrimary"
             android:fitsSystemWindows="true"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="@{title}"
@@ -33,10 +33,10 @@
 
         <FrameLayout
             android:id="@+id/content"
-            android:layout_below="@id/toolbar"
-            android:layout_above="@id/bottom_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottom_bar"
+            android:layout_below="@id/toolbar" />
 
         <com.roughike.bottombar.BottomBar
             android:id="@+id/bottom_bar"

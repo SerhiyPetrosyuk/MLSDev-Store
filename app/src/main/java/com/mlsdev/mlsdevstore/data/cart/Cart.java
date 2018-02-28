@@ -95,4 +95,9 @@ public class Cart {
 
         return totalSum;
     }
+
+    public void reset() {
+        items.clear();
+        notifyItemCountChanged();
+    }
 }

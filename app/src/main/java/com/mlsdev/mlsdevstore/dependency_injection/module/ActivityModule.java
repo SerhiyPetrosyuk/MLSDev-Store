@@ -2,6 +2,7 @@ package com.mlsdev.mlsdevstore.dependency_injection.module;
 
 import com.mlsdev.mlsdevstore.presentaion.bottom_navigation.MainActivity;
 import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesActivity;
+import com.mlsdev.mlsdevstore.presentaion.checkout.CheckoutActivity;
 import com.mlsdev.mlsdevstore.presentaion.product.ProductDetailsActivity;
 import com.mlsdev.mlsdevstore.presentaion.splashscreen.SplashScreenActivity;
 
@@ -22,5 +23,8 @@ public interface ActivityModule {
 
     @ContributesAndroidInjector
     ProductDetailsActivity contributeProductDetailsActivity();
+
+    @ContributesAndroidInjector
+    CheckoutActivity contributeCheckoutActivity();
 
 }

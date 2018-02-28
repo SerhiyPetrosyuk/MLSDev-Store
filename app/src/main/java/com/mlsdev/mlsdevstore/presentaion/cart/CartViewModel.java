@@ -4,9 +4,9 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.databinding.ObservableBoolean;
 import android.view.View;
-import android.widget.Toast;
 
 import com.mlsdev.mlsdevstore.data.cart.Cart;
+import com.mlsdev.mlsdevstore.presentaion.checkout.CheckoutActivity;
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel;
 
 import javax.inject.Inject;
@@ -36,7 +36,6 @@ public class CartViewModel extends BaseViewModel implements Cart.OnItemCountChan
     }
 
     public void onCheckoutClick(View button) {
-        // TODO: 2/26/18 start the checkout screen
-        Toast.makeText(button.getContext(), "it will start the checkout screen", Toast.LENGTH_SHORT).show();
+        CheckoutActivity.launch(button.getContext());
     }
 }

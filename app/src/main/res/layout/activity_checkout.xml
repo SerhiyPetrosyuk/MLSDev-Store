@@ -15,6 +15,7 @@
             android:layout_height="@dimen/appbar_height"
             android:background="@color/colorPrimary"
             android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="@string/title_checkout"
             app:titleTextAppearance="@style/ToolbarTextStyle"

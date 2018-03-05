@@ -8,6 +8,7 @@ import com.mlsdev.mlsdevstore.presentaion.account.AccountViewModel;
 import com.mlsdev.mlsdevstore.presentaion.bottom_navigation.BottomNavigationViewModel;
 import com.mlsdev.mlsdevstore.presentaion.cart.CartViewModel;
 import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesViewModel;
+import com.mlsdev.mlsdevstore.presentaion.checkout.CheckoutViewModel;
 import com.mlsdev.mlsdevstore.presentaion.product.ProductDetailsViewModel;
 import com.mlsdev.mlsdevstore.presentaion.splashscreen.SplashScreenViewModel;
 import com.mlsdev.mlsdevstore.presentaion.store.StoreViewModel;
@@ -53,6 +54,11 @@ public interface ViewModelModule {
     @IntoMap
     @ViewModelKey(BottomNavigationViewModel.class)
     ViewModel bindBottomNavigationViewModel(BottomNavigationViewModel bottomNavigationViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CheckoutViewModel.class)
+    ViewModel bindCheckoutViewModel(CheckoutViewModel checkoutViewModel);
 
     @Binds
     ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);

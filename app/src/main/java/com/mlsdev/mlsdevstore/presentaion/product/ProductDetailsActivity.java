@@ -48,6 +48,7 @@ public class ProductDetailsActivity extends BaseActivity {
         viewModel.descriptionIsDisplayed.addOnPropertyChangedCallback(descriptionCallBack);
         viewModel.imageList.addOnPropertyChangedCallback(galleryImagesLoadedCallback);
         binding.productImagesGallery.setAdapter(galleryAdapter);
+        getLifecycle().addObserver(viewModel);
         initToolbar(binding.toolbar);
         displayBackArrow(true);
     }

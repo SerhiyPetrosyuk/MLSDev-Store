@@ -157,6 +157,7 @@
                     android:textStyle="bold" />
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/item_details_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardElevation="2dp"

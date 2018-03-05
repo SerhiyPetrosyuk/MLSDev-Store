@@ -2,6 +2,7 @@ package com.mlsdev.mlsdevstore.presentaion.viewmodel;
 
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
 import android.databinding.ObservableBoolean;
 
 import com.mlsdev.mlsdevstore.data.DataSource;
@@ -19,6 +20,7 @@ public abstract class BaseViewModel extends ViewModel implements LifecycleObserv
     public final ObservableBoolean authErrorOccurred = new ObservableBoolean();
     public final ObservableBoolean isRefreshing = new ObservableBoolean();
     public final CustomObservableBoolean isLoading = new CustomObservableBoolean();
+    protected Context context;
     protected DataSource dataSource;
     protected Utils utils;
 
@@ -26,6 +28,7 @@ public abstract class BaseViewModel extends ViewModel implements LifecycleObserv
     protected void onCleared() {
         super.onCleared();
         compositeDisposable.dispose();
+        context = null;
     }
 
     public void onTechnicalErrorOccurred() {

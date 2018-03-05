@@ -36,7 +36,7 @@ public final class UnitAssetsUtils {
     }
 
     public static Item getProductItem() {
-        return new Gson().fromJson(getJsonStringFromResources("item_details.json"), Item.class);
+        return new Gson().fromJson(getJsonStringFromResources("item_details_extended.json"), Item.class);
     }
 
     private static Gson getGson() {

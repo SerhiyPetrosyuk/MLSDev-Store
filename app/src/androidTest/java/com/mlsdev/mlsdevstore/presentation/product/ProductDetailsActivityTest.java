@@ -10,6 +10,7 @@ import android.support.test.rule.ActivityTestRule;
 import com.mlsdev.mlsdevstore.AssetUtils;
 import com.mlsdev.mlsdevstore.MockMLSDevStoreApplication;
 import com.mlsdev.mlsdevstore.R;
+import com.mlsdev.mlsdevstore.actions.CustomScrollToAction;
 import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.model.item.Item;
 import com.mlsdev.mlsdevstore.presentaion.product.ProductDetailsActivity;
@@ -31,7 +32,6 @@ import retrofit2.HttpException;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -81,7 +81,7 @@ public class ProductDetailsActivityTest {
         verify(dataSource, atLeastOnce()).getItem(item.getId());
 
         onView(withText(item.getTitle())).check(matches(isDisplayed()));
-        onView(withId(R.id.app_bar)).perform(swipeUp());
+        onView(withId(R.id.item_details_container)).perform(CustomScrollToAction.nestedScrollTo());
         onView(withText(item.getCondition())).check(matches(isDisplayed()));
         onView(withText(item.getBrand())).check(matches(isDisplayed()));
         onView(withText(item.getGender())).check(matches(isDisplayed()));

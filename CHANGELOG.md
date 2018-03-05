@@ -1,3 +1,7 @@
+# v0.0.4
+* Added the items count restriction
+* Updated and fixed UI and Unit tests
+
 # v0.0.3
 * Cart screen
 * UI and Unit tests

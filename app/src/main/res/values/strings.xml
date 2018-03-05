@@ -40,5 +40,6 @@
     <string name="label_total_sum_value">$%1$s</string>
     <string name="btn_checkout">Checkout</string>
     <string name="title_checkout">Checkout</string>
+    <string name="message_item_count_restriction">you can\'t buy more than 4 items per one checkout</string>
 
 </resources>

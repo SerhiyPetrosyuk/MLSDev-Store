@@ -1,5 +1,8 @@
 package com.mlsdev.mlsdevstore.presentaion.product;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.OnLifecycleEvent;
+import android.content.Context;
 import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +23,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class ProductDetailsViewModel extends BaseViewModel {
+public class ProductDetailsViewModel extends BaseViewModel
+        implements Cart.OnMaxItemsReachedListener, Cart.OnItemAddedListener {
     private Item item;
     private Cart cart;
     public final ObservableField<String> title = new ObservableField<>();
@@ -40,10 +44,23 @@ public class ProductDetailsViewModel extends BaseViewModel {
     public final ObservableField<List<Image>> imageList = new ObservableField<>();
 
     @Inject
-    public ProductDetailsViewModel(DataSource dataSource, Utils utils, Cart cart) {
+    public ProductDetailsViewModel(Context context, DataSource dataSource, Utils utils, Cart cart) {
+        this.context = context;
         this.dataSource = dataSource;
         this.utils = utils;
         this.cart = cart;
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    void start() {
+        cart.addOnMaxItemsReachedListener(this);
+        cart.addOnItemAddedListener(this);
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    void stop() {
+        cart.removeOnMaxItemsReachedListener(this);
+        cart.removeOnItemAddedListener(this);
     }
 
     public void setProductDetailsData(Bundle productDetailsData) {
@@ -99,7 +116,6 @@ public class ProductDetailsViewModel extends BaseViewModel {
     }
 
     public void onAddToCartClicked(View button) {
-        Toast.makeText(button.getContext(), R.string.message_item_added, Toast.LENGTH_SHORT).show();
         cart.addItem(item);
     }
 
@@ -107,4 +123,13 @@ public class ProductDetailsViewModel extends BaseViewModel {
         descriptionIsDisplayed.set(true);
     }
 
+    @Override
+    public void onMaxItemsReached() {
+        Toast.makeText(context, R.string.message_item_count_restriction, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemAdded(Item item) {
+        Toast.makeText(context, R.string.message_item_added, Toast.LENGTH_SHORT).show();
+    }
 }

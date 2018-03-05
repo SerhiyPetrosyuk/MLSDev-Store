@@ -19,6 +19,7 @@ import java.util.List;
 
 import static com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.Key;
 import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,7 +36,7 @@ public class SharedPreferencesManagerTest {
 
     private SharedPreferencesManager sharedPreferencesManager;
     private Object data;
-    private String emptyJsonObject = "{}";
+    private String emptyJsonObject = "{\"expiration_date\":0}";
     private String emptyJsonArray = "[{}]";
     private String keyObject = "key_object";
     private String keyArray = "key_array";
@@ -56,8 +57,8 @@ public class SharedPreferencesManagerTest {
     public void testSave() {
         sharedPreferencesManager.save(Key.APPLICATION_ACCESS_TOKEN, data);
         verify(sharedPreferences, times(1)).edit();
-        verify(editor, times(1)).putString(Key.APPLICATION_ACCESS_TOKEN, emptyJsonObject);
-        verify(editor, times(1)).apply();
+        verify(editor, atLeastOnce()).putString(Key.APPLICATION_ACCESS_TOKEN, emptyJsonObject);
+        verify(editor, atLeastOnce()).apply();
     }
 
     @Test

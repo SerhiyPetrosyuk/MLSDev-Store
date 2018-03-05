@@ -15,20 +15,12 @@ public class CartTest {
 
     private Cart cart;
     private Item item;
-    private Price price;
 
     @Before
     public void beforeTest() {
         MockitoAnnotations.initMocks(this);
         cart = new Cart();
-        item = new Item();
-        price = new Price();
-        price.setCurrency("USD");
-        price.setValue(100d);
-        item.setItemId("id");
-        item.setTitle("title");
-        item.setCondition(Item.Condition.New);
-        item.setPrice(price);
+        item = createItem();
     }
 
     @Test
@@ -43,6 +35,17 @@ public class CartTest {
     }
 
     @Test
+    public void addItem_MaxItemCountWasReached() {
+        cart.addItem(createItem());
+        cart.addItem(createItem());
+        cart.addItem(createItem());
+        cart.addItem(createItem());
+        cart.addItem(createItem());
+
+        assertEquals(4, cart.getItems().size());
+    }
+
+    @Test
     public void removeItem() {
         cart.addItem(item);
         assertFalse(cart.getItems().isEmpty());
@@ -51,4 +54,17 @@ public class CartTest {
         assertTrue(cart.getItems().isEmpty());
     }
 
+    private Item createItem() {
+        Price price = new Price();
+        price.setCurrency("USD");
+        price.setValue(Math.random() * 1000);
+
+        Item item = new Item();
+        item.setItemId(String.valueOf(item.hashCode()));
+        item.setTitle("title");
+        item.setCondition(Item.Condition.New);
+        item.setPrice(price);
+
+        return item;
+    }
 }

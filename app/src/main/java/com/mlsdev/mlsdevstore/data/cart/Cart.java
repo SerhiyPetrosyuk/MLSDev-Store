@@ -11,20 +11,29 @@ import javax.inject.Singleton;
 
 @Singleton
 public class Cart {
+    public final static int MAX_ITEMS_PER_CHECKOUT = 4;
     private final List<Item> items;
     private final List<OnItemCountChangeListener> itemCountChangeListeners;
     private final List<OnItemRemovedListener> itemRemovedListeners;
+    private final List<OnMaxItemsReachedListener> maxItemsReachedListeners;
+    private final List<OnItemAddedListener> itemAddedListeners;
 
     @Inject
     public Cart() {
         items = new ArrayList<>();
         itemCountChangeListeners = new ArrayList<>();
         itemRemovedListeners = new ArrayList<>();
+        itemAddedListeners = new ArrayList<>();
+        maxItemsReachedListeners = new ArrayList<>();
     }
 
     public void addItem(Item item) {
-        if (item == null)
+        if (item == null) {
             return;
+        } else if (items.size() == MAX_ITEMS_PER_CHECKOUT) {
+            notifyOnMaxItemsReached();
+            return;
+        }
 
         for (Item itemFromCart : items)
             if (itemFromCart.getId().equals(item.getId()))
@@ -32,6 +41,7 @@ public class Cart {
 
         items.add(item);
         notifyItemCountChanged();
+        notifyOnItemAdded(item);
     }
 
     public void removeItem(String itemId) {
@@ -46,6 +56,16 @@ public class Cart {
 
         notifyItemRemoved(itemId);
         notifyItemCountChanged();
+    }
+
+    private void notifyOnMaxItemsReached() {
+        for (OnMaxItemsReachedListener listener : maxItemsReachedListeners)
+            listener.onMaxItemsReached();
+    }
+
+    private void notifyOnItemAdded(Item item) {
+        for (OnItemAddedListener listener : itemAddedListeners)
+            listener.onItemAdded(item);
     }
 
     private void notifyItemRemoved(String itemId) {
@@ -75,12 +95,36 @@ public class Cart {
         itemRemovedListeners.remove(listener);
     }
 
+    public void addOnMaxItemsReachedListener(OnMaxItemsReachedListener listener) {
+        maxItemsReachedListeners.add(listener);
+    }
+
+    public void removeOnMaxItemsReachedListener(OnMaxItemsReachedListener listener) {
+        maxItemsReachedListeners.remove(listener);
+    }
+
+    public void addOnItemAddedListener(OnItemAddedListener listener) {
+        itemAddedListeners.add(listener);
+    }
+
+    public void removeOnItemAddedListener(OnItemAddedListener listener) {
+        itemAddedListeners.remove(listener);
+    }
+
     public interface OnItemCountChangeListener {
         void onItemCountChanged(int count);
     }
 
     public interface OnItemRemovedListener {
         void onItemRemoved(String itemId);
+    }
+
+    public interface OnMaxItemsReachedListener {
+        void onMaxItemsReached();
+    }
+
+    public interface OnItemAddedListener {
+        void onItemAdded(Item item);
     }
 
     public List<Item> getItems() {

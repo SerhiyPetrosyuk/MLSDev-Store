@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion.account;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,11 +14,14 @@ import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment;
 
 public class AccountFragment extends BaseFragment {
     private FragmentAccountBinding binding;
+    private AccountViewModel accountViewModel;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false);
+        accountViewModel = ViewModelProviders.of(this, viewModelFactory).get(AccountViewModel.class);
+        binding.setViewModel(accountViewModel);
         return binding.getRoot();
     }
 

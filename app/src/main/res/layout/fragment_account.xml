@@ -3,6 +3,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.mlsdev.mlsdevstore.presentaion.account.AccountViewModel" />
     </data>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,6 +31,7 @@
                 <Button
                     android:id="@+id/button_edit_personal_info"
                     style="@style/EditInfoButtonStyle"
+                    android:onClick="@{() -> viewModel.onEditPersonalInfoClick()}"
                     android:text="@string/btn_edit" />
 
             </RelativeLayout>
@@ -55,7 +59,7 @@
                         style="@style/UserInfoTextStyle"
                         android:layout_marginBottom="8dp"
                         android:layout_toEndOf="@id/user_first_name_label"
-                        android:text="jdow@gmail.com" />
+                        android:text="@{viewModel.email}" />
 
                     <TextView
                         android:id="@+id/user_first_name_label"
@@ -69,7 +73,7 @@
                         android:layout_below="@id/user_email"
                         android:layout_marginBottom="8dp"
                         android:layout_toEndOf="@id/user_first_name_label"
-                        android:text="John" />
+                        android:text="@{viewModel.firstName}" />
 
                     <TextView
                         android:id="@+id/user_last_name_label"
@@ -83,7 +87,7 @@
                         android:layout_below="@id/user_first_name"
                         android:layout_marginBottom="8dp"
                         android:layout_toEndOf="@id/user_last_name_label"
-                        android:text="Dow" />
+                        android:text="@{viewModel.lastName}" />
 
                     <TextView
                         android:id="@+id/user_phone_number_label"
@@ -96,7 +100,7 @@
                         style="@style/UserInfoTextStyle"
                         android:layout_below="@id/user_last_name"
                         android:layout_toEndOf="@id/user_phone_number_label"
-                        android:text="+151 0101 01 01" />
+                        android:text="@{viewModel.phoneNumber}" />
 
                 </RelativeLayout>
 
@@ -115,6 +119,7 @@
                 <Button
                     android:id="@+id/button_edit_shipping_info"
                     style="@style/EditInfoButtonStyle"
+                    android:onClick="@{() -> viewModel.onEditShippingInfoClick()}"
                     android:text="@string/btn_edit" />
             </RelativeLayout>
 
@@ -141,7 +146,7 @@
                         style="@style/UserInfoTextStyle"
                         android:layout_marginBottom="8dp"
                         android:layout_toEndOf="@id/shipping_address_label"
-                        android:text="600 Epic Way #566" />
+                        android:text="@{viewModel.address}" />
 
                     <TextView
                         android:id="@+id/shipping_city_label"
@@ -155,7 +160,7 @@
                         android:layout_below="@id/shipping_address"
                         android:layout_marginBottom="8dp"
                         android:layout_toEndOf="@id/shipping_city_label"
-                        android:text="San Jose" />
+                        android:text="@{viewModel.city}" />
 
                     <TextView
                         android:id="@+id/shipping_state_label"
@@ -169,7 +174,7 @@
                         android:layout_below="@id/shipping_city"
                         android:layout_marginBottom="8dp"
                         android:layout_toEndOf="@id/shipping_state_label"
-                        android:text="CA" />
+                        android:text="@{viewModel.state}" />
 
                     <TextView
                         android:id="@+id/shipping_zip_label"
@@ -183,7 +188,7 @@
                         android:layout_below="@id/shipping_state"
                         android:layout_marginBottom="8dp"
                         android:layout_toEndOf="@id/shipping_zip_label"
-                        android:text="95134" />
+                        android:text="@{viewModel.zip}" />
 
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
@@ -201,6 +206,7 @@
                 <Button
                     android:id="@+id/button_edit_payment_info"
                     style="@style/EditInfoButtonStyle"
+                    android:onClick="@{() -> viewModel.onEditPaymentInfoClick()}"
                     android:text="@string/btn_edit" />
             </RelativeLayout>
 
@@ -227,7 +233,7 @@
                         style="@style/UserInfoTextStyle"
                         android:layout_marginBottom="8dp"
                         android:layout_toEndOf="@id/card_number_label"
-                        android:text="5351 **** **** 8911" />
+                        android:text="@{viewModel.cardNumber}" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 

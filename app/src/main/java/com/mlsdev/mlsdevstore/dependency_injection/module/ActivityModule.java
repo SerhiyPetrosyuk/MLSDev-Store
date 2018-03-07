@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.dependency_injection.module;
 
+import com.mlsdev.mlsdevstore.presentaion.account.EditPersonalInfoActivity;
 import com.mlsdev.mlsdevstore.presentaion.bottom_navigation.MainActivity;
 import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesActivity;
 import com.mlsdev.mlsdevstore.presentaion.checkout.CheckoutActivity;
@@ -26,5 +27,8 @@ public interface ActivityModule {
 
     @ContributesAndroidInjector
     CheckoutActivity contributeCheckoutActivity();
+
+    @ContributesAndroidInjector
+    EditPersonalInfoActivity contributeEditPersonalInfoActivity();
 
 }

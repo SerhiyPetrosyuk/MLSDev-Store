@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">MLSDev Store</string>
 
+    <!--Title-->
+    <string name="title_checkout">Checkout</string>
+    <string name="title_edit">Edit</string>
+
     <!-- Bottom Navigation -->
     <string name="navigation_title_store">Store</string>
     <string name="navigation_title_cart">Cart</string>
@@ -24,8 +28,6 @@
     <string name="label_positive_feedback">positive \nfeedback</string>
     <string name="label_seller_info">Seller info</string>
     <string name="label_full_specs">Full specs</string>
-
-    <string name="value_percent">%1$s%%</string>
     <string name="label_description">Description</string>
     <string name="label_condition">Condition:</string>
     <string name="label_brand">Brand:</string>
@@ -33,14 +35,9 @@
     <string name="label_gender">Gender</string>
     <string name="label_color">Color</string>
     <string name="label_material">Material</string>
-    <string name="btn_add_to_cart">Add to cart</string>
     <string name="label_empty_cart">No items - no fun :(</string>
-    <string name="message_item_added">added to cart</string>
     <string name="label_total_sum">Total sum:</string>
     <string name="label_total_sum_value">$%1$s</string>
-    <string name="btn_checkout">Checkout</string>
-    <string name="title_checkout">Checkout</string>
-    <string name="message_item_count_restriction">you can\'t buy more than 4 items per one checkout</string>
     <string name="label_personal_info">Personal Info</string>
     <string name="label_first_name">First name:</string>
     <string name="label_last_name">Last name:</string>
@@ -53,6 +50,24 @@
     <string name="label_state_or_province">State or province</string>
     <string name="label_payment_info">Payment info</string>
     <string name="label_card_number">Card number:</string>
+
+    <!--Button-->
+    <string name="btn_submit">Submit</string>
+    <string name="btn_add_to_cart">Add to cart</string>
+    <string name="btn_checkout">Checkout</string>
     <string name="btn_edit">edit</string>
+
+    <!--Value-->
+    <string name="value_percent">%1$s%%</string>
+
+    <!--Message-->
+    <string name="message_item_added">added to cart</string>
+    <string name="message_item_count_restriction">you can\'t buy more than 4 items per one checkout</string>
+
+    <!--Hint-->
+    <string name="hint_email">Email</string>
+    <string name="hint_first_name">First name</string>
+    <string name="hint_last_name">Last name</string>
+
 
 </resources>

@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mlsdev.mlsdevstore.MLSDevStoreApplication;
 import com.mlsdev.mlsdevstore.dependency_injection.component.scope.ActivityScope;
+import com.mlsdev.mlsdevstore.presentaion.account.EditPersonalInfoActivity;
 import com.mlsdev.mlsdevstore.presentaion.bottom_navigation.MainActivity;
 import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesActivity;
 import com.mlsdev.mlsdevstore.presentaion.checkout.CheckoutActivity;
@@ -68,4 +69,8 @@ abstract public class ApplicationModule {
     @ContributesAndroidInjector
     @ActivityScope
     abstract CheckoutActivity productCheckoutActivity();
+
+    @ContributesAndroidInjector
+    @ActivityScope
+    abstract EditPersonalInfoActivity productEditPersonalInfoActivity();
 }

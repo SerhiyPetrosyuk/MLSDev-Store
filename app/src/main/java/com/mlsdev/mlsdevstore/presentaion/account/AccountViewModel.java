@@ -52,7 +52,7 @@ public class AccountViewModel extends BaseViewModel {
     }
 
     public void onEditPersonalInfoClick() {
-        // TODO: 3/6/18 start personal info editing
+        EditPersonalInfoActivity.launch(context);
     }
 
     public void onEditShippingInfoClick() {

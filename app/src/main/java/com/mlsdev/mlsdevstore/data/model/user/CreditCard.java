@@ -1,22 +1,56 @@
-package com.mlsdev.mlsdevstore.data.model.order;
+package com.mlsdev.mlsdevstore.data.model.user;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
+import com.mlsdev.mlsdevstore.data.local.database.Table;
 
+@Entity(tableName = Table.CREDIT_CARDS)
 public class CreditCard {
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
     @SerializedName("brand")
     private String brand;
+
     @SerializedName("cardNumber")
     private String cardNumber;
+
     @SerializedName("cvvNumber")
     private String cvvNumber;
+
     @SerializedName("expireMonth")
     private int expireMonth;
+
     @SerializedName("expireYear")
     private int expireYear;
+
+    @Ignore
     @SerializedName("billingAddress")
     private Address billingAddress;
 
+    private int billingAddressId;
+
     public CreditCard() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getBillingAddressId() {
+        return billingAddressId;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setBillingAddressId(int billingAddressId) {
+        this.billingAddressId = billingAddressId;
     }
 
     public String getBrand() {

@@ -9,11 +9,17 @@ import com.mlsdev.mlsdevstore.data.local.database.dao.CategoriesDao;
 import com.mlsdev.mlsdevstore.data.model.category.Category;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode;
+import com.mlsdev.mlsdevstore.data.model.user.Address;
+import com.mlsdev.mlsdevstore.data.model.user.CreditCard;
+import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo;
 
 @Database(entities = {
         Category.class,
         CategoryTreeNode.class,
-        CategoryTree.class
+        CategoryTree.class,
+        Address.class,
+        CreditCard.class,
+        PersonalInfo.class
 }, version = 1, exportSchema = false)
 @TypeConverters({CategoryConverter.class})
 public abstract class AppDatabase extends RoomDatabase {

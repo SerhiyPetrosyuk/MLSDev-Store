@@ -7,25 +7,25 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.mlsdev.mlsdevstore.data.local.database.Table;
-import com.mlsdev.mlsdevstore.data.model.user.Address;
+import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo;
 
 import java.util.List;
 
 import io.reactivex.Single;
 
 @Dao
-public interface AddressDao {
+public interface PersonalInfoDao {
 
     @Insert
-    void insert(Address... addresses);
-
-    @Delete
-    void delele(Address... addresses);
+    void insert(PersonalInfo personalInfo);
 
     @Update
-    void update(Address... addresses);
+    void update(PersonalInfo personalInfo);
 
-    @Query("select * from " + Table.ADDRESSES + " where type is :addressType limit 1")
-    Single<List<Address>> queryByType(@Address.Type String addressType);
+    @Delete
+    void delete(PersonalInfo personalInfo);
+
+    @Query("select * from " + Table.PERSONAL_INFO + " where id = :infoId")
+    Single<List<PersonalInfo>> queryPersonalInfoById(int infoId);
 
 }

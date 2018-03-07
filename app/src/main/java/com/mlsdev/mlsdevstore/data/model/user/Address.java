@@ -1,8 +1,17 @@
-package com.mlsdev.mlsdevstore.data.model.order;
+package com.mlsdev.mlsdevstore.data.model.user;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
+import com.mlsdev.mlsdevstore.data.local.database.Table;
 
+@Entity(tableName = Table.ADDRESSES)
 public class Address {
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
     @SerializedName("addressLine1")
     private String address;
     @SerializedName("city")
@@ -20,7 +29,19 @@ public class Address {
     @SerializedName("stateOrProvince")
     private String state;
 
+    @Type
+    private String type = Type.SHIPPING;
+
     public Address() {
+    }
+
+    public @interface Type {
+        String SHIPPING = "shipping";
+        String BILLING = "billing";
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getAddress() {
@@ -55,6 +76,15 @@ public class Address {
         return state;
     }
 
+    @Type
+    public String getType() {
+        return type;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setAddress(String address) {
         this.address = address;
     }
@@ -85,5 +115,9 @@ public class Address {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public void setType(@Type String type) {
+        this.type = type;
     }
 }

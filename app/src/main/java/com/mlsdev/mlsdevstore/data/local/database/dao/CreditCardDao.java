@@ -7,25 +7,25 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.mlsdev.mlsdevstore.data.local.database.Table;
-import com.mlsdev.mlsdevstore.data.model.user.Address;
+import com.mlsdev.mlsdevstore.data.model.user.CreditCard;
 
 import java.util.List;
 
 import io.reactivex.Single;
 
 @Dao
-public interface AddressDao {
+public interface CreditCardDao {
 
     @Insert
-    void insert(Address... addresses);
-
-    @Delete
-    void delele(Address... addresses);
+    void insert(CreditCard... creditCards);
 
     @Update
-    void update(Address... addresses);
+    void update(CreditCard... creditCards);
 
-    @Query("select * from " + Table.ADDRESSES + " where type is :addressType limit 1")
-    Single<List<Address>> queryByType(@Address.Type String addressType);
+    @Delete
+    void delete(CreditCard... creditCards);
+
+    @Query("select * from " + Table.CREDIT_CARDS + " where id = :cardId")
+    Single<List<CreditCard>> queryById(int cardId);
 
 }

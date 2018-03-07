@@ -28,4 +28,7 @@ public interface PersonalInfoDao {
     @Query("select * from " + Table.PERSONAL_INFO + " where id = :infoId")
     Single<List<PersonalInfo>> queryPersonalInfoById(int infoId);
 
+    @Query("select * from " + Table.PERSONAL_INFO + " limit 1")
+    Single<List<PersonalInfo>> queryPersonalInfo();
+
 }

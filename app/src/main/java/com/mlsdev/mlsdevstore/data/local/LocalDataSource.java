@@ -6,6 +6,10 @@ import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode;
 import com.mlsdev.mlsdevstore.data.model.item.Item;
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
+import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSessionRequest;
+import com.mlsdev.mlsdevstore.data.model.user.Address;
+import com.mlsdev.mlsdevstore.data.model.user.CreditCard;
+import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo;
 import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource;
 
 import java.util.List;
@@ -90,6 +94,42 @@ public class LocalDataSource implements DataSource {
     @Override
     public void resetSearchResults() {
         remoteDataSource.resetSearchResults();
+    }
+
+    public Single<GuestCheckoutSessionRequest> getGuestCheckoutSession() {
+        final Single<Address> shippingAddressSource = remoteDataSource
+                .prepareSingle(database.addressDao().queryByType(Address.Type.SHIPPING))
+                .map(addresses -> !addresses.isEmpty() ? addresses.get(0) : new Address());
+
+        final Single<Address> billingAddressSource = remoteDataSource
+                .prepareSingle(database.addressDao().queryByType(Address.Type.BILLING))
+                .map(addresses -> !addresses.isEmpty() ? addresses.get(0) : new Address());
+
+        final Single<CreditCard> creditCardSource = remoteDataSource
+                .prepareSingle(database.creditCardDao().queryCard())
+                .map(creditCards -> !creditCards.isEmpty() ? creditCards.get(0) : new CreditCard());
+
+        final Single<PersonalInfo> personalInfoSource = remoteDataSource
+                .prepareSingle(database.personalInfoDao().queryPersonalInfo())
+                .map(personalInfoList -> !personalInfoList.isEmpty() ? personalInfoList.get(0) : new PersonalInfo());
+
+        return Single.zip(
+                shippingAddressSource,
+                billingAddressSource,
+                creditCardSource,
+                personalInfoSource,
+                (shippingAddress, billingAddress, creditCard, personalInfo) -> {
+                    creditCard.setBillingAddress(billingAddress);
+                    GuestCheckoutSessionRequest guestCheckoutSession = new GuestCheckoutSessionRequest();
+                    guestCheckoutSession.setShippingAddress(shippingAddress);
+                    guestCheckoutSession.setCreditCard(creditCard);
+                    guestCheckoutSession.setContactFirstName(personalInfo.getContactFirstName());
+                    guestCheckoutSession.setContactLastName(personalInfo.getContactLastName());
+                    guestCheckoutSession.setContactEmail(personalInfo.getContactEmail());
+                    return guestCheckoutSession;
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
 }

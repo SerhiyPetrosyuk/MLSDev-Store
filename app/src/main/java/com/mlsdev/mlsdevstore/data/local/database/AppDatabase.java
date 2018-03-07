@@ -5,7 +5,10 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 
 import com.mlsdev.mlsdevstore.data.local.database.converter.CategoryConverter;
+import com.mlsdev.mlsdevstore.data.local.database.dao.AddressDao;
 import com.mlsdev.mlsdevstore.data.local.database.dao.CategoriesDao;
+import com.mlsdev.mlsdevstore.data.local.database.dao.CreditCardDao;
+import com.mlsdev.mlsdevstore.data.local.database.dao.PersonalInfoDao;
 import com.mlsdev.mlsdevstore.data.model.category.Category;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode;
@@ -24,4 +27,7 @@ import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo;
 @TypeConverters({CategoryConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract CategoriesDao categoriesDao();
+    public abstract AddressDao addressDao();
+    public abstract CreditCardDao creditCardDao();
+    public abstract PersonalInfoDao personalInfoDao();
 }

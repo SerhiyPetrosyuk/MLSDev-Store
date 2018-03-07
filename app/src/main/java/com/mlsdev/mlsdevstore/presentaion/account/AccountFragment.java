@@ -22,7 +22,14 @@ public class AccountFragment extends BaseFragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false);
         accountViewModel = ViewModelProviders.of(this, viewModelFactory).get(AccountViewModel.class);
         binding.setViewModel(accountViewModel);
+        getLifecycle().addObserver(accountViewModel);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getLifecycle().removeObserver(accountViewModel);
     }
 
     @Override

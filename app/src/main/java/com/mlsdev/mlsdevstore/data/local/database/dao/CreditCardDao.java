@@ -25,6 +25,9 @@ public interface CreditCardDao {
     @Delete
     void delete(CreditCard... creditCards);
 
+    @Query("select * from " + Table.CREDIT_CARDS + " limit 1")
+    Single<List<CreditCard>> queryCard();
+
     @Query("select * from " + Table.CREDIT_CARDS + " where id = :cardId")
     Single<List<CreditCard>> queryById(int cardId);
 

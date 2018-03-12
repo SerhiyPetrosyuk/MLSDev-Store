@@ -9,23 +9,30 @@ import com.mlsdev.mlsdevstore.data.local.LocalDataSource;
 import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo;
 import com.mlsdev.mlsdevstore.data.remote.BaseObserver;
 import com.mlsdev.mlsdevstore.presentaion.utils.CustomObservableBoolean;
+import com.mlsdev.mlsdevstore.presentaion.utils.FieldsValidator;
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel;
+
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import io.reactivex.CompletableObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class EditAccountViewModel extends BaseViewModel {
     private LocalDataSource localDataSource;
+    private FieldsValidator fieldsValidator;
     public final CustomObservableBoolean accountUpdated = new CustomObservableBoolean();
     public final ObservableField<String> email = new ObservableField<>();
     public final ObservableField<String> firstName = new ObservableField<>();
     public final ObservableField<String> lastName = new ObservableField<>();
 
     @Inject
-    public EditAccountViewModel(LocalDataSource localDataSource) {
+    public EditAccountViewModel(LocalDataSource localDataSource, FieldsValidator fieldsValidator) {
         this.localDataSource = localDataSource;
+        this.fieldsValidator = fieldsValidator;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -48,6 +55,22 @@ public class EditAccountViewModel extends BaseViewModel {
     }
 
     public void onSubmitPersonalInfoClick() {
+        fieldsValidator
+                .putField(FieldsValidator.Field.EMAIL, email.get())
+                .putField(FieldsValidator.Field.FIRST_NAME, firstName.get())
+                .putField(FieldsValidator.Field.LAST_NAME, lastName.get())
+                .validateFields()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updatePersonalInfo,
+                        throwable -> {
+                            FieldsValidator.ValidationError error = (FieldsValidator.ValidationError) throwable;
+                            for (Map.Entry<String, String> entry : error.getInvalidFields().entrySet())
+                                Log.e(LOG_TAG, entry.getKey() + ": " + entry.getValue());
+                        });
+    }
+
+    void updatePersonalInfo() {
         localDataSource.updatePersonalInfo(email.get(), firstName.get(), lastName.get())
                 .subscribe(new CompletableObserver() {
                     @Override

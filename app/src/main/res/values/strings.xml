@@ -15,6 +15,9 @@
     <string name="error_message_network">Check your internet connection and try again.</string>
     <string name="error_message_tech">Technical error occurred. Please, try again later</string>
     <string name="error_title_base">Issue</string>
+    <string name="error_empty_field">is empty</string>
+    <string name="error_not_found">not found</string>
+    <string name="error_incorrect_field">is incorrect</string>
 
     <!--Button-->
     <string name="button_close">Close</string>

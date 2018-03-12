@@ -54,10 +54,6 @@ public class FieldsValidator {
         });
     }
 
-    public Map<String, String> getInvalidFields() {
-        return invalidFields;
-    }
-
     private boolean validateEmail(@Nullable String email) {
         return email != null && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }

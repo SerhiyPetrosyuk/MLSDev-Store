@@ -12,8 +12,6 @@ import com.mlsdev.mlsdevstore.presentaion.utils.CustomObservableBoolean;
 import com.mlsdev.mlsdevstore.presentaion.utils.FieldsValidator;
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel;
 
-import java.util.Map;
-
 import javax.inject.Inject;
 
 import io.reactivex.CompletableObserver;
@@ -28,6 +26,11 @@ public class EditAccountViewModel extends BaseViewModel {
     public final ObservableField<String> email = new ObservableField<>();
     public final ObservableField<String> firstName = new ObservableField<>();
     public final ObservableField<String> lastName = new ObservableField<>();
+
+    // Errors
+    public final ObservableField<String> emailError = new ObservableField<>();
+    public final ObservableField<String> firstNameError = new ObservableField<>();
+    public final ObservableField<String> lastNameError = new ObservableField<>();
 
     @Inject
     public EditAccountViewModel(LocalDataSource localDataSource, FieldsValidator fieldsValidator) {
@@ -65,8 +68,14 @@ public class EditAccountViewModel extends BaseViewModel {
                 .subscribe(this::updatePersonalInfo,
                         throwable -> {
                             FieldsValidator.ValidationError error = (FieldsValidator.ValidationError) throwable;
-                            for (Map.Entry<String, String> entry : error.getInvalidFields().entrySet())
-                                Log.e(LOG_TAG, entry.getKey() + ": " + entry.getValue());
+                            if (error.getInvalidFields().containsKey(FieldsValidator.Field.EMAIL))
+                                emailError.set(error.getInvalidFields().get(FieldsValidator.Field.EMAIL));
+
+                            if (error.getInvalidFields().containsKey(FieldsValidator.Field.FIRST_NAME))
+                                firstNameError.set(error.getInvalidFields().get(FieldsValidator.Field.FIRST_NAME));
+
+                            if (error.getInvalidFields().containsKey(FieldsValidator.Field.LAST_NAME))
+                                lastNameError.set(error.getInvalidFields().get(FieldsValidator.Field.LAST_NAME));
                         });
     }
 
@@ -89,5 +98,17 @@ public class EditAccountViewModel extends BaseViewModel {
                         Log.d(LOG_TAG, e.getMessage());
                     }
                 });
+    }
+
+    public void onEmailTextChanged() {
+        emailError.set(null);
+    }
+
+    public void onFirstNameTextChanged() {
+        firstNameError.set(null);
+    }
+
+    public void onLastNameTextChanged() {
+        lastNameError.set(null);
     }
 }

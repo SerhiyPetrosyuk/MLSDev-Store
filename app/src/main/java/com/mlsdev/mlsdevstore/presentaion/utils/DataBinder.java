@@ -1,6 +1,7 @@
 package com.mlsdev.mlsdevstore.presentaion.utils;
 
 import android.databinding.BindingAdapter;
+import android.support.design.widget.TextInputLayout;
 import android.widget.ImageView;
 
 import com.mlsdev.mlsdevstore.R;
@@ -23,6 +24,16 @@ public final class DataBinder {
     public static void setBadgeCount(BottomBar bottomBar, int badgeCount) {
         BottomBarTab tab = bottomBar.getTabWithId(R.id.navigation_item_cart);
         tab.setBadgeCount(badgeCount);
+    }
+
+    @BindingAdapter("error")
+    public static void setError(TextInputLayout inputLayout, String error) {
+        if (error == null || error.isEmpty()){
+            inputLayout.setErrorEnabled(false);
+        } else {
+            inputLayout.setErrorEnabled(true);
+            inputLayout.setError(error);
+        }
     }
 
 }

@@ -3,6 +3,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.mlsdev.mlsdevstore.presentaion.account.EditAccountViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -45,7 +48,8 @@
                     android:id="@+id/email_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:text="@={viewModel.email}" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -58,7 +62,8 @@
                     android:id="@+id/first_name_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:text="@={viewModel.firstName}" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -71,13 +76,15 @@
                     android:id="@+id/last_name_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:text="@={viewModel.lastName}" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/submit_button"
                 style="@style/AccentButton"
                 android:layout_gravity="end"
+                android:onClick="@{() -> viewModel.onSubmitPersonalInfoClick()}"
                 android:text="@string/btn_submit"
                 android:textAllCaps="true" />
         </LinearLayout>

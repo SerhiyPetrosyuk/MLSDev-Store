@@ -17,6 +17,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -96,6 +97,12 @@ public class LocalDataSource implements DataSource {
         remoteDataSource.resetSearchResults();
     }
 
+    public Single<PersonalInfo> getPersonalInfo() {
+        return remoteDataSource
+                .prepareSingle(database.personalInfoDao().queryPersonalInfo())
+                .map(personalInfoList -> !personalInfoList.isEmpty() ? personalInfoList.get(0) : new PersonalInfo());
+    }
+
     public Single<GuestCheckoutSessionRequest> getGuestCheckoutSession() {
         final Single<Address> shippingAddressSource = remoteDataSource
                 .prepareSingle(database.addressDao().queryByType(Address.Type.SHIPPING))
@@ -109,15 +116,11 @@ public class LocalDataSource implements DataSource {
                 .prepareSingle(database.creditCardDao().queryCard())
                 .map(creditCards -> !creditCards.isEmpty() ? creditCards.get(0) : new CreditCard());
 
-        final Single<PersonalInfo> personalInfoSource = remoteDataSource
-                .prepareSingle(database.personalInfoDao().queryPersonalInfo())
-                .map(personalInfoList -> !personalInfoList.isEmpty() ? personalInfoList.get(0) : new PersonalInfo());
-
         return Single.zip(
                 shippingAddressSource,
                 billingAddressSource,
                 creditCardSource,
-                personalInfoSource,
+                getPersonalInfo(),
                 (shippingAddress, billingAddress, creditCard, personalInfo) -> {
                     creditCard.setBillingAddress(billingAddress);
                     GuestCheckoutSessionRequest guestCheckoutSession = new GuestCheckoutSessionRequest();
@@ -128,6 +131,23 @@ public class LocalDataSource implements DataSource {
                     guestCheckoutSession.setContactEmail(personalInfo.getContactEmail());
                     return guestCheckoutSession;
                 })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Completable updatePersonalInfo(String email, String firstName, String lastName) {
+        PersonalInfo personalInfo = new PersonalInfo();
+        personalInfo.setContactEmail(email);
+        personalInfo.setContactFirstName(firstName);
+        personalInfo.setContactLastName(lastName);
+
+        return Completable.fromRunnable(() -> {
+            List<PersonalInfo> personalInfoList = database.personalInfoDao().queryPersonalInfoSync();
+
+            if (!personalInfoList.isEmpty()) personalInfo.setId(personalInfoList.get(0).getId());
+
+            database.personalInfoDao().insert(personalInfo);
+        })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

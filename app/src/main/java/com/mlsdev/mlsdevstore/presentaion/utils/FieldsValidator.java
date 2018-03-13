@@ -14,6 +14,8 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.mlsdev.mlsdevstore.presentaion.utils.FieldsValidator.Field.EMAIL;
 
@@ -51,7 +53,10 @@ public class FieldsValidator {
                 emitter.onComplete();
             else
                 emitter.onError(new ValidationError(invalidFields));
-        });
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
     }
 
     private boolean validateEmail(@Nullable String email) {
@@ -64,7 +69,7 @@ public class FieldsValidator {
         String LAST_NAME = "last_name";
     }
 
-    public class ValidationError extends Throwable {
+    public static class ValidationError extends Throwable {
         private final Map<String, String> invalidFields;
 
         public ValidationError(Map<String, String> invalidFields) {

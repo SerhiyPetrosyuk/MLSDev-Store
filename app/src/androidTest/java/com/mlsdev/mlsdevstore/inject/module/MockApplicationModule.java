@@ -7,6 +7,7 @@ import android.support.test.InstrumentationRegistry;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mlsdev.mlsdevstore.dependency_injection.module.ApplicationModule;
+import com.mlsdev.mlsdevstore.presentaion.utils.FieldsValidator;
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils;
 
 import org.mockito.Mockito;
@@ -37,6 +38,12 @@ abstract public class MockApplicationModule extends ApplicationModule {
         return new GsonBuilder()
                 .setLenient()
                 .create();
+    }
+
+    @Provides
+    @Singleton
+    static FieldsValidator provideFieldsValidator() {
+        return Mockito.mock(FieldsValidator.class);
     }
 
     @Provides

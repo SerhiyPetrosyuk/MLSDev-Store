@@ -10,6 +10,7 @@ import com.mlsdev.mlsdevstore.dependency_injection.module.ProductsAdapterModule;
 import com.mlsdev.mlsdevstore.dependency_injection.module.ViewModelModule;
 import com.mlsdev.mlsdevstore.inject.module.MockApplicationModule;
 import com.mlsdev.mlsdevstore.inject.module.MockDataSourceModule;
+import com.mlsdev.mlsdevstore.presentation.account.EditPersonalInfoActivityTest;
 import com.mlsdev.mlsdevstore.presentation.cart.CartFragmentTest;
 import com.mlsdev.mlsdevstore.presentation.product.ProductDetailsActivityTest;
 
@@ -40,4 +41,6 @@ public interface MockApplicationComponent extends AndroidInjector<MLSDevStoreApp
     void inject(ProductDetailsActivityTest activityTest);
 
     void inject(CartFragmentTest cartFragmentTest);
+
+    void inject(EditPersonalInfoActivityTest editPersonalInfoActivityTest);
 }

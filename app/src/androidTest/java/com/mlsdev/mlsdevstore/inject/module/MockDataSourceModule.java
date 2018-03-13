@@ -1,6 +1,7 @@
 package com.mlsdev.mlsdevstore.inject.module;
 
 import com.mlsdev.mlsdevstore.data.DataSource;
+import com.mlsdev.mlsdevstore.data.local.LocalDataSource;
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken;
 import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource;
 
@@ -30,6 +31,12 @@ public class MockDataSourceModule {
         Mockito.when(appAccessToken.getExpirationDate()).thenReturn(System.currentTimeMillis() + 10000L);
         Mockito.when(dataSource.getAppAccessToken()).thenReturn(Single.just(appAccessToken));
         return dataSource;
+    }
+
+    @Provides
+    @Singleton
+    LocalDataSource provideLocalDataSource() {
+        return Mockito.mock(LocalDataSource.class);
     }
 
 }

@@ -27,7 +27,6 @@ public class LocalDataSource implements DataSource {
     private RemoteDataSource remoteDataSource;
     private AppDatabase database;
 
-    @Inject
     public LocalDataSource(RemoteDataSource remoteDataSource, AppDatabase database) {
         this.remoteDataSource = remoteDataSource;
         this.database = database;

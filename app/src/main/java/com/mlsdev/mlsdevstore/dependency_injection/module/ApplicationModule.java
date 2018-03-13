@@ -13,6 +13,7 @@ import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesActivity;
 import com.mlsdev.mlsdevstore.presentaion.checkout.CheckoutActivity;
 import com.mlsdev.mlsdevstore.presentaion.product.ProductDetailsActivity;
 import com.mlsdev.mlsdevstore.presentaion.splashscreen.SplashScreenActivity;
+import com.mlsdev.mlsdevstore.presentaion.utils.FieldsValidator;
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils;
 
 import javax.inject.Singleton;
@@ -42,6 +43,11 @@ abstract public class ApplicationModule {
         return new GsonBuilder()
                 .setLenient()
                 .create();
+    }
+
+    @Provides
+    static FieldsValidator provideFieldsValidator(Context context) {
+        return new FieldsValidator(context);
     }
 
     @Provides

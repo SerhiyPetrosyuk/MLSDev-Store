@@ -23,6 +23,11 @@ public class DataSourceModule {
         return localDataSource;
     }
 
+    @Provides
+    @Singleton
+    LocalDataSource provideLocalDataSource(RemoteDataSource remoteDataSource, AppDatabase appDatabase) {
+        return new LocalDataSource(remoteDataSource, appDatabase);
+    }
 
     @Provides
     @Singleton

@@ -39,7 +39,7 @@ public class EditAccountViewModel extends BaseViewModel {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    void start() {
+    public void start() {
         localDataSource.getPersonalInfo()
                 .subscribe(new BaseObserver<PersonalInfo>(this) {
                     @Override

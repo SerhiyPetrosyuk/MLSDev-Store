@@ -61,7 +61,7 @@ public class StoreViewModelTest extends BaseViewModelTest {
     public void getProducts_NoNetworkConnection() {
         when(utils.isNetworkAvailable()).thenReturn(false);
         viewModel.getProducts();
-        Assert.assertTrue(viewModel.networkErrorOccurred.get());
+        Assert.assertTrue(viewModel.getNetworkErrorOccurred().get());
         verify(dataSource, times(0)).searchItemsByRandomCategory();
     }
 
@@ -81,7 +81,7 @@ public class StoreViewModelTest extends BaseViewModelTest {
     public void refresh_NoNetworkConnection() {
         when(utils.isNetworkAvailable()).thenReturn(false);
         viewModel.refresh();
-        Assert.assertTrue(viewModel.networkErrorOccurred.get());
+        Assert.assertTrue(viewModel.getNetworkErrorOccurred().get());
         verify(dataSource, times(0)).resetSearchResults();
         verify(dataSource, times(0)).searchItemsByRandomCategory();
     }
@@ -107,7 +107,7 @@ public class StoreViewModelTest extends BaseViewModelTest {
     public void loadMoreItemsFromRandomCategory_NoNetworkConnection() {
         when(utils.isNetworkAvailable()).thenReturn(false);
         viewModel.loadMoreItemsFromRandomCategory();
-        Assert.assertTrue(viewModel.networkErrorOccurred.get());
+        Assert.assertTrue(viewModel.getNetworkErrorOccurred().get());
         verify(dataSource, times(0)).searchMoreItemsByRandomCategory();
     }
 

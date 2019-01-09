@@ -31,14 +31,14 @@ public class BaseObserver<T> implements SingleObserver<T> {
     @Override
     public void onSubscribe(Disposable disposable) {
         if (!baseViewModelWeakReference.isEnqueued())
-            baseViewModelWeakReference.get().compositeDisposable.add(disposable);
+            baseViewModelWeakReference.get().getCompositeDisposable().add(disposable);
     }
 
     @Override
     public void onSuccess(T data) {
         if (!baseViewModelWeakReference.isEnqueued()) {
-            baseViewModelWeakReference.get().isLoading.set(false);
-            baseViewModelWeakReference.get().isRefreshing.set(false);
+            baseViewModelWeakReference.get().isLoading().set(false);
+            baseViewModelWeakReference.get().isRefreshing().set(false);
         }
     }
 

@@ -66,7 +66,7 @@ public class ProductDetailsActivityTest {
 
         item = AssetUtils.getProductItem();
         intent = new Intent(instrumentation.getTargetContext(), ProductDetailsActivity.class);
-        intent.putExtra(ExtrasKeys.PRODUCT_DETAILS, item);
+        intent.putExtra(ExtrasKeys.KEY_PRODUCT_DETAILS, item);
 
         when(utils.isNetworkAvailable()).thenReturn(true);
     }

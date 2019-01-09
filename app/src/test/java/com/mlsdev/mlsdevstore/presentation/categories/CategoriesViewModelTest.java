@@ -6,23 +6,18 @@ import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
 import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesViewModel;
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils;
 import com.mlsdev.mlsdevstore.presentation.viewmodel.BaseViewModelTest;
-import com.mlsdev.mlsdevstore.utils.RxUtils;
 import com.mlsdev.mlsdevstore.utils.UnitAssetsUtils;
 
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import io.reactivex.Single;
-import io.reactivex.plugins.RxJavaPlugins;
 import retrofit2.HttpException;
 
 import static org.mockito.Mockito.*;
@@ -55,7 +50,7 @@ public class CategoriesViewModelTest extends BaseViewModelTest {
         verify(dataSource, times(1)).getRootCategoryTree();
         Assert.assertEquals(
                 categoryTree.getCategoryTreeNode().getChildCategoryTreeNodes().size(),
-                viewModel.listObservableField.get().size());
+                viewModel.getCategories().get().size());
     }
 
     @Test
@@ -63,8 +58,8 @@ public class CategoriesViewModelTest extends BaseViewModelTest {
         when(utils.isNetworkAvailable()).thenReturn(false);
         viewModel.getRootCategories();
         verify(dataSource, times(0)).getRootCategoryTree();
-        Assert.assertTrue(viewModel.networkErrorOccurred.get());
-        Assert.assertNull(viewModel.listObservableField.get());
+        Assert.assertTrue(viewModel.getNetworkErrorOccurred().get());
+        Assert.assertNull(viewModel.getCategories().get());
     }
 
     @Test
@@ -76,7 +71,7 @@ public class CategoriesViewModelTest extends BaseViewModelTest {
         viewModel.getRootCategories();
 
         verify(viewModel, times(1)).onAuthorizationErrorOccurred();
-        Assert.assertTrue(viewModel.authErrorOccurred.get());
+        Assert.assertTrue(viewModel.getAuthErrorOccurred().get());
     }
 
     @Test
@@ -88,7 +83,7 @@ public class CategoriesViewModelTest extends BaseViewModelTest {
         viewModel.getRootCategories();
 
         verify(viewModel, times(1)).onTechnicalErrorOccurred();
-        Assert.assertTrue(viewModel.technicalErrorOccurred.get());
+        Assert.assertTrue(viewModel.getTechnicalErrorOccurred().get());
     }
 
 }

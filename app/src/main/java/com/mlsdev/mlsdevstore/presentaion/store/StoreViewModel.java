@@ -15,41 +15,41 @@ public class StoreViewModel extends BaseViewModel {
 
     @Inject
     public StoreViewModel(DataSource dataSource, Utils utils) {
-        this.dataSource = dataSource;
-        this.utils = utils;
+        this.setDataSource(dataSource);
+        this.setUtils(utils);
     }
 
     public void getProducts() {
-        if (!utils.isNetworkAvailable()) {
+        if (!getUtils().isNetworkAvailable()) {
             onNetworkErrorOccurred();
             return;
         }
 
-        isLoading.set(true);
-        isLoading.notifyChange();
-        dataSource.searchItemsByRandomCategory()
+        isLoading().set(true);
+        isLoading().notifyChange();
+        getDataSource().searchItemsByRandomCategory()
                 .subscribe(searchResultBaseObserver);
     }
 
     public void refresh() {
-        if (!utils.isNetworkAvailable()) {
+        if (!getUtils().isNetworkAvailable()) {
             onNetworkErrorOccurred();
             return;
         }
 
-        isRefreshing.set(true);
-        dataSource.resetSearchResults();
-        dataSource.searchItemsByRandomCategory()
+        isRefreshing().set(true);
+        getDataSource().resetSearchResults();
+        getDataSource().searchItemsByRandomCategory()
                 .subscribe(searchResultBaseObserver);
     }
 
     public void loadMoreItemsFromRandomCategory() {
-        if (!utils.isNetworkAvailable()) {
+        if (!getUtils().isNetworkAvailable()) {
             onNetworkErrorOccurred();
             return;
         }
 
-        dataSource.searchMoreItemsByRandomCategory()
+        getDataSource().searchMoreItemsByRandomCategory()
                 .subscribe(new BaseObserver<SearchResult>(this) {
                     @Override
                     public void onSuccess(SearchResult data) {

@@ -63,19 +63,19 @@ public class ErrorInViewHandler {
     }
 
     public void subscribeNetworkErrorCallback(BaseViewModel viewModel) {
-        viewModel.networkErrorOccurred.addOnPropertyChangedCallback(onNetworkErrorCallback);
+        viewModel.getNetworkErrorOccurred().addOnPropertyChangedCallback(onNetworkErrorCallback);
     }
 
     public void subscribeTechErrorCallback(BaseViewModel viewModel) {
-        viewModel.technicalErrorOccurred.addOnPropertyChangedCallback(onTechnicalErrorCallback);
+        viewModel.getTechnicalErrorOccurred().addOnPropertyChangedCallback(onTechnicalErrorCallback);
     }
 
     public void subscribeCommonErrorCallback(BaseViewModel viewModel) {
-        viewModel.commonErrorOccurred.addOnPropertyChangedCallback(onCommonErrorCallback);
+        viewModel.getCommonErrorOccurred().addOnPropertyChangedCallback(onCommonErrorCallback);
     }
 
     public void subscribeAuthErrorCallback(BaseViewModel viewModel) {
-        viewModel.authErrorOccurred.addOnPropertyChangedCallback(onAuthorizationErrorCallback);
+        viewModel.getAuthErrorOccurred().addOnPropertyChangedCallback(onAuthorizationErrorCallback);
     }
 
     public void subscribeAllErrorCallbacks(BaseViewModel viewModel, boolean withAuthCallback) {

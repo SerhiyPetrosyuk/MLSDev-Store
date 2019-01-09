@@ -44,7 +44,7 @@ public class ProductItemViewModel {
 
     public void onItemClick(View itemView) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ExtrasKeys.PRODUCT_DETAILS, listItem.getParcelable());
+        bundle.putParcelable(ExtrasKeys.KEY_PRODUCT_DETAILS, listItem.getParcelable());
         ProductDetailsActivity.launch(itemView.getContext(), bundle);
     }
 

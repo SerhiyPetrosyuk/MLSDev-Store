@@ -58,7 +58,7 @@ public class ProductDetailsActivity extends BaseActivity {
         public void onPropertyChanged(Observable observable, int i) {
             if (observable instanceof CustomObservableBoolean && ((CustomObservableBoolean) observable).get()) {
                 Bundle data = new Bundle();
-                data.putString(ExtrasKeys.PRODUCT_DESCRIPTION, viewModel.description.get());
+                data.putString(ExtrasKeys.KEY_PRODUCT_DESCRIPTION, viewModel.description.get());
                 DescriptionBottomSheetFragment bottomSheet = new DescriptionBottomSheetFragment();
                 bottomSheet.setArguments(data);
                 bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());

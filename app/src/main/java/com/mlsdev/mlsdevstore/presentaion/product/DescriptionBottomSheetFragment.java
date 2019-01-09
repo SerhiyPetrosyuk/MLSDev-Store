@@ -35,9 +35,9 @@ public class DescriptionBottomSheetFragment extends BottomSheetDialogFragment {
                 container,
                 false);
 
-        if (data != null && data.containsKey(ExtrasKeys.PRODUCT_DESCRIPTION)) {
+        if (data != null && data.containsKey(ExtrasKeys.KEY_PRODUCT_DESCRIPTION)) {
             binding.description.getSettings().setJavaScriptEnabled(true);
-            binding.description.loadDataWithBaseURL("", data.getString(ExtrasKeys.PRODUCT_DESCRIPTION), "text/html", "UTF-8", "");
+            binding.description.loadDataWithBaseURL("", data.getString(ExtrasKeys.KEY_PRODUCT_DESCRIPTION), "text/html", "UTF-8", "");
         }
 
         return binding.getRoot();

@@ -45,9 +45,9 @@ public class ProductDetailsViewModel extends BaseViewModel
 
     @Inject
     public ProductDetailsViewModel(Context context, DataSource dataSource, Utils utils, Cart cart) {
-        this.context = context;
-        this.dataSource = dataSource;
-        this.utils = utils;
+        this.setContext(context);
+        this.setDataSource(dataSource);
+        this.setUtils(utils);
         this.cart = cart;
     }
 
@@ -67,7 +67,7 @@ public class ProductDetailsViewModel extends BaseViewModel
         if (productDetailsData == null)
             return;
 
-        item = productDetailsData.getParcelable(ExtrasKeys.PRODUCT_DETAILS);
+        item = productDetailsData.getParcelable(ExtrasKeys.KEY_PRODUCT_DETAILS);
 
         if (item == null)
             return;
@@ -83,12 +83,12 @@ public class ProductDetailsViewModel extends BaseViewModel
 
     public void retrieveDetailedInfo(String itemId) {
 
-        if (!utils.isNetworkAvailable()) {
+        if (!getUtils().isNetworkAvailable()) {
             onNetworkErrorOccurred();
             return;
         }
 
-        dataSource.getItem(itemId)
+        getDataSource().getItem(itemId)
                 .subscribe(new BaseObserver<Item>(this) {
                     @Override
                     public void onSuccess(Item data) {
@@ -125,11 +125,11 @@ public class ProductDetailsViewModel extends BaseViewModel
 
     @Override
     public void onMaxItemsReached() {
-        Toast.makeText(context, R.string.message_item_count_restriction, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.message_item_count_restriction, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onItemAdded(Item item) {
-        Toast.makeText(context, R.string.message_item_added, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.message_item_added, Toast.LENGTH_SHORT).show();
     }
 }

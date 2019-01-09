@@ -84,18 +84,18 @@ public class EditAccountViewModel extends BaseViewModel {
                 .subscribe(new CompletableObserver() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        compositeDisposable.add(d);
+                        getCompositeDisposable().add(d);
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.d(LOG_TAG, "Personal info was updated");
+                        Log.d(BaseViewModel.LOG_TAG, "Personal info was updated");
                         accountUpdated.set(true);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(LOG_TAG, e.getMessage());
+                        Log.d(BaseViewModel.LOG_TAG, e.getMessage());
                     }
                 });
     }

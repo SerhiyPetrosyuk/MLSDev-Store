@@ -53,7 +53,7 @@ public class ProductDetailsViewModelTest extends BaseViewModelTest {
         MockitoAnnotations.initMocks(this);
         item = UnitAssetsUtils.getProductItem();
         itemData = new Bundle();
-        itemData.putParcelable(ExtrasKeys.PRODUCT_DETAILS, item);
+        itemData.putParcelable(ExtrasKeys.KEY_PRODUCT_DETAILS, item);
         viewModel = spy(new ProductDetailsViewModel(context, dataSource, utils, cart));
     }
 

@@ -58,7 +58,7 @@ public class CartFragmentTest {
 
         item = AssetUtils.getProductItem();
         intent = new Intent(instrumentation.getTargetContext(), MainActivity.class);
-        intent.putExtra(ExtrasKeys.PRODUCT_DETAILS, item);
+        intent.putExtra(ExtrasKeys.KEY_PRODUCT_DETAILS, item);
         price = "$196.00";
     }
 

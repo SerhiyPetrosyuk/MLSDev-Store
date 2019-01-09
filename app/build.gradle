@@ -113,11 +113,12 @@ dependencies {
 
     // Retrofit
     def retrofit = '2.3.0'
+    def okHttp = '3.10.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
-    implementation "com.squareup.okhttp3:okhttp:$retrofit"
-    implementation "com.squareup.okhttp3:logging-interceptor:$retrofit"
+    implementation "com.squareup.okhttp3:okhttp:$okHttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttp"
 
     // JSON converter
     implementation 'com.google.code.gson:gson:2.8.5'

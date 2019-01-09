@@ -1,11 +1,11 @@
 package com.mlsdev.mlsdevstore.presentaion.bottom_navigation;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import androidx.annotation.IdRes;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.mlsdev.mlsdevstore.R;
 import com.mlsdev.mlsdevstore.databinding.ActivityMainBinding;

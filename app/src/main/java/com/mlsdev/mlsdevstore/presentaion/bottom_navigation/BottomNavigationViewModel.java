@@ -1,8 +1,8 @@
 package com.mlsdev.mlsdevstore.presentaion.bottom_navigation;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
-import android.databinding.ObservableInt;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.databinding.ObservableInt;
 
 import com.mlsdev.mlsdevstore.data.cart.Cart;
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel;

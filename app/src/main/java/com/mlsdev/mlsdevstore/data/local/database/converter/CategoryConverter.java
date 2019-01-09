@@ -1,6 +1,6 @@
 package com.mlsdev.mlsdevstore.data.local.database.converter;
 
-import android.arch.persistence.room.TypeConverter;
+import androidx.room.TypeConverter;
 
 import com.google.gson.Gson;
 import com.mlsdev.mlsdevstore.data.model.category.Category;

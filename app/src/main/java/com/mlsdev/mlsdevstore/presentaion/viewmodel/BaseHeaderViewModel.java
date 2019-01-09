@@ -1,6 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion.viewmodel;
 
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 
 public class BaseHeaderViewModel {
 

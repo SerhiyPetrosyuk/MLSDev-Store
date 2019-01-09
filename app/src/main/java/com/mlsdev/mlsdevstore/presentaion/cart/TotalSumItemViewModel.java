@@ -1,6 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion.cart;
 
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 
 import java.text.DecimalFormat;
 

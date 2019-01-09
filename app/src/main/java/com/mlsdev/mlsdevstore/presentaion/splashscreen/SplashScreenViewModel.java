@@ -1,6 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion.splashscreen;
 
-import android.databinding.ObservableBoolean;
+import androidx.databinding.ObservableBoolean;
 
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager;
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken;

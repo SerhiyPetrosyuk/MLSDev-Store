@@ -1,7 +1,7 @@
 package com.mlsdev.mlsdevstore.presentaion.store;
 
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
 
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode;
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseItemViewModel;

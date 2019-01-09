@@ -1,7 +1,7 @@
 package com.mlsdev.mlsdevstore.presentaion.adapter;
 
-import android.databinding.DataBindingUtil;
-import android.support.v4.view.PagerAdapter;
+import androidx.databinding.DataBindingUtil;
+import androidx.viewpager.widget.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

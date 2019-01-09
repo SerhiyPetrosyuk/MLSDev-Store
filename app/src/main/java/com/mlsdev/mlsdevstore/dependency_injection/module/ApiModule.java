@@ -1,6 +1,6 @@
 package com.mlsdev.mlsdevstore.dependency_injection.module;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.mlsdev.mlsdevstore.BuildConfig;

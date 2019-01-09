@@ -1,6 +1,6 @@
 package com.mlsdev.mlsdevstore.data.remote;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager;
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.Key;

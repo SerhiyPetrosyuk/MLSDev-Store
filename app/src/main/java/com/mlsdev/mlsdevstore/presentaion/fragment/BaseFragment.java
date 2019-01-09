@@ -1,10 +1,10 @@
 package com.mlsdev.mlsdevstore.presentaion.fragment;
 
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.ViewModelProvider;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import com.mlsdev.mlsdevstore.presentaion.BaseActivity;
 import com.mlsdev.mlsdevstore.presentaion.ErrorInViewHandler;

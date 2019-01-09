@@ -1,8 +1,8 @@
 package com.mlsdev.mlsdevstore.presentaion.account;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
-import android.databinding.ObservableField;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.databinding.ObservableField;
 import android.util.Log;
 
 import com.mlsdev.mlsdevstore.data.local.LocalDataSource;

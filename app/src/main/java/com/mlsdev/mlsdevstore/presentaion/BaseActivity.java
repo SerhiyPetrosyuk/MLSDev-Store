@@ -1,21 +1,20 @@
 package com.mlsdev.mlsdevstore.presentaion;
 
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.ViewModelProvider;
 import android.os.Bundle;
-import android.support.annotation.StringRes;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import javax.inject.Inject;
 
+import androidx.annotation.StringRes;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
 import dagger.android.support.DaggerAppCompatActivity;
 
 public abstract class BaseActivity extends DaggerAppCompatActivity implements LifecycleOwner {
 
     @Inject
     protected ViewModelProvider.Factory viewModelFactory;
-
     @Inject
     protected ErrorInViewHandler errorInViewHandler;
 

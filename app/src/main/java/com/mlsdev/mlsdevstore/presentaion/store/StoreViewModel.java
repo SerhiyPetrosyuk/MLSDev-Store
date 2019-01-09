@@ -1,6 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion.store;
 
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 
 import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult;

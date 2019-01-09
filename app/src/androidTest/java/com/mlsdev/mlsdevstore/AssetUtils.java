@@ -1,7 +1,7 @@
 package com.mlsdev.mlsdevstore;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
+import androidx.test.InstrumentationRegistry;
 
 import com.google.gson.Gson;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;

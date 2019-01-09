@@ -1,7 +1,7 @@
 package com.mlsdev.mlsdevstore.data.model.user;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.mlsdev.mlsdevstore.data.local.database.Table;
 

@@ -1,11 +1,11 @@
 package com.mlsdev.mlsdevstore.presentaion.splashscreen;
 
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.databinding.Observable;
-import android.databinding.ObservableBoolean;
+import androidx.databinding.Observable;
+import androidx.databinding.ObservableBoolean;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 import com.mlsdev.mlsdevstore.R;
 import com.mlsdev.mlsdevstore.presentaion.BaseActivity;

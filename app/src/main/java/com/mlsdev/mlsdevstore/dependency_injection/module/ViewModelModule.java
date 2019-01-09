@@ -1,7 +1,7 @@
 package com.mlsdev.mlsdevstore.dependency_injection.module;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.mlsdev.mlsdevstore.dependency_injection.ViewModelFactory;
 import com.mlsdev.mlsdevstore.presentaion.account.AccountViewModel;

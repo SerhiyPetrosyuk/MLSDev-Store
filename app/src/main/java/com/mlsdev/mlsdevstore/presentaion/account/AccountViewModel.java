@@ -1,9 +1,9 @@
 package com.mlsdev.mlsdevstore.presentaion.account;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
 import android.content.Context;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 
 import com.mlsdev.mlsdevstore.data.local.LocalDataSource;
 import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSessionRequest;

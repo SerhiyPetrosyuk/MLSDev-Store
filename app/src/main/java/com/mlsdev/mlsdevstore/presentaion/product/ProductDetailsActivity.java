@@ -1,11 +1,11 @@
 package com.mlsdev.mlsdevstore.presentaion.product;
 
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.databinding.Observable;
-import android.databinding.ObservableField;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.Observable;
+import androidx.databinding.ObservableField;
 import android.os.Bundle;
 
 import com.mlsdev.mlsdevstore.R;

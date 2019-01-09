@@ -1,9 +1,9 @@
 package com.mlsdev.mlsdevstore.presentaion.viewmodel;
 
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.ViewModel;
 import android.content.Context;
-import android.databinding.ObservableBoolean;
+import androidx.databinding.ObservableBoolean;
 
 import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.presentaion.utils.CustomObservableBoolean;

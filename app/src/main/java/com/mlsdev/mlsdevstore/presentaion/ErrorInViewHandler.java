@@ -3,9 +3,9 @@ package com.mlsdev.mlsdevstore.presentaion;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.Observable;
-import android.databinding.ObservableBoolean;
-import android.support.v7.app.AlertDialog;
+import androidx.databinding.Observable;
+import androidx.databinding.ObservableBoolean;
+import androidx.appcompat.app.AlertDialog;
 
 import com.mlsdev.mlsdevstore.R;
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel;

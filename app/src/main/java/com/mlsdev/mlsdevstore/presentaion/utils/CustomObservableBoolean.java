@@ -1,6 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion.utils;
 
-import android.databinding.ObservableBoolean;
+import androidx.databinding.ObservableBoolean;
 
 public class CustomObservableBoolean extends ObservableBoolean {
 

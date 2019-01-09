@@ -2,7 +2,7 @@ package com.mlsdev.mlsdevstore.inject.module;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.test.InstrumentationRegistry;
+import androidx.test.InstrumentationRegistry;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

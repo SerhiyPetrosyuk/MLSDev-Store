@@ -37,7 +37,7 @@ public class EditPersonalInfoActivity extends BaseActivity {
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(EditAccountViewModel.class);
+        viewModel = ViewModelProviders.of(this, getViewModelFactory()).get(EditAccountViewModel.class);
         viewModel.accountUpdated.addOnPropertyChangedCallback(accountUpdatedCallback);
         binding.setViewModel(viewModel);
         getLifecycle().addObserver(viewModel);

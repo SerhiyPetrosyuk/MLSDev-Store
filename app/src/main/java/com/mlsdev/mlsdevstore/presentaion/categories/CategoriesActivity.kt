@@ -26,7 +26,12 @@ class CategoriesActivity : BaseActivity() {
         initRecyclerView()
         initToolbar(binding.toolbar)
         displayBackArrow(true)
-        errorInViewHandler.subscribeAllErrorCallbacks(viewModel, true)
+
+        errorInViewHandler.observeAuthError(this, viewModel.authErrorLiveData)
+        errorInViewHandler.observeCommonError(this, viewModel.commonErrorLiveData)
+        errorInViewHandler.observeTechError(this, viewModel.technicalErrorLiveData)
+        errorInViewHandler.observeNetworkError(this, viewModel.networkErrorLiveData)
+
         viewModel.getRootCategories()
     }
 

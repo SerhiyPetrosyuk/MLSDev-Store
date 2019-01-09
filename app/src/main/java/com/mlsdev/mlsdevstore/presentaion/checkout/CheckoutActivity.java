@@ -26,9 +26,9 @@ public class CheckoutActivity extends BaseActivity {
     }
 
     private void init() {
-        checkoutViewModel = ViewModelProviders.of(this, viewModelFactory).get(CheckoutViewModel.class);
+        checkoutViewModel = ViewModelProviders.of(this, getViewModelFactory()).get(CheckoutViewModel.class);
         binding.setViewModel(checkoutViewModel);
-        errorInViewHandler.subscribeAllErrorCallbacks(checkoutViewModel, false);
+        getErrorInViewHandler().subscribeAllErrorCallbacks(checkoutViewModel, false);
         initToolbar(binding.toolbar);
         displayBackArrow(true);
     }

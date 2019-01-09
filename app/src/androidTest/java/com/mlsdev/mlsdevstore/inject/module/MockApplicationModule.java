@@ -6,7 +6,7 @@ import androidx.test.InstrumentationRegistry;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mlsdev.mlsdevstore.dependency_injection.module.ApplicationModule;
+import com.mlsdev.mlsdevstore.injections.module.ApplicationModule;
 import com.mlsdev.mlsdevstore.presentaion.utils.FieldsValidator;
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils;
 

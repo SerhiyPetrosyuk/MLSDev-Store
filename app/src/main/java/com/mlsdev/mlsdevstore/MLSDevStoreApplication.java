@@ -1,6 +1,6 @@
 package com.mlsdev.mlsdevstore;
 
-import com.mlsdev.mlsdevstore.dependency_injection.component.DaggerApplicationComponent;
+import com.mlsdev.mlsdevstore.injections.component.DaggerApplicationComponent;
 
 import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;

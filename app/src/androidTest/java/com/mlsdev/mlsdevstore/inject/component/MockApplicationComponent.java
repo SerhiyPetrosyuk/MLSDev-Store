@@ -2,12 +2,12 @@ package com.mlsdev.mlsdevstore.inject.component;
 
 
 import com.mlsdev.mlsdevstore.MLSDevStoreApplication;
-import com.mlsdev.mlsdevstore.dependency_injection.module.AdapterModule;
-import com.mlsdev.mlsdevstore.dependency_injection.module.ApiModule;
-import com.mlsdev.mlsdevstore.dependency_injection.module.DatabaseModule;
-import com.mlsdev.mlsdevstore.dependency_injection.module.FragmentBuilderModule;
-import com.mlsdev.mlsdevstore.dependency_injection.module.ProductsAdapterModule;
-import com.mlsdev.mlsdevstore.dependency_injection.module.ViewModelModule;
+import com.mlsdev.mlsdevstore.injections.module.AdapterModule;
+import com.mlsdev.mlsdevstore.injections.module.ApiModule;
+import com.mlsdev.mlsdevstore.injections.module.DatabaseModule;
+import com.mlsdev.mlsdevstore.injections.module.FragmentBuilderModule;
+import com.mlsdev.mlsdevstore.injections.module.ProductsAdapterModule;
+import com.mlsdev.mlsdevstore.injections.module.ViewModelModule;
 import com.mlsdev.mlsdevstore.inject.module.MockApplicationModule;
 import com.mlsdev.mlsdevstore.inject.module.MockDataSourceModule;
 import com.mlsdev.mlsdevstore.presentation.account.EditPersonalInfoActivityTest;

@@ -16,6 +16,7 @@ import io.reactivex.disposables.Disposable;
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 
+@Deprecated
 public class BaseObserver<T> implements SingleObserver<T> {
     public static final String LOG_TAG = "REQUEST_ERROR";
     public static final int SERVER_ERROR = 500;

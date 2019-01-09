@@ -54,7 +54,7 @@ public class StoreViewModelTest extends BaseViewModelTest {
         viewModel.getProducts();
 
         verify(dataSource, times(1)).searchItemsByRandomCategory();
-        Assert.assertEquals(viewModel.searchResult.get(), searchResult);
+        Assert.assertEquals(viewModel.getSearchResult().get(), searchResult);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class StoreViewModelTest extends BaseViewModelTest {
 
         verify(dataSource, times(1)).resetSearchResults();
         verify(dataSource, times(1)).searchItemsByRandomCategory();
-        Assert.assertEquals(viewModel.searchResult.get(), searchResult);
+        Assert.assertEquals(viewModel.getSearchResult().get(), searchResult);
     }
 
     @Test
@@ -91,14 +91,14 @@ public class StoreViewModelTest extends BaseViewModelTest {
         SearchResult searchResultFirstPage = UnitAssetsUtils.getSearchItemsResult();
         SearchResult searchResultSecondPage = UnitAssetsUtils.getSearchMoreItemsResult();
         when(dataSource.searchMoreItemsByRandomCategory()).thenReturn(Single.just(searchResultSecondPage));
-        viewModel.searchResult.set(searchResultFirstPage);
+        viewModel.getSearchResult().set(searchResultFirstPage);
 
         viewModel.loadMoreItemsFromRandomCategory();
 
         verify(dataSource, times(1)).searchMoreItemsByRandomCategory();
-        Assert.assertEquals(viewModel.searchResult.get().getItemSummaries().size(), 20);
+        Assert.assertEquals(viewModel.getSearchResult().get().getItemSummaries().size(), 20);
         Assert.assertEquals(
-                viewModel.searchResult.get().getItemSummaries().get(10).getId(),
+                viewModel.getSearchResult().get().getItemSummaries().get(10).getId(),
                 searchResultSecondPage.getItemSummaries().get(0).getId());
 
     }

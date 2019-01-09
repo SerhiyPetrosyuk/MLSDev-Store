@@ -41,8 +41,8 @@ public class ProductDetailsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product_details);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProductDetailsViewModel.class);
-        errorInViewHandler.subscribeAllErrorCallbacks(viewModel, true);
+        viewModel = ViewModelProviders.of(this, getViewModelFactory()).get(ProductDetailsViewModel.class);
+        getErrorInViewHandler().subscribeAllErrorCallbacks(viewModel, true);
         binding.setViewModel(viewModel);
         viewModel.setProductDetailsData(getIntent().getExtras());
         viewModel.descriptionIsDisplayed.addOnPropertyChangedCallback(descriptionCallBack);

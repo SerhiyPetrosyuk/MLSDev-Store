@@ -26,7 +26,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(BottomNavigationViewModel.class);
+        viewModel = ViewModelProviders.of(this, getViewModelFactory()).get(BottomNavigationViewModel.class);
         binding.setBottomViewModel(viewModel);
         getLifecycle().addObserver(viewModel);
         initBottomNavigation();

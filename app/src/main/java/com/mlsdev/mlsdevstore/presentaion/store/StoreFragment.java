@@ -16,8 +16,8 @@ import android.view.ViewGroup;
 import com.mlsdev.mlsdevstore.R;
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
 import com.mlsdev.mlsdevstore.databinding.FragmentStoreBinding;
-import com.mlsdev.mlsdevstore.dependency_injection.Named;
-import com.mlsdev.mlsdevstore.dependency_injection.module.ProductsAdapterModule;
+import com.mlsdev.mlsdevstore.injections.Named;
+import com.mlsdev.mlsdevstore.injections.module.ProductsAdapterModule;
 import com.mlsdev.mlsdevstore.presentaion.bottom_navigation.MainActivity;
 import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesActivity;
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment;
@@ -32,7 +32,7 @@ public class StoreFragment extends BaseFragment implements SwipeRefreshLayout.On
     ViewModelProvider.Factory viewModelFactory;
 
     @Inject
-    @Named(ProductsAdapterModule.Type.RandomProducts)
+    @Named(ProductsAdapterModule.RandomProducts)
     ProductsAdapter productsAdapter;
 
     @Nullable
@@ -40,7 +40,7 @@ public class StoreFragment extends BaseFragment implements SwipeRefreshLayout.On
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_store, container, false);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(StoreViewModel.class);
-        viewModel.searchResult.addOnPropertyChangedCallback(onProductsChangedCallback);
+        viewModel.getSearchResult().addOnPropertyChangedCallback(onProductsChangedCallback);
         binding.setViewModel(viewModel);
         binding.refreshLayout.setOnRefreshListener(this);
         initRecyclerView();

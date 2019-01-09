@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.mlsdev.mlsdevstore.R;
 import com.mlsdev.mlsdevstore.databinding.FragmentCartBinding;
-import com.mlsdev.mlsdevstore.dependency_injection.NamedAdapter;
+import com.mlsdev.mlsdevstore.injections.NamedAdapter;
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment;
 import com.mlsdev.mlsdevstore.presentaion.store.ProductsAdapter;
 

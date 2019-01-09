@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.mlsdev.mlsdevstore.data.DataLoadState
@@ -19,10 +20,18 @@ import java.net.SocketTimeoutException
 
 abstract class BaseViewModel : ViewModel(), LifecycleObserver {
     val compositeDisposable = CompositeDisposable()
+    @Deprecated("use technicalErrorLiveData")
     val technicalErrorOccurred = ObservableBoolean()
+    @Deprecated("use networkErrorLiveData")
     val networkErrorOccurred = ObservableBoolean()
+    @Deprecated("use commonErrorLiveData")
     val commonErrorOccurred = ObservableBoolean()
+    @Deprecated("use authErrorLiveData")
     val authErrorOccurred = ObservableBoolean()
+    val technicalErrorLiveData = MutableLiveData<Boolean>()
+    val networkErrorLiveData = MutableLiveData<Boolean>()
+    val commonErrorLiveData = MutableLiveData<Boolean>()
+    val authErrorLiveData = MutableLiveData<Boolean>()
     val isRefreshing = ObservableBoolean()
     val isLoading = CustomObservableBoolean()
     protected var context: Context? = null
@@ -46,24 +55,28 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
 
     fun onTechnicalErrorOccurred() {
         technicalErrorOccurred.set(true)
+        technicalErrorLiveData.postValue(true)
         setIsRefreshing(false)
         setIsLoading(false)
     }
 
     fun onNetworkErrorOccurred() {
         networkErrorOccurred.set(true)
+        networkErrorLiveData.postValue(true)
         setIsRefreshing(false)
         setIsLoading(false)
     }
 
     fun onCommonErrorOccurred() {
         commonErrorOccurred.set(true)
+        commonErrorLiveData.postValue(true)
         setIsRefreshing(false)
         setIsLoading(false)
     }
 
     fun onAuthorizationErrorOccurred() {
         authErrorOccurred.set(true)
+        authErrorLiveData.postValue(true)
         setIsRefreshing(false)
         setIsLoading(false)
     }

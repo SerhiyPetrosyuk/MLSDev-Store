@@ -10,13 +10,17 @@
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="0dp">
 
         <LinearLayout
             android:id="@+id/ll_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="0dp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -31,7 +35,6 @@
                 <Button
                     android:id="@+id/button_edit_personal_info"
                     style="@style/EditInfoButtonStyle"
-                    android:onClick="@{() -> viewModel.onEditPersonalInfoClick()}"
                     android:text="@string/btn_edit" />
 
             </RelativeLayout>

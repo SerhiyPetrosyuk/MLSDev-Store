@@ -43,11 +43,4 @@ class EditPersonalInfoActivity : BaseActivity() {
         binding.viewModel = viewModel
         lifecycle.addObserver(viewModel)
     }
-
-    companion object {
-
-        fun launch(context: Context) {
-            context.startActivity(Intent(context, EditPersonalInfoActivity::class.java))
-        }
-    }
 }

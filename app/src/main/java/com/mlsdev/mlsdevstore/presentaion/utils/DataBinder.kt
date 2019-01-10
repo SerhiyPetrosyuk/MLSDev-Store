@@ -12,7 +12,8 @@ import com.squareup.picasso.Picasso
 object DataBinder {
 
     @BindingAdapter("imageUrl")
-    fun setImageUrl(imageView: ImageView, imageUrl: String) {
+    @JvmStatic
+    fun setImageUrl(imageView: ImageView, imageUrl: String?) {
         Picasso.with(imageView.context)
                 .load(imageUrl)
                 .error(R.drawable.bg_splash_screen)
@@ -21,12 +22,14 @@ object DataBinder {
     }
 
     @BindingAdapter("badgeCount")
+    @JvmStatic
     fun setBadgeCount(bottomBar: BottomBar, badgeCount: Int) {
         val tab = bottomBar.getTabWithId(R.id.navigation_item_cart)
         tab.setBadgeCount(badgeCount)
     }
 
     @BindingAdapter("error")
+    @JvmStatic
     fun setError(inputLayout: TextInputLayout, error: String?) {
         if (error == null || error.isEmpty()) {
             inputLayout.isErrorEnabled = false

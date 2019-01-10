@@ -36,12 +36,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/bottom_bar"
-            android:layout_below="@id/toolbar" />
+            android:layout_below="@id/toolbar"
+            android:clipToPadding="true"/>
 
         <com.roughike.bottombar.BottomBar
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="63dp"
             android:layout_alignParentBottom="true"
             app:bb_badgeBackgroundColor="@color/colorAccent"
             app:bb_tabXmlResource="@xml/bottom_view_tabs"

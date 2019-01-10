@@ -62,10 +62,10 @@ public class ProductDetailsViewModelTest extends BaseViewModelTest {
         when(dataSource.getItem(item.getId())).thenReturn(Single.just(item));
         when(utils.isNetworkAvailable()).thenReturn(true);
         viewModel.setProductDetailsData(itemData);
-        Assert.assertEquals(item.getTitle(), viewModel.title.get());
-        Assert.assertEquals(item.getImageUrl(), viewModel.imageUrl.get());
-        Assert.assertEquals(String.valueOf(item.getPrice().getValue()), viewModel.price.get());
-        Assert.assertEquals(item.getPrice().getCurrency(), viewModel.currency.get());
+        Assert.assertEquals(item.getTitle(), viewModel.getTitle().get());
+        Assert.assertEquals(item.getImageUrl(), viewModel.getImageUrl().get());
+        Assert.assertEquals(String.valueOf(item.getPrice().getValue()), viewModel.getPrice().get());
+        Assert.assertEquals(item.getPrice().getCurrency(), viewModel.getCurrency().get());
         verify(dataSource, times(1)).getItem(item.getId());
     }
 
@@ -81,10 +81,10 @@ public class ProductDetailsViewModelTest extends BaseViewModelTest {
     public void setProductDetailsData_DataIsNull() {
         when(dataSource.getItem(anyString())).thenReturn(Single.just(item));
         viewModel.setProductDetailsData(null);
-        Assert.assertNull(viewModel.title.get());
-        Assert.assertNull(viewModel.imageUrl.get());
-        Assert.assertNull(viewModel.price.get());
-        Assert.assertNull(viewModel.currency.get());
+        Assert.assertNull(viewModel.getTitle().get());
+        Assert.assertNull(viewModel.getImageUrl().get());
+        Assert.assertNull(viewModel.getPrice().get());
+        Assert.assertNull(viewModel.getCurrency().get());
         verify(dataSource, never()).getItem(anyString());
     }
 

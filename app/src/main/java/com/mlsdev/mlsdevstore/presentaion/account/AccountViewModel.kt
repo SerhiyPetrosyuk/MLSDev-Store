@@ -48,10 +48,6 @@ constructor(
         }
     }
 
-    fun onEditPersonalInfoClick() {
-        EditPersonalInfoActivity.launch(context!!)
-    }
-
     fun onEditShippingInfoClick() {
         // TODO: 3/6/18 start shipping info editing
     }

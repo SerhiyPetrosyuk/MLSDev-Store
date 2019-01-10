@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion.account
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import androidx.databinding.DataBindingUtil
 import android.os.Bundle
@@ -21,6 +22,13 @@ class AccountFragment : BaseFragment() {
         binding.viewModel = accountViewModel
         lifecycle.addObserver(accountViewModel)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.buttonEditPersonalInfo.setOnClickListener {
+            startActivity(Intent(context, EditPersonalInfoActivity::class.java))
+        }
     }
 
     override fun onDestroyView() {

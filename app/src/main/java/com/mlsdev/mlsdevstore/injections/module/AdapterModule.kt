@@ -22,7 +22,6 @@ class AdapterModule {
     }
 
     @Provides
-    @Named(NamedAdapter.SEARCH_RESULT_ITEMS_ADAPTER)
     fun providesSearchResultItemsAdapter(cart: Cart): ProductsAdapter {
         val adapter = ProductsAdapter()
         adapter.cart = cart
@@ -30,8 +29,7 @@ class AdapterModule {
     }
 
     @Provides
-    @Named(NamedAdapter.CART_ITEMS_ADAPTER)
-    fun providesCartItemsAdapter(cart: Cart): ProductsAdapter {
+    fun providesCartItemsAdapter(cart: Cart): ItemsAdapter {
         val adapter = ItemsAdapter()
         adapter.cart = cart
         return adapter

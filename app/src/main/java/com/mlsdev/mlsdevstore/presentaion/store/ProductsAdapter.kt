@@ -21,7 +21,7 @@ const val VIEW_TYPE_ITEM = 2
 const val HEADER_OR_FOOTER = 1
 
 open class ProductsAdapter @Inject constructor() : RecyclerView.Adapter<BaseViewHolder<ListItem>>(), LifecycleObserver {
-    var cart: Cart? = null
+    lateinit var cart: Cart
     protected var withHeader = false
     protected var withFooter = false
     protected val items: MutableList<ListItem> = ArrayList()
@@ -54,7 +54,7 @@ open class ProductsAdapter @Inject constructor() : RecyclerView.Adapter<BaseView
 
     inner class ProductViewHolder(private val binding: ItemProductBinding) : BaseViewHolder<ListItem>(binding.root) {
 
-        override fun bindView(item: ListItem) {
+        override fun bindView(item: ListItem?) {
             if (binding.viewModel == null)
                 binding.viewModel = ProductItemViewModel()
 

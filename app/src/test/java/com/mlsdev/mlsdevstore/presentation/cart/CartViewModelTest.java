@@ -35,14 +35,14 @@ public class CartViewModelTest extends BaseViewModelTest {
     @Test
     public void cartIsEmpty() {
         viewModel.onStart();
-        assertTrue(viewModel.cartIsEmpty.get());
+        assertTrue(viewModel.getCartIsEmpty().get());
     }
 
     @Test
     public void cartIsNotEmpty() {
         viewModel.onStart();
         cart.addItem(new Item());
-        assertFalse(viewModel.cartIsEmpty.get());
+        assertFalse(viewModel.getCartIsEmpty().get());
     }
 
 }

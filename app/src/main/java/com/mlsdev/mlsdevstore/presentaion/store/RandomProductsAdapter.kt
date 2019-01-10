@@ -39,11 +39,11 @@ class RandomProductsAdapter : ProductsAdapter() {
 
     inner class CategoryNameHeaderViewHolder(private val binding: ItemHeaderCategoryBinding) : BaseViewHolder<ListItem>(binding.root) {
 
-        override fun bindView(item: ListItem) {
+        override fun bindView(item: ListItem?) {
             if (binding.viewModel == null)
                 binding.viewModel = BaseHeaderViewModel()
 
-            binding.viewModel?.setHeader(item.title)
+            binding.viewModel?.setHeader(item?.title)
             binding.btnAllCategories.setOnClickListener(onAllCategoriesListener)
             binding.btnSignIn.setOnClickListener(onAuthorizeListener)
             binding.btnSignUp.setOnClickListener(onAuthorizeListener)
@@ -56,11 +56,11 @@ class RandomProductsAdapter : ProductsAdapter() {
             this.binding.btnGetMoreItems.setOnClickListener(onFooterClickListener)
         }
 
-        override fun bindView(item: ListItem) {
+        override fun bindView(item: ListItem?) {
             if (binding.viewModel == null)
                 binding.viewModel = BaseHeaderViewModel()
 
-            binding.viewModel?.setHeader(item.title)
+            binding.viewModel?.setHeader(item?.title)
         }
     }
 

@@ -1,17 +1,17 @@
 package com.mlsdev.mlsdevstore.data.model.category;
 
+import com.mlsdev.mlsdevstore.data.local.database.Column;
+import com.mlsdev.mlsdevstore.data.local.database.Table;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
-import com.mlsdev.mlsdevstore.data.local.database.Column;
-import com.mlsdev.mlsdevstore.data.local.database.Table;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity(tableName = Table.CATEGORY_TREE_NODES,
         indices = {@Index(Column.CATEGORY_TREE_NODE_ID)})

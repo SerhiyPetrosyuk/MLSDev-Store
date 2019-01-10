@@ -104,7 +104,7 @@ class ItemsAdapter : ProductsAdapter(), Cart.OnItemCountChangeListener, Cart.OnI
                 binding.viewModel = ProductItemViewModel()
 
             if (binding.viewModel != null)
-                binding.viewModel?.setItem(cart, item)
+                binding.viewModel?.setItem(cart, item!!)
         }
     }
 

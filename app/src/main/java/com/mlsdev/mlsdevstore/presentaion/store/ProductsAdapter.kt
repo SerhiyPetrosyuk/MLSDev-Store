@@ -58,7 +58,7 @@ open class ProductsAdapter @Inject constructor() : RecyclerView.Adapter<BaseView
             if (binding.viewModel == null)
                 binding.viewModel = ProductItemViewModel()
 
-            binding.viewModel?.setItem(cart, item)
+            binding.viewModel?.setItem(cart, item!!)
         }
     }
 

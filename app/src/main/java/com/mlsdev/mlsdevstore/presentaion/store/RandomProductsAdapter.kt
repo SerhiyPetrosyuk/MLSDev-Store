@@ -43,7 +43,7 @@ class RandomProductsAdapter : ProductsAdapter() {
             if (binding.viewModel == null)
                 binding.viewModel = BaseHeaderViewModel()
 
-            binding.viewModel?.setHeader(item?.title)
+            binding.viewModel?.setHeader(item?.title ?: "")
             binding.btnAllCategories.setOnClickListener(onAllCategoriesListener)
             binding.btnSignIn.setOnClickListener(onAuthorizeListener)
             binding.btnSignUp.setOnClickListener(onAuthorizeListener)
@@ -60,7 +60,7 @@ class RandomProductsAdapter : ProductsAdapter() {
             if (binding.viewModel == null)
                 binding.viewModel = BaseHeaderViewModel()
 
-            binding.viewModel?.setHeader(item?.title)
+            binding.viewModel?.setHeader(item?.title ?: "")
         }
     }
 

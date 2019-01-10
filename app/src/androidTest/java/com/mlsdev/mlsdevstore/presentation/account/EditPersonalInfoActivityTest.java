@@ -76,13 +76,13 @@ public class EditPersonalInfoActivityTest {
     public void submit_EmailIsIncorrect() {
         String incorrectEmail = "incorrect email";
         Map<String, String> incorrectFields = new ArrayMap<>(1);
-        incorrectFields.put(FieldsValidator.Field.EMAIL, "is incorrect");
+        incorrectFields.put(FieldsValidator.Field.Companion.getEMAIL(), "is incorrect");
         FieldsValidator.ValidationError validationError = new FieldsValidator.ValidationError(incorrectFields);
         when(localDataSource.getPersonalInfo()).thenReturn(Single.just(new PersonalInfo()));
         when(fieldsValidator.validateFields()).thenReturn(Completable.error(validationError));
-        when(fieldsValidator.putField(FieldsValidator.Field.EMAIL, incorrectEmail)).thenReturn(fieldsValidator);
-        when(fieldsValidator.putField(FieldsValidator.Field.FIRST_NAME, eq(anyString()))).thenReturn(fieldsValidator);
-        when(fieldsValidator.putField(FieldsValidator.Field.LAST_NAME, eq(anyString()))).thenReturn(fieldsValidator);
+        when(fieldsValidator.putField(FieldsValidator.Field.Companion.getEMAIL(), incorrectEmail)).thenReturn(fieldsValidator);
+        when(fieldsValidator.putField(FieldsValidator.Field.Companion.getFIRST_NAME(), eq(anyString()))).thenReturn(fieldsValidator);
+        when(fieldsValidator.putField(FieldsValidator.Field.Companion.getLAST_NAME(), eq(anyString()))).thenReturn(fieldsValidator);
 
         rule.launchActivity(new Intent());
         onView(withId(R.id.email_edit_text)).perform(typeText(incorrectEmail));
@@ -93,15 +93,15 @@ public class EditPersonalInfoActivityTest {
     @Test
     public void submit_EmptyFields() {
         Map<String, String> incorrectFields = new ArrayMap<>(1);
-        incorrectFields.put(FieldsValidator.Field.EMAIL, "is empty");
-        incorrectFields.put(FieldsValidator.Field.FIRST_NAME, "is empty");
-        incorrectFields.put(FieldsValidator.Field.LAST_NAME, "is empty");
+        incorrectFields.put(FieldsValidator.Field.Companion.getEMAIL(), "is empty");
+        incorrectFields.put(FieldsValidator.Field.Companion.getFIRST_NAME(), "is empty");
+        incorrectFields.put(FieldsValidator.Field.Companion.getLAST_NAME(), "is empty");
         FieldsValidator.ValidationError validationError = new FieldsValidator.ValidationError(incorrectFields);
         when(localDataSource.getPersonalInfo()).thenReturn(Single.just(new PersonalInfo()));
         when(fieldsValidator.validateFields()).thenReturn(Completable.error(validationError));
-        when(fieldsValidator.putField(FieldsValidator.Field.EMAIL, eq(anyString()))).thenReturn(fieldsValidator);
-        when(fieldsValidator.putField(FieldsValidator.Field.FIRST_NAME, eq(anyString()))).thenReturn(fieldsValidator);
-        when(fieldsValidator.putField(FieldsValidator.Field.LAST_NAME, eq(anyString()))).thenReturn(fieldsValidator);
+        when(fieldsValidator.putField(FieldsValidator.Field.Companion.getEMAIL(), eq(anyString()))).thenReturn(fieldsValidator);
+        when(fieldsValidator.putField(FieldsValidator.Field.Companion.getFIRST_NAME(), eq(anyString()))).thenReturn(fieldsValidator);
+        when(fieldsValidator.putField(FieldsValidator.Field.Companion.getLAST_NAME(), eq(anyString()))).thenReturn(fieldsValidator);
 
         rule.launchActivity(new Intent());
 
@@ -134,9 +134,9 @@ public class EditPersonalInfoActivityTest {
         when(localDataSource.getPersonalInfo()).thenReturn(Single.just(new PersonalInfo()));
         when(localDataSource.updatePersonalInfo(email, firstName, lastName)).thenReturn(Completable.complete());
         when(fieldsValidator.validateFields()).thenReturn(Completable.complete());
-        when(fieldsValidator.putField(FieldsValidator.Field.EMAIL, email)).thenReturn(fieldsValidator);
-        when(fieldsValidator.putField(FieldsValidator.Field.FIRST_NAME, firstName)).thenReturn(fieldsValidator);
-        when(fieldsValidator.putField(FieldsValidator.Field.LAST_NAME, lastName)).thenReturn(fieldsValidator);
+        when(fieldsValidator.putField(FieldsValidator.Field.Companion.getEMAIL(), email)).thenReturn(fieldsValidator);
+        when(fieldsValidator.putField(FieldsValidator.Field.Companion.getFIRST_NAME(), firstName)).thenReturn(fieldsValidator);
+        when(fieldsValidator.putField(FieldsValidator.Field.Companion.getLAST_NAME(), lastName)).thenReturn(fieldsValidator);
 
         rule.launchActivity(new Intent());
 

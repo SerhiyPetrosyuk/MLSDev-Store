@@ -5,16 +5,19 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import com.mlsdev.mlsdevstore.data.local.LocalDataSource
-import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSessionRequest
-import com.mlsdev.mlsdevstore.data.remote.BaseObserver
+import com.mlsdev.mlsdevstore.presentaion.utils.Utils
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel
 import javax.inject.Inject
 
 class AccountViewModel @Inject
-constructor(context: Context, val localDataSource: LocalDataSource) : BaseViewModel() {
+constructor(
+        context: Context,
+        utils: Utils,
+        private val localDataSource: LocalDataSource) : BaseViewModel() {
 
     init {
         this.context = context
+        this.utils = utils
     }
 
     // Personal info
@@ -34,15 +37,15 @@ constructor(context: Context, val localDataSource: LocalDataSource) : BaseViewMo
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     internal fun start() {
-        localDataSource.guestCheckoutSession
-                .subscribe(object : BaseObserver<GuestCheckoutSessionRequest>(this) {
-                    override fun onSuccess(data: GuestCheckoutSessionRequest) {
-                        super.onSuccess(data)
-                        email.set(if (data.contactEmail != null) data.contactEmail else "")
-                        firstName.set(if (data.contactFirstName != null) data.contactFirstName else "")
-                        lastName.set(if (data.contactLastName != null) data.contactLastName else "")
-                    }
-                })
+        checkNetworkConnection(utils!!) {
+            compositeDisposable.add(localDataSource.guestCheckoutSession.subscribe(
+                    { guestCheckoutSessionRequest ->
+                        email.set(if (guestCheckoutSessionRequest.contactEmail != null) guestCheckoutSessionRequest.contactEmail else "")
+                        firstName.set(if (guestCheckoutSessionRequest.contactFirstName != null) guestCheckoutSessionRequest.contactFirstName else "")
+                        lastName.set(if (guestCheckoutSessionRequest.contactLastName != null) guestCheckoutSessionRequest.contactLastName else "")
+                    },
+                    { handleError(it) }))
+        }
     }
 
     fun onEditPersonalInfoClick() {

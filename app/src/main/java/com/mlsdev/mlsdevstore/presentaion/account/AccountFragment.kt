@@ -12,20 +12,20 @@ import com.mlsdev.mlsdevstore.databinding.FragmentAccountBinding
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment
 
 class AccountFragment : BaseFragment() {
-    private var binding: FragmentAccountBinding? = null
-    private var accountViewModel: AccountViewModel? = null
+    lateinit var binding: FragmentAccountBinding
+    lateinit var accountViewModel: AccountViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false)
         accountViewModel = ViewModelProviders.of(this, viewModelFactory).get(AccountViewModel::class.java)
-        binding!!.viewModel = accountViewModel
-        lifecycle.addObserver(accountViewModel!!)
-        return binding!!.root
+        binding.viewModel = accountViewModel
+        lifecycle.addObserver(accountViewModel)
+        return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        lifecycle.removeObserver(accountViewModel!!)
+        lifecycle.removeObserver(accountViewModel)
     }
 
     override fun onResume() {

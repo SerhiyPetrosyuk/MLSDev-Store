@@ -29,7 +29,7 @@ public class CartFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cart, container, false);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CartViewModel.class);
+        viewModel = ViewModelProviders.of(this, getViewModelFactory()).get(CartViewModel.class);
         binding.setViewModel(viewModel);
         getLifecycle().addObserver(viewModel);
         getLifecycle().addObserver(itemsAdapter);

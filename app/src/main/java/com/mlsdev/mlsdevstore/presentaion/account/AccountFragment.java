@@ -20,7 +20,7 @@ public class AccountFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false);
-        accountViewModel = ViewModelProviders.of(this, viewModelFactory).get(AccountViewModel.class);
+        accountViewModel = ViewModelProviders.of(this, getViewModelFactory()).get(AccountViewModel.class);
         binding.setViewModel(accountViewModel);
         getLifecycle().addObserver(accountViewModel);
         return binding.getRoot();

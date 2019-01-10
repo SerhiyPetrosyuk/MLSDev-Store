@@ -15,10 +15,9 @@ import dagger.Provides
 class AdapterModule {
 
     @Provides
-    @Named(NamedAdapter.RANDOM_ITEMS_ADAPTER)
-    fun providesRandomItemsAdapter(cart: Cart): ProductsAdapter {
+    fun providesRandomItemsAdapter(cart: Cart): RandomProductsAdapter {
         val adapter = RandomProductsAdapter()
-        adapter.setCart(cart)
+        adapter.cart = cart
         return adapter
     }
 
@@ -26,7 +25,7 @@ class AdapterModule {
     @Named(NamedAdapter.SEARCH_RESULT_ITEMS_ADAPTER)
     fun providesSearchResultItemsAdapter(cart: Cart): ProductsAdapter {
         val adapter = ProductsAdapter()
-        adapter.setCart(cart)
+        adapter.cart = cart
         return adapter
     }
 
@@ -34,7 +33,7 @@ class AdapterModule {
     @Named(NamedAdapter.CART_ITEMS_ADAPTER)
     fun providesCartItemsAdapter(cart: Cart): ProductsAdapter {
         val adapter = ItemsAdapter()
-        adapter.setCart(cart)
+        adapter.cart = cart
         return adapter
     }
 }

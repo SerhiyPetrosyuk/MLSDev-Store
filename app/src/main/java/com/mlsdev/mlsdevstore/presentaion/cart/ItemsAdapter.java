@@ -1,8 +1,5 @@
 package com.mlsdev.mlsdevstore.presentaion.cart;
 
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.OnLifecycleEvent;
-import androidx.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -15,6 +12,14 @@ import com.mlsdev.mlsdevstore.presentaion.adapter.BaseViewHolder;
 import com.mlsdev.mlsdevstore.presentaion.store.ProductItemViewModel;
 import com.mlsdev.mlsdevstore.presentaion.store.ProductsAdapter;
 
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
+
+import static com.mlsdev.mlsdevstore.presentaion.store.ProductsAdapterKt.HEADER_OR_FOOTER;
+import static com.mlsdev.mlsdevstore.presentaion.store.ProductsAdapterKt.VIEW_TYPE_FOOTER;
+import static com.mlsdev.mlsdevstore.presentaion.store.ProductsAdapterKt.VIEW_TYPE_ITEM;
+
 public class ItemsAdapter extends ProductsAdapter
         implements
         Cart.OnItemCountChangeListener,
@@ -22,19 +27,19 @@ public class ItemsAdapter extends ProductsAdapter
 
     public ItemsAdapter() {
         super();
-        withFooter = true;
+        setWithFooter(true);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void onStart() {
-        cart.addOnItemCountChangeListener(this);
-        cart.addOnItemRemovedListener(this);
+        getCart().addOnItemCountChangeListener(this);
+        getCart().addOnItemRemovedListener(this);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     public void onStop() {
-        cart.removeOnItemCountChangeListener(this);
-        cart.removeOnItemRemovedListener(this);
+        getCart().removeOnItemCountChangeListener(this);
+        getCart().removeOnItemRemovedListener(this);
     }
 
     @Override
@@ -58,7 +63,7 @@ public class ItemsAdapter extends ProductsAdapter
 
     @Override
     public void onBindViewHolder(BaseViewHolder<ListItem> holder, int position) {
-        if (position < items.size())
+        if (position < getItems().size())
             super.onBindViewHolder(holder, position);
         else
             holder.bindView(null);
@@ -66,15 +71,15 @@ public class ItemsAdapter extends ProductsAdapter
 
     @Override
     public int getItemCount() {
-        if (items.isEmpty())
+        if (getItems().isEmpty())
             return super.getItemCount();
         else
-            return items.size() + HEADER_OR_FOOTER;
+            return getItems().size() + HEADER_OR_FOOTER;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == items.size())
+        if (position == getItems().size())
             return VIEW_TYPE_FOOTER;
         else
             return VIEW_TYPE_ITEM;
@@ -82,11 +87,11 @@ public class ItemsAdapter extends ProductsAdapter
 
     @Override
     public void onItemCountChanged(int count) {
-        if (!items.isEmpty())
+        if (!getItems().isEmpty())
             return;
 
-        items.clear();
-        items.addAll(cart.getItems());
+        getItems().clear();
+        getItems().addAll(getCart().getItems());
         notifyDataSetChanged();
     }
 
@@ -94,13 +99,13 @@ public class ItemsAdapter extends ProductsAdapter
     public void onItemRemoved(String itemId) {
         int removedItemPosition = -1;
 
-        for (ListItem item : items)
+        for (ListItem item : getItems())
             if (item.getId().equals(itemId))
-                removedItemPosition = items.indexOf(item);
+                removedItemPosition = getItems().indexOf(item);
 
-        items.remove(removedItemPosition);
+        getItems().remove(removedItemPosition);
         notifyItemRemoved(removedItemPosition);
-        notifyItemChanged(items.size());
+        notifyItemChanged(getItems().size());
     }
 
     public class ProductViewHolder extends BaseViewHolder<ListItem> {
@@ -117,7 +122,7 @@ public class ItemsAdapter extends ProductsAdapter
                 binding.setViewModel(new ProductItemViewModel());
 
             if (binding.getViewModel() != null)
-                binding.getViewModel().setItem(cart, item);
+                binding.getViewModel().setItem(getCart(), item);
         }
     }
 
@@ -132,9 +137,9 @@ public class ItemsAdapter extends ProductsAdapter
         @Override
         public void bindView(ListItem item) {
             if (binding.getViewModel() == null)
-                binding.setViewModel(new TotalSumItemViewModel(cart.getTotalSum()));
+                binding.setViewModel(new TotalSumItemViewModel(getCart().getTotalSum()));
             else
-                binding.getViewModel().setTotalSum(cart.getTotalSum());
+                binding.getViewModel().setTotalSum(getCart().getTotalSum());
         }
     }
 

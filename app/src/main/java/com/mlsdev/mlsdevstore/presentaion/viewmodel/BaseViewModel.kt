@@ -13,6 +13,7 @@ import com.mlsdev.mlsdevstore.data.model.error.ErrorsWrapper
 import com.mlsdev.mlsdevstore.presentaion.utils.CustomObservableBoolean
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import retrofit2.HttpException
 import java.io.IOException
@@ -51,6 +52,10 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
             isRefreshing.set(isRefreshing.get() and loading)
             isLoading.set(isLoading.get() and loading)
         })
+    }
+
+    protected val errorConsumer = Consumer<Throwable> {
+        handleError(it)
     }
 
     fun onTechnicalErrorOccurred() {

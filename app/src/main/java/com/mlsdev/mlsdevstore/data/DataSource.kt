@@ -13,12 +13,12 @@ interface DataSource {
      * Default category tree id is needed to get the root [CategoryTree] which contains
      * a list of [CategoryTreeNode]s.
      */
-    val defaultCategoryTreeId: Single<String>
+    fun loadDefaultCategoryTreeId(): Single<String>
 
     /**
      * The root [CategoryTree] contains all main [CategoryTreeNode]s.
      */
-    val rootCategoryTree: Single<CategoryTree>
+    fun loadRootCategoryTree(): Single<CategoryTree>
 
     /**
      * Deletes all data in the local data storage
@@ -27,7 +27,7 @@ interface DataSource {
 
     /**
      * @param queries - contains more than a category id.
-     * @see [search documentaion](https://developer.ebay.com/api-docs/buy/browse/resources/item_summary/methods/search.h2-input)
+     * @see [search documentation](https://developer.ebay.com/api-docs/buy/browse/resources/item_summary/methods/search.h2-input)
      */
     fun searchItemsByCategoryId(queries: Map<String, String>): Single<SearchResult>
 

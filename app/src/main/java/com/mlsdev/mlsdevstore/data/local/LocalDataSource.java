@@ -15,8 +15,6 @@ import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -32,17 +30,16 @@ public class LocalDataSource implements DataSource {
         this.database = database;
     }
 
-    @Override
-    public Single<String> getDefaultCategoryTreeId() {
+    public Single<String> loadDefaultCategoryTreeId() {
         Single<String> single = database.categoriesDao().queryDefaultCategoryTree()
                 .flatMap(list -> !list.isEmpty()
                         ? Single.just(list.get(0).getCategoryTreeId())
-                        : remoteDataSource.getDefaultCategoryTreeId());
+                        : remoteDataSource.loadDefaultCategoryTreeId());
         return remoteDataSource.prepareSingle(single);
     }
 
     @Override
-    public Single<CategoryTree> getRootCategoryTree() {
+    public Single<CategoryTree> loadRootCategoryTree() {
         Single<List<CategoryTreeNode>> listSingle = database.categoriesDao().queryCategoryTreeNode();
         return remoteDataSource.prepareSingle(listSingle)
                 .flatMap(nodes -> {
@@ -53,7 +50,7 @@ public class LocalDataSource implements DataSource {
 
                     return !nodes.isEmpty()
                             ? Single.just(categoryTree)
-                            : remoteDataSource.getRootCategoryTree();
+                            : remoteDataSource.loadRootCategoryTree();
                 });
     }
 
@@ -61,7 +58,7 @@ public class LocalDataSource implements DataSource {
     public Single<CategoryTree> refreshRootCategoryTree() {
 
         return Single.fromCallable(() -> {
-            database.categoriesDao().deleteAllCategoryTreeNodel();
+            database.categoriesDao().deleteAllCategoryTreeNodes();
             database.categoriesDao().deleteAllCategoryTrees();
             return 1;
         })
@@ -77,7 +74,7 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public Single<SearchResult> searchItemsByRandomCategory() {
-        return getRootCategoryTree()
+        return loadRootCategoryTree()
                 .flatMap(categoryTree -> remoteDataSource.searchItemsByRandomCategory());
     }
 

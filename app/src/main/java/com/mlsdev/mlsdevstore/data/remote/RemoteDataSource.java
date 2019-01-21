@@ -81,23 +81,22 @@ public class RemoteDataSource implements DataSource {
                 .doOnSuccess(appAccessToken -> sharedPreferencesManager.save(Key.APPLICATION_ACCESS_TOKEN, appAccessToken));
     }
 
-    @Override
-    public Single<String> getDefaultCategoryTreeId() {
+    public Single<String> loadDefaultCategoryTreeId() {
         return prepareSingle(taxonomyService.getDefaultCategoryTreeId())
                 .map(CategoryTree::getCategoryTreeId)
                 .doOnSuccess(this::saveDefaultCategoryTreeId);
     }
 
     @Override
-    public Single<CategoryTree> getRootCategoryTree() {
-        return getDefaultCategoryTreeId()
+    public Single<CategoryTree> loadRootCategoryTree() {
+        return loadDefaultCategoryTreeId()
                 .flatMap(defaultCategoryTreeId -> prepareSingle(taxonomyService.getCategoryTree(defaultCategoryTreeId)))
                 .doOnSuccess(this::saveCategoryTreeNodes);
     }
 
     @Override
     public Single<CategoryTree> refreshRootCategoryTree() {
-        return getRootCategoryTree();
+        return loadRootCategoryTree();
     }
 
     @Override

@@ -28,7 +28,6 @@ public class Address {
     private String recipient;
     @SerializedName("stateOrProvince")
     private String state;
-
     @Type
     private String type = Type.SHIPPING;
 

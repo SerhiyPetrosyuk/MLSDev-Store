@@ -1,6 +1,5 @@
 package com.mlsdev.mlsdevstore.presentaion.categories
 
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.mlsdev.mlsdevstore.data.DataSource
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
@@ -20,7 +19,7 @@ constructor(dataSource: DataSource, utils: Utils) : BaseViewModel() {
     fun getRootCategories() {
         checkNetworkConnection(utils!!) {
             isLoading.set(true)
-            compositeDisposable.add(dataSource!!.rootCategoryTree.subscribe(
+            compositeDisposable.add(dataSource!!.loadRootCategoryTree().subscribe(
                     {
                         categories.postValue(it.categoryTreeNode.childCategoryTreeNodes)
                         isLoading.set(false)

@@ -5,8 +5,6 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import com.mlsdev.mlsdevstore.data.local.LocalDataSource
-import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
-import com.mlsdev.mlsdevstore.data.remote.BaseObserver
 import com.mlsdev.mlsdevstore.presentaion.utils.*
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel
 import io.reactivex.CompletableObserver
@@ -30,15 +28,15 @@ constructor(private val localDataSource: LocalDataSource, private val fieldsVali
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun start() {
-        localDataSource.personalInfo
-                .subscribe(object : BaseObserver<PersonalInfo>(this) {
-                    override fun onSuccess(info: PersonalInfo) {
-                        super.onSuccess(info)
-                        email.set(if (info.contactEmail != null) info.contactEmail else "")
-                        firstName.set(if (info.contactFirstName != null) info.contactFirstName else "")
-                        lastName.set(if (info.contactLastName != null) info.contactLastName else "")
-                    }
-                })
+        compositeDisposable.add(localDataSource.personalInfo.subscribe(
+                { info ->
+                    setIsLoading(false)
+                    setIsRefreshing(false)
+                    email.set(if (info.contactEmail != null) info.contactEmail else "")
+                    firstName.set(if (info.contactFirstName != null) info.contactFirstName else "")
+                    lastName.set(if (info.contactLastName != null) info.contactLastName else "")
+                },
+                { handleError(it) }))
     }
 
     fun onSubmitPersonalInfoClick() {

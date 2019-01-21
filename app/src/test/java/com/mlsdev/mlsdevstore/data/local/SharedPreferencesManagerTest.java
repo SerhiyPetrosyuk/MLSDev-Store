@@ -55,17 +55,17 @@ public class SharedPreferencesManagerTest {
 
     @Test
     public void testSave() {
-        sharedPreferencesManager.save(Key.APPLICATION_ACCESS_TOKEN, data);
+        sharedPreferencesManager.save(Key.Companion.getAPPLICATION_ACCESS_TOKEN(), data);
         verify(sharedPreferences, times(1)).edit();
-        verify(editor, atLeastOnce()).putString(Key.APPLICATION_ACCESS_TOKEN, emptyJsonObject);
+        verify(editor, atLeastOnce()).putString(Key.Companion.getAPPLICATION_ACCESS_TOKEN(), emptyJsonObject);
         verify(editor, atLeastOnce()).apply();
     }
 
     @Test
     public void testRemove() {
-        sharedPreferencesManager.remove(Key.APPLICATION_ACCESS_TOKEN);
+        sharedPreferencesManager.remove(Key.Companion.getAPPLICATION_ACCESS_TOKEN());
         verify(sharedPreferences, times(1)).edit();
-        verify(editor, times(1)).remove(Key.APPLICATION_ACCESS_TOKEN);
+        verify(editor, times(1)).remove(Key.Companion.getAPPLICATION_ACCESS_TOKEN());
         verify(editor, times(1)).apply();
     }
 

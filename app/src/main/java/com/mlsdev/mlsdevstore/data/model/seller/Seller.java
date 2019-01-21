@@ -3,8 +3,6 @@ package com.mlsdev.mlsdevstore.data.model.seller;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.Expose;
-
 public class Seller implements Parcelable {
     private double feedbackScore;
     private String username;

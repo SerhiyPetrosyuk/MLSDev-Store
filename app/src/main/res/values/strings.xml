@@ -49,8 +49,8 @@
     <string name="label_phone_number">Phone number:</string>
     <string name="label_address">Address:</string>
     <string name="label_city">City:</string>
-    <string name="label_postal_code">Postal code</string>
-    <string name="label_state_or_province">State or province</string>
+    <string name="label_postal_code">Postal code:</string>
+    <string name="label_state_or_province">State or province:</string>
     <string name="label_payment_info">Payment info</string>
     <string name="label_card_number">Card number:</string>
 
@@ -71,6 +71,10 @@
     <string name="hint_email">Email</string>
     <string name="hint_first_name">First name</string>
     <string name="hint_last_name">Last name</string>
-
+    <string name="hint_phone_number">Phone number</string>
+    <string name="hint_address">Address</string>
+    <string name="hint_city">City</string>
+    <string name="hint_postal_code">Postal code</string>
+    <string name="hint_state_or_province">State or province</string>
 
 </resources>

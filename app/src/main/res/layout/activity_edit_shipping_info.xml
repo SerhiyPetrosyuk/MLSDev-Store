@@ -42,57 +42,73 @@
                     android:id="@+id/label_personal_info"
                     style="@style/UserInfoTextStyle.Header"
                     android:layout_marginBottom="8dp"
-                    android:text="@string/label_personal_info" />
+                    android:text="@string/label_shipping_info" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/email_input_layout"
+                    android:id="@+id/input_layout_phone_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_email"
-                    bind:error="@{viewModel.emailError}">
+                    android:hint="@string/hint_phone_number">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/email_edit_text"
+                        android:id="@+id/edit_text_phone_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:onTextChanged="@{() -> viewModel.onEmailTextChanged()}"
-                        android:text="@={viewModel.email}" />
+                        android:inputType="phone"
+                        android:text="@={viewModel.phoneNumber}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/first_name_input_layout"
+                    android:id="@+id/input_layout_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_first_name"
-                    bind:error="@{viewModel.firstNameError}">
+                    android:hint="@string/hint_address">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/first_name_edit_text"
+                        android:id="@+id/edit_text_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:onTextChanged="@{() -> viewModel.onFirstNameTextChanged()}"
-                        android:text="@={viewModel.firstName}" />
+                        android:inputType="textCapSentences" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/last_name_input_layout"
+                    android:id="@+id/input_layout_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_last_name"
-                    bind:error="@{viewModel.lastNameError}">
+                    android:hint="@string/hint_city">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/last_name_edit_text"
+                        android:id="@+id/edit_text_city"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:onTextChanged="@{() -> viewModel.onLastNameTextChanged()}"
-                        android:text="@={viewModel.lastName}" />
+                        android:inputType="textCapSentences" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_state_or_province">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_text_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_postal_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_postal_code">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_text_postal_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+
             </LinearLayout>
-
         </LinearLayout>
 
         <Button
@@ -103,5 +119,6 @@
             android:onClick="@{() -> viewModel.onSubmitPersonalInfoClick()}"
             android:text="@string/btn_submit"
             android:textAllCaps="true" />
+
     </FrameLayout>
 </layout>

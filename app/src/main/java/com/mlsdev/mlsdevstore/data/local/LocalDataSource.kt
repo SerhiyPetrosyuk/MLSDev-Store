@@ -6,12 +6,11 @@ import com.mlsdev.mlsdevstore.data.model.category.CategoryTree
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
 import com.mlsdev.mlsdevstore.data.model.item.Item
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult
-import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSessionRequest
-import com.mlsdev.mlsdevstore.data.model.order.LineItemInput
 import com.mlsdev.mlsdevstore.data.model.user.Address
 import com.mlsdev.mlsdevstore.data.model.user.CreditCard
 import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
 import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource
+import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSessionRequest
 
 import io.reactivex.Completable
 import io.reactivex.Single

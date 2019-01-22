@@ -21,6 +21,12 @@ constructor(private val localDataSource: LocalDataSource, private val fieldsVali
     val firstName = ObservableField<String>()
     val lastName = ObservableField<String>()
 
+    val phoneNumber = ObservableField<String>()
+    val address = ObservableField<String>()
+    val city = ObservableField<String>()
+    val state = ObservableField<String>()
+    val postalCode = ObservableField<String>()
+
     // Errors
     val emailError = ObservableField<String>()
     val firstNameError = ObservableField<String>()

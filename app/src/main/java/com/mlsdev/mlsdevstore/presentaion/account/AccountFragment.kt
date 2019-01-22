@@ -29,6 +29,10 @@ class AccountFragment : BaseFragment() {
         binding.buttonEditPersonalInfo.setOnClickListener {
             startActivity(Intent(context, EditPersonalInfoActivity::class.java))
         }
+
+        binding.buttonEditShippingInfo.setOnClickListener {
+            startActivity(Intent(context, EditShippingInfoActivity::class.java))
+        }
     }
 
     override fun onDestroyView() {

@@ -2,6 +2,7 @@ package com.mlsdev.mlsdevstore.injections.module
 
 import com.mlsdev.mlsdevstore.injections.component.scope.ActivityScope
 import com.mlsdev.mlsdevstore.presentaion.account.EditPersonalInfoActivity
+import com.mlsdev.mlsdevstore.presentaion.account.EditShippingInfoActivity
 import com.mlsdev.mlsdevstore.presentaion.bottom_navigation.MainActivity
 import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesActivity
 import com.mlsdev.mlsdevstore.presentaion.checkout.CheckoutActivity
@@ -37,5 +38,9 @@ interface ActivityModule {
     @ContributesAndroidInjector
     @ActivityScope
     fun contributeEditPersonalInfoActivity(): EditPersonalInfoActivity
+
+    @ContributesAndroidInjector
+    @ActivityScope
+    fun contributeEditShippingInfoActivity(): EditShippingInfoActivity
 
 }

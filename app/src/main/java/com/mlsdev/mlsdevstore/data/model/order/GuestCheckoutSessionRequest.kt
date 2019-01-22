@@ -4,8 +4,6 @@ import com.google.gson.annotations.SerializedName
 import com.mlsdev.mlsdevstore.data.model.user.Address
 import com.mlsdev.mlsdevstore.data.model.user.CreditCard
 
-import java.util.ArrayList
-
 data class GuestCheckoutSessionRequest(
         @SerializedName("contactEmail")
         val contactEmail: String,

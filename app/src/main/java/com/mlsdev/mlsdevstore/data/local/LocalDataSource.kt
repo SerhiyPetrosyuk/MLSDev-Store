@@ -7,6 +7,7 @@ import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
 import com.mlsdev.mlsdevstore.data.model.item.Item
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult
 import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSessionRequest
+import com.mlsdev.mlsdevstore.data.model.order.LineItemInput
 import com.mlsdev.mlsdevstore.data.model.user.Address
 import com.mlsdev.mlsdevstore.data.model.user.CreditCard
 import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
@@ -46,12 +47,14 @@ class LocalDataSource(private val remoteDataSource: RemoteDataSource, private va
                     personalInfo,
                     Function4 { shippingAddress, billingAddress, creditCard, personalInfo ->
                         creditCard.billingAddress = billingAddress
-                        val guestCheckoutSession = GuestCheckoutSessionRequest()
-                        guestCheckoutSession.shippingAddress = shippingAddress
-                        guestCheckoutSession.creditCard = creditCard
-                        guestCheckoutSession.contactFirstName = personalInfo.contactFirstName
-                        guestCheckoutSession.contactLastName = personalInfo.contactLastName
-                        guestCheckoutSession.contactEmail = personalInfo.contactEmail
+                        val guestCheckoutSession = GuestCheckoutSessionRequest(
+                                personalInfo.contactEmail ?: "",
+                                personalInfo.contactFirstName ?: "",
+                                personalInfo.contactLastName ?: "",
+                                creditCard,
+                                ArrayList(),
+                                shippingAddress
+                        )
                         guestCheckoutSession
                     })
                     .subscribeOn(Schedulers.io())

@@ -14,10 +14,15 @@ import javax.inject.Inject
 const val EMAIL = "email"
 const val FIRST_NAME = "first_name"
 const val LAST_NAME = "last_name"
+const val FIELD_ADDRESS = "field_address"
+const val FIELD_CITY = "field_city"
+const val FIELD_PHONE = "field_phone"
+const val FIELD_STATE = "field_state"
+const val FIELD_POSTAL_CODE = "field_postal_code"
 
 class FieldsValidator @Inject
 constructor(private val context: Context) {
-    private val fieldsForValidation: MutableMap<String, String>
+    private val fieldsForValidation: MutableMap<String, String?>
     private val invalidFields: MutableMap<String, String>
 
     init {
@@ -25,7 +30,7 @@ constructor(private val context: Context) {
         invalidFields = ArrayMap()
     }
 
-    fun putField(key: String, value: String): FieldsValidator {
+    fun putField(key: String, value: String?): FieldsValidator {
         fieldsForValidation[key] = value
         return this
     }
@@ -57,5 +62,7 @@ constructor(private val context: Context) {
         return email != null && Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    class ValidationError(val invalidFields: Map<String, String>) : Throwable()
+    class ValidationError(private val invalidFields: Map<String, String>) : Throwable() {
+        fun getErrorForField(field: String): String? = invalidFields[field]
+    }
 }

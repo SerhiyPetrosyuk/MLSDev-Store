@@ -31,6 +31,11 @@ constructor(private val localDataSource: LocalDataSource, private val fieldsVali
     val emailError = ObservableField<String>()
     val firstNameError = ObservableField<String>()
     val lastNameError = ObservableField<String>()
+    val phoneNumberError = ObservableField<String>()
+    val addressError = ObservableField<String>()
+    val cityError = ObservableField<String>()
+    val stateError = ObservableField<String>()
+    val postalCodeError = ObservableField<String>()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun start() {
@@ -47,28 +52,43 @@ constructor(private val localDataSource: LocalDataSource, private val fieldsVali
 
     fun onSubmitPersonalInfoClick() {
         compositeDisposable.add(fieldsValidator
-                .putField(EMAIL, Objects.requireNonNull<String>(email.get()))
-                .putField(FIRST_NAME, Objects.requireNonNull<String>(firstName.get()))
-                .putField(LAST_NAME, Objects.requireNonNull<String>(lastName.get()))
+                .putField(EMAIL, email.get())
+                .putField(FIRST_NAME, firstName.get())
+                .putField(LAST_NAME, lastName.get())
                 .validateFields()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { this.updatePersonalInfo() },
                         { throwable ->
-                            val error = throwable as FieldsValidator.ValidationError
-                            if (error.invalidFields.containsKey(EMAIL))
-                                emailError.set(error.invalidFields[EMAIL])
-
-                            if (error.invalidFields.containsKey(FIRST_NAME))
-                                firstNameError.set(error.invalidFields[FIRST_NAME])
-
-                            if (error.invalidFields.containsKey(LAST_NAME))
-                                lastNameError.set(error.invalidFields[LAST_NAME])
+                            emailError.set((throwable as FieldsValidator.ValidationError).getErrorForField(EMAIL))
+                            firstName.set(throwable.getErrorForField(FIRST_NAME))
+                            lastName.set(throwable.getErrorForField(LAST_NAME))
                         }))
     }
 
-    internal fun updatePersonalInfo() {
+    fun onSubmitShippingInfoClick() {
+        compositeDisposable.add(fieldsValidator
+                .putField(FIELD_PHONE, phoneNumber.get())
+                .putField(FIELD_ADDRESS, address.get())
+                .putField(FIELD_CITY, city.get())
+                .putField(FIELD_STATE, state.get())
+                .putField(FIELD_POSTAL_CODE, postalCode.get())
+                .validateFields()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { this.updatePersonalInfo() },
+                        { throwable ->
+                            phoneNumberError.set((throwable as FieldsValidator.ValidationError).getErrorForField(FIELD_PHONE))
+                            addressError.set(throwable.getErrorForField(FIELD_ADDRESS))
+                            cityError.set(throwable.getErrorForField(FIELD_CITY))
+                            stateError.set(throwable.getErrorForField(FIELD_STATE))
+                            postalCodeError.set(throwable.getErrorForField(FIELD_POSTAL_CODE))
+                        }))
+    }
+
+    private fun updatePersonalInfo() {
         localDataSource.updatePersonalInfo(email.get(), firstName.get(), lastName.get())
                 .subscribe(object : CompletableObserver {
                     override fun onSubscribe(d: Disposable) {
@@ -96,5 +116,25 @@ constructor(private val localDataSource: LocalDataSource, private val fieldsVali
 
     fun onLastNameTextChanged() {
         lastNameError.set(null)
+    }
+
+    fun onPhoneChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+        phoneNumberError.set(null)
+    }
+
+    fun onAddressChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+        addressError.set(null)
+    }
+
+    fun onCityChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+        cityError.set(null)
+    }
+
+    fun onStateChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+        stateError.set(null)
+    }
+
+    fun onPostalCodeChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+        postalCodeError.set(null)
     }
 }

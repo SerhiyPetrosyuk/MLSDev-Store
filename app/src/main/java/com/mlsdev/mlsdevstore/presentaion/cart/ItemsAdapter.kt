@@ -112,9 +112,9 @@ class ItemsAdapter : ProductsAdapter(), Cart.OnItemCountChangeListener, Cart.OnI
 
         override fun bindView(item: ListItem?) {
             if (binding.viewModel == null)
-                binding.viewModel = TotalSumItemViewModel(cart.totalSum)
+                binding.viewModel = TotalSumItemViewModel(cart.getTotalSum())
             else
-                binding.viewModel?.setTotalSum(cart.totalSum)
+                binding.viewModel?.setTotalSum(cart.getTotalSum())
         }
     }
 

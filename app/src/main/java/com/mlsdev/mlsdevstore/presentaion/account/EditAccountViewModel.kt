@@ -3,6 +3,8 @@ package com.mlsdev.mlsdevstore.presentaion.account
 import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.OnLifecycleEvent
 import com.mlsdev.mlsdevstore.data.local.LocalDataSource
 import com.mlsdev.mlsdevstore.presentaion.utils.*
@@ -36,6 +38,8 @@ constructor(private val localDataSource: LocalDataSource, private val fieldsVali
     val cityError = ObservableField<String>()
     val stateError = ObservableField<String>()
     val postalCodeError = ObservableField<String>()
+
+    val profileDataUpdated = MutableLiveData<Boolean>()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun start() {
@@ -78,7 +82,7 @@ constructor(private val localDataSource: LocalDataSource, private val fieldsVali
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { this.updatePersonalInfo() },
+                        { this.updateShippingInfo() },
                         { throwable ->
                             phoneNumberError.set((throwable as FieldsValidator.ValidationError).getErrorForField(FIELD_PHONE))
                             addressError.set(throwable.getErrorForField(FIELD_ADDRESS))
@@ -86,6 +90,21 @@ constructor(private val localDataSource: LocalDataSource, private val fieldsVali
                             stateError.set(throwable.getErrorForField(FIELD_STATE))
                             postalCodeError.set(throwable.getErrorForField(FIELD_POSTAL_CODE))
                         }))
+    }
+
+    private fun updateShippingInfo() {
+        compositeDisposable.add(
+                localDataSource.updateShippingInfo(
+                        phoneNumber.get() ?: "",
+                        address.get() ?: "",
+                        city.get() ?: "",
+                        state.get() ?: "",
+                        postalCode.get() ?: "").subscribe(
+                        {
+                            Log.d(BaseViewModel.LOG_TAG, "Shipping info has been updated")
+                            profileDataUpdated.postValue(true)
+                        },
+                        { handleError(it) }))
     }
 
     private fun updatePersonalInfo() {

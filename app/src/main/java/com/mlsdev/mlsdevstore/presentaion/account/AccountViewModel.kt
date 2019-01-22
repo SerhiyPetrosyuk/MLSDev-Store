@@ -38,11 +38,16 @@ constructor(
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     internal fun start() {
         checkNetworkConnection(utils!!) {
-            compositeDisposable.add(localDataSource.guestCheckoutSession.subscribe(
+            compositeDisposable.add(localDataSource.getGuestCheckoutSession().subscribe(
                     { guestCheckoutSessionRequest ->
-                        email.set(if (guestCheckoutSessionRequest.contactEmail != null) guestCheckoutSessionRequest.contactEmail else "")
-                        firstName.set(if (guestCheckoutSessionRequest.contactFirstName != null) guestCheckoutSessionRequest.contactFirstName else "")
-                        lastName.set(if (guestCheckoutSessionRequest.contactLastName != null) guestCheckoutSessionRequest.contactLastName else "")
+                        email.set(guestCheckoutSessionRequest.contactEmail)
+                        firstName.set(guestCheckoutSessionRequest.contactFirstName)
+                        lastName.set(guestCheckoutSessionRequest.contactLastName)
+                        phoneNumber.set(guestCheckoutSessionRequest.shippingAddress.phoneNumber)
+                        address.set(guestCheckoutSessionRequest.shippingAddress.address)
+                        city.set(guestCheckoutSessionRequest.shippingAddress.city)
+                        state.set(guestCheckoutSessionRequest.shippingAddress.state)
+                        zip.set(guestCheckoutSessionRequest.shippingAddress.postalCode)
                     },
                     { handleError(it) }))
         }

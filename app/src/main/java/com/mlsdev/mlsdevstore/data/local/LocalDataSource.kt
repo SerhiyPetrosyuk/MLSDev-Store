@@ -1,6 +1,7 @@
 package com.mlsdev.mlsdevstore.data.local
 
 import com.mlsdev.mlsdevstore.data.DataSource
+import com.mlsdev.mlsdevstore.data.cart.Cart
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
@@ -18,47 +19,50 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function4
 import io.reactivex.schedulers.Schedulers
 
-class LocalDataSource(private val remoteDataSource: RemoteDataSource, private val database: AppDatabase) : DataSource {
+class LocalDataSource(
+        private val remoteDataSource: RemoteDataSource,
+        private val database: AppDatabase,
+        private val cart: Cart
+) : DataSource {
 
     val personalInfo: Single<PersonalInfo>
         get() = remoteDataSource
                 .prepareSingle(database.personalInfoDao().queryPersonalInfo())
                 .map { personalInfoList -> if (!personalInfoList.isEmpty()) personalInfoList[0] else PersonalInfo() }
 
-    val guestCheckoutSession: Single<GuestCheckoutSessionRequest>
-        get() {
-            val shippingAddressSource = remoteDataSource
-                    .prepareSingle(database.addressDao().queryByType(Address.Type.SHIPPING))
-                    .map { addresses -> if (!addresses.isEmpty()) addresses[0] else Address() }
+    fun getGuestCheckoutSession(): Single<GuestCheckoutSessionRequest> {
+        val shippingAddressSource = remoteDataSource
+                .prepareSingle(database.addressDao().queryByType(Address.Type.SHIPPING))
+                .map { addresses -> if (!addresses.isEmpty()) addresses[0] else Address() }
 
-            val billingAddressSource = remoteDataSource
-                    .prepareSingle(database.addressDao().queryByType(Address.Type.BILLING))
-                    .map { addresses -> if (!addresses.isEmpty()) addresses[0] else Address() }
+        val billingAddressSource = remoteDataSource
+                .prepareSingle(database.addressDao().queryByType(Address.Type.BILLING))
+                .map { addresses -> if (!addresses.isEmpty()) addresses[0] else Address() }
 
-            val creditCardSource = remoteDataSource
-                    .prepareSingle(database.creditCardDao().queryCard())
-                    .map { creditCards -> if (!creditCards.isEmpty()) creditCards[0] else CreditCard() }
+        val creditCardSource = remoteDataSource
+                .prepareSingle(database.creditCardDao().queryCard())
+                .map { creditCards -> if (!creditCards.isEmpty()) creditCards[0] else CreditCard() }
 
-            return Single.zip<Address, Address, CreditCard, PersonalInfo, GuestCheckoutSessionRequest>(
-                    shippingAddressSource,
-                    billingAddressSource,
-                    creditCardSource,
-                    personalInfo,
-                    Function4 { shippingAddress, billingAddress, creditCard, personalInfo ->
-                        creditCard.billingAddress = billingAddress
-                        val guestCheckoutSession = GuestCheckoutSessionRequest(
-                                personalInfo.contactEmail ?: "",
-                                personalInfo.contactFirstName ?: "",
-                                personalInfo.contactLastName ?: "",
-                                creditCard,
-                                ArrayList(),
-                                shippingAddress
-                        )
-                        guestCheckoutSession
-                    })
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-        }
+        return Single.zip<Address, Address, CreditCard, PersonalInfo, GuestCheckoutSessionRequest>(
+                shippingAddressSource,
+                billingAddressSource,
+                creditCardSource,
+                personalInfo,
+                Function4 { shippingAddress, billingAddress, creditCard, personalInfo ->
+                    creditCard.billingAddress = billingAddress
+                    val guestCheckoutSession = GuestCheckoutSessionRequest(
+                            personalInfo.contactEmail ?: "",
+                            personalInfo.contactFirstName ?: "",
+                            personalInfo.contactLastName ?: "",
+                            creditCard,
+                            cart.getLineItemInputs(),
+                            shippingAddress
+                    )
+                    guestCheckoutSession
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
 
     override fun loadDefaultCategoryTreeId(): Single<String> {
         val single = database.categoriesDao().queryDefaultCategoryTree()
@@ -135,6 +139,27 @@ class LocalDataSource(private val remoteDataSource: RemoteDataSource, private va
         }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun updateShippingInfo(
+            phoneNumber: String,
+            address: String,
+            city: String,
+            state: String,
+            postalCode: String): Completable {
+
+        return Completable.fromRunnable {
+            val insertAddress = Address()
+            insertAddress.phoneNumber = phoneNumber
+            insertAddress.address = address
+            insertAddress.city = city
+            insertAddress.state = state
+            insertAddress.postalCode = postalCode
+            database.addressDao().insert(insertAddress)
+        }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+
     }
 
 }

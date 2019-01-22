@@ -2,6 +2,7 @@ package com.mlsdev.mlsdevstore.presentaion.account
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.mlsdev.mlsdevstore.R
 import com.mlsdev.mlsdevstore.databinding.ActivityEditShippingInfoBinding
@@ -23,6 +24,7 @@ class EditShippingInfoActivity : BaseActivity() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(EditAccountViewModel::class.java)
         binding.viewModel = viewModel
         lifecycle.addObserver(viewModel)
+        viewModel.profileDataUpdated.observe(this, Observer { finish() })
     }
 
 }

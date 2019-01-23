@@ -52,6 +52,16 @@ constructor(private val localDataSource: LocalDataSource, private val fieldsVali
                     lastName.set(if (info.contactLastName != null) info.contactLastName else "")
                 },
                 { handleError(it) }))
+
+        compositeDisposable.add(localDataSource.getShippingInfo().subscribe(
+                { currentAddress ->
+                    phoneNumber.set(currentAddress.phoneNumber)
+                    address.set(currentAddress.address)
+                    city.set(currentAddress.city)
+                    state.set(currentAddress.state)
+                    postalCode.set(currentAddress.postalCode)
+                },
+                { handleError(it) }))
     }
 
     fun onSubmitPersonalInfoClick() {

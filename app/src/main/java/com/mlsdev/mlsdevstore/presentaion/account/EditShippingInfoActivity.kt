@@ -27,4 +27,9 @@ class EditShippingInfoActivity : BaseActivity() {
         viewModel.profileDataUpdated.observe(this, Observer { finish() })
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        lifecycle.removeObserver(viewModel)
+    }
+
 }

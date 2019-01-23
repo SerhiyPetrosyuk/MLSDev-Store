@@ -30,11 +30,11 @@ class LocalDataSource(
                 .prepareSingle(database.personalInfoDao().queryPersonalInfo())
                 .map { personalInfoList -> if (!personalInfoList.isEmpty()) personalInfoList[0] else PersonalInfo() }
 
-    fun getGuestCheckoutSession(): Single<GuestCheckoutSessionRequest> {
-        val shippingAddressSource = remoteDataSource
-                .prepareSingle(database.addressDao().queryByType(Address.Type.SHIPPING))
-                .map { addresses -> if (!addresses.isEmpty()) addresses[0] else Address() }
+    fun getShippingInfo(): Single<Address> = remoteDataSource
+            .prepareSingle(database.addressDao().queryByType(Address.Type.SHIPPING))
+            .map { addresses -> if (!addresses.isEmpty()) addresses[0] else Address() }
 
+    fun getGuestCheckoutSession(): Single<GuestCheckoutSessionRequest> {
         val billingAddressSource = remoteDataSource
                 .prepareSingle(database.addressDao().queryByType(Address.Type.BILLING))
                 .map { addresses -> if (!addresses.isEmpty()) addresses[0] else Address() }
@@ -44,7 +44,7 @@ class LocalDataSource(
                 .map { creditCards -> if (!creditCards.isEmpty()) creditCards[0] else CreditCard() }
 
         return Single.zip<Address, Address, CreditCard, PersonalInfo, GuestCheckoutSessionRequest>(
-                shippingAddressSource,
+                getShippingInfo(),
                 billingAddressSource,
                 creditCardSource,
                 personalInfo,
@@ -150,6 +150,11 @@ class LocalDataSource(
 
         return Completable.fromRunnable {
             val insertAddress = Address()
+
+            database.addressDao().queryByTypeSync(Address.Type.SHIPPING).getOrNull(0)?.let {
+                insertAddress.id = it.id
+            }
+
             insertAddress.phoneNumber = phoneNumber
             insertAddress.address = address
             insertAddress.city = city

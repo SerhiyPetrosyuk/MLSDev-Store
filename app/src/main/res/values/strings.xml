@@ -76,5 +76,8 @@
     <string name="hint_city">City</string>
     <string name="hint_postal_code">Postal code</string>
     <string name="hint_state_or_province">State or province</string>
+    <string name="hint_card_holder">Card Holder</string>
+    <string name="hint_card_number">4111 1111 1111 1111</string>
+    <string name="hint_card_expiration">MM/YY</string>
 
 </resources>

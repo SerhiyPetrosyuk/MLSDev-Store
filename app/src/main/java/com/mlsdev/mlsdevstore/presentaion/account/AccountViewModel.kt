@@ -32,9 +32,6 @@ constructor(
     val state = ObservableField<String>()
     val zip = ObservableField<String>()
 
-    // Payment info
-    val cardNumber = ObservableField<String>()
-
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     internal fun start() {
         checkNetworkConnection(utils!!) {
@@ -51,13 +48,5 @@ constructor(
                     },
                     { handleError(it) }))
         }
-    }
-
-    fun onEditShippingInfoClick() {
-        // TODO: 3/6/18 start shipping info editing
-    }
-
-    fun onEditPaymentInfoClick() {
-        // TODO: 3/6/18 start payment info editing
     }
 }

@@ -79,5 +79,6 @@
     <string name="hint_card_holder">Card Holder</string>
     <string name="hint_card_number">4111 1111 1111 1111</string>
     <string name="hint_card_expiration">MM/YY</string>
+    <string name="label_place_order">Place Order</string>
 
 </resources>

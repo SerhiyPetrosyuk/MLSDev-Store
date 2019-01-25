@@ -123,4 +123,14 @@ f    </style>
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
+    <style name="Style.CreditCardInputLayout" parent="Base.V0.Style.CreditCardInputLayout" />
+
+    <style name="Base.V0.Style.CreditCardInputLayout" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="errorEnabled">true</item>
+        <item name="hintEnabled">false</item>
+        <item name="hintAnimationEnabled">false</item>
+    </style>
+
 </resources>

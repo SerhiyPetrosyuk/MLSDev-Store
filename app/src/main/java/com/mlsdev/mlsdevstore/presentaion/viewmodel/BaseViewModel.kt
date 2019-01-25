@@ -119,7 +119,7 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
                     error.response().body() != null -> {
                         val errorResponseBodyJson = error.response().body().toString()
                         val errorsWrapper = Gson().fromJson(errorResponseBodyJson, ErrorsWrapper::class.java)
-                        errorsWrapper.errors.getOrNull(0)?.let { parsedError ->
+                        errorsWrapper.errors?.getOrNull(0)?.let { parsedError ->
                             Log.d(LOG_TAG, parsedError.message)
                             when (parsedError.errorId) {
                                 in OAUTH_ERROR_ID_1001..OAUTH_ERROR_ID_1100 -> onAuthorizationErrorOccurred()

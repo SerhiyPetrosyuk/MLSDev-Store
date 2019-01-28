@@ -1,12 +1,11 @@
 package com.mlsdev.mlsdevstore.presentaion.utils
 
+import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
-import android.widget.ImageView
-
 import com.mlsdev.mlsdevstore.R
 import com.roughike.bottombar.BottomBar
-import com.roughike.bottombar.BottomBarTab
 import com.squareup.picasso.Picasso
 
 object DataBinder {
@@ -31,12 +30,25 @@ object DataBinder {
     @BindingAdapter("error")
     @JvmStatic
     fun setError(inputLayout: TextInputLayout, error: String?) {
-        if (error == null || error.isEmpty()) {
-            inputLayout.isErrorEnabled = false
-        } else {
-            inputLayout.isErrorEnabled = true
-            inputLayout.error = error
+        inputLayout.isErrorEnabled = true
+        inputLayout.error = error
+    }
+
+    @BindingAdapter("cardIcon")
+    @JvmStatic
+    fun setCardIcon(imageView: AppCompatImageView, cardType: CreditCardTypeDetector.Type?) {
+        if (cardType == null || cardType == CreditCardTypeDetector.Type.UNKNOWN) {
+            imageView.setImageDrawable(null)
+            return
         }
+
+        imageView.setImageResource(when (cardType) {
+            CreditCardTypeDetector.Type.UNKNOWN -> android.R.color.transparent
+            CreditCardTypeDetector.Type.VISA -> R.drawable.ic_visa
+            CreditCardTypeDetector.Type.MASTERCARD -> R.drawable.ic_mastercard
+            CreditCardTypeDetector.Type.AMERICAN_EXPRESS -> R.drawable.ic_amex
+            CreditCardTypeDetector.Type.DISCOVER -> R.drawable.ic_discover
+        })
     }
 
 }

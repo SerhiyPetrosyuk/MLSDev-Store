@@ -79,7 +79,7 @@
                     android:fontFamily="serif-monospace"
                     android:gravity="center"
                     android:hint="@string/hint_card_expiration"
-                    android:onTextChanged="@{viewModel::carExpirationChanged}"
+                    android:onTextChanged="@{viewModel::cardExpirationChanged}"
                     android:text="@={viewModel.cardExpirationDate}"
                     android:textColor="@android:color/white"
                     android:textSize="18sp" />
@@ -100,13 +100,44 @@
                     android:fontFamily="serif-monospace"
                     android:hint="@string/hint_card_holder"
                     android:inputType="textCapWords"
-                    android:onTextChanged="@{viewModel::carExpirationChanged}"
+                    android:onTextChanged="@{viewModel::cardHolderChanged}"
                     android:text="@={viewModel.cardHolder}"
                     android:textColor="@android:color/white"
                     android:textSize="18sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/input_expiration_date"
+                app:layout_constraintTop_toBottomOf="@id/input_expiration_date"
+                bind:cardIcon="@{viewModel.cardTypeIcon}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/layout_total_sum"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:padding="22dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_card_wrapper">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/label_total_sum" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/label_total_sum_value(viewModel.totalSum)}" />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/button_place_order"
@@ -116,7 +147,7 @@
             android:layout_margin="24dp"
             android:onClick="@{() -> viewModel.onPlaceOrderClick()}"
             android:text="@string/label_place_order"
-            app:layout_constraintTop_toBottomOf="@id/layout_card_wrapper" />
+            app:layout_constraintTop_toBottomOf="@id/layout_total_sum" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

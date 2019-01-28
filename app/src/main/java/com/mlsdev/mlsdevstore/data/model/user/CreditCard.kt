@@ -7,6 +7,11 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.mlsdev.mlsdevstore.data.local.database.Table
 
+const val AMEX = "AmEx"
+const val VISA = "Visa"
+const val MASTERCARD = "MasterCard"
+const val DISCOVER = "Discover"
+
 @Entity(tableName = Table.CREDIT_CARDS)
 data class CreditCard(
         @PrimaryKey(autoGenerate = true)

@@ -11,4 +11,6 @@
     <color name="navigation_item_color_normal">#808080</color>
     <color name="item_category">#252525</color>
     <color name="red">#e64141</color>
+
+    <color name="credit_card_icon">#80FFFFFF</color>
 </resources>

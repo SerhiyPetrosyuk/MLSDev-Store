@@ -1,15 +1,17 @@
 package com.mlsdev.mlsdevstore.data.model.error
 
+import com.google.gson.Gson
 import retrofit2.HttpException
 
-class ErrorParser : Parser<Throwable, Error> {
-    override fun parse(input: Throwable): Error = try {
+class ErrorParser : Parser<Throwable, ErrorsWrapper> {
+    override fun parse(input: Throwable): ErrorsWrapper = try {
         if (input is HttpException) {
-            Error()
+            val errorResponseBodyJson = input.response().body().toString()
+            Gson().fromJson(errorResponseBodyJson, ErrorsWrapper::class.java)
         } else {
-            Error()
+            ErrorsWrapper(arrayListOf())
         }
     } catch (exp: Exception) {
-        Error()
+        ErrorsWrapper(arrayListOf())
     }
 }

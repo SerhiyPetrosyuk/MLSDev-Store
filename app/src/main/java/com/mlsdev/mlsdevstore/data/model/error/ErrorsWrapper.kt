@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class ErrorsWrapper(
         @SerializedName("errors")
-        var errors: List<Error>? = null
+        var errors: List<Error>?
 )

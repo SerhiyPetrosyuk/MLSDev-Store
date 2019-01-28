@@ -6,10 +6,10 @@ import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.gson.Gson
 import com.mlsdev.mlsdevstore.data.DataLoadState
 import com.mlsdev.mlsdevstore.data.DataSource
-import com.mlsdev.mlsdevstore.data.model.error.ErrorsWrapper
+import com.mlsdev.mlsdevstore.data.model.error.ErrorParser
+import com.mlsdev.mlsdevstore.data.model.error.ValidationException
 import com.mlsdev.mlsdevstore.presentaion.utils.CustomObservableBoolean
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils
 import io.reactivex.disposables.CompositeDisposable
@@ -110,6 +110,7 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
         isRefreshing.set(false)
 
         when (error) {
+            is ValidationException -> handleFieldsErrors(error)
             is SocketTimeoutException -> onNetworkErrorOccurred()
             is IOException -> onTechnicalErrorOccurred()
             is HttpException -> {
@@ -117,8 +118,7 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
                     error.code() == HTTP_ERROR_CODE_401 -> onAuthorizationErrorOccurred()
                     error.code() == HTTP_SERVER_ERROR_500 or HTTP_SERVER_ERROR_504 -> onTechnicalErrorOccurred()
                     error.response().body() != null -> {
-                        val errorResponseBodyJson = error.response().body().toString()
-                        val errorsWrapper = Gson().fromJson(errorResponseBodyJson, ErrorsWrapper::class.java)
+                        val errorsWrapper = ErrorParser().parse(error)
                         errorsWrapper.errors?.getOrNull(0)?.let { parsedError ->
                             Log.d(LOG_TAG, parsedError.message)
                             when (parsedError.errorId) {
@@ -133,6 +133,10 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
             }
             else -> onCommonErrorOccurred()
         }
+    }
+
+    protected open fun handleFieldsErrors(error: ValidationException) {
+
     }
 
     fun checkNetworkConnection(utils: Utils, onSuccessCallback: () -> Unit) {

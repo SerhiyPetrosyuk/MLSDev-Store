@@ -20,9 +20,11 @@ constructor(
     val cardHolder = ObservableField<String>()
     val cardNumber = ObservableField<String>()
     val cardExpirationDate = ObservableField<String>()
+    val cvv = ObservableField<String>()
     val cardHolderError = ObservableField<String>()
     val cardNumberError = ObservableField<String>()
     val cardExpirationDateError = ObservableField<String>()
+    val cvvError = ObservableField<String>()
     val cardTypeIcon = ObservableField<CreditCardTypeDetector.Type>()
     val cardTypeDetector = CreditCardTypeDetector()
     val totalSum = ObservableField<String>("00.00")
@@ -44,13 +46,18 @@ constructor(
         cardExpirationDateError.set(null)
     }
 
+    fun cvvChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+        cvvError.set(null)
+    }
+
     fun onPlaceOrderClick() {
         checkNetworkConnection(appUtils) {
-            val validator = PaymentMethodValidator()
+            val validator = PaymentMethodValidator(application)
             val credentials = PaymentMethod(
                     cardNumber.get(),
                     cardExpirationDate.get(),
-                    cardHolder.get())
+                    cardHolder.get(),
+                    cvv.get())
 
             compositeDisposable.add(validator
                     .validate(credentials)
@@ -64,6 +71,7 @@ constructor(
         cardNumberError.set(error.getErrorForField(FIELD_CARD_NUMBER))
         cardHolderError.set(error.getErrorForField(FIELD_CARD_HOLDER))
         cardExpirationDateError.set(error.getErrorForField(FIELD_EXPIRATION_DATE))
+        cvvError.set(error.getErrorForField(FIELD_CVV))
     }
 
 }

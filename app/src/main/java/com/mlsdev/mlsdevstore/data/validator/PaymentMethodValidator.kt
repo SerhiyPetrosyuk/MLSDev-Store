@@ -1,27 +1,33 @@
 package com.mlsdev.mlsdevstore.data.validator
 
+import android.app.Application
+import com.mlsdev.mlsdevstore.R
 import com.mlsdev.mlsdevstore.data.model.error.ValidationException
 import com.mlsdev.mlsdevstore.presentaion.utils.CreditCardTypeDetector
 import io.reactivex.Single
 import java.util.*
 
-class PaymentMethodValidator : Validator<PaymentMethod> {
+class PaymentMethodValidator(val app: Application) : Validator<PaymentMethod> {
 
     override fun validate(data: PaymentMethod): Single<PaymentMethod> {
         val invalidFields = HashMap<String, String>()
 
         if (!validateExpirationDate(data.cardExpiration)) {
-            invalidFields[FIELD_EXPIRATION_DATE] = "Incorrect"
+            invalidFields[FIELD_EXPIRATION_DATE] = app.getString(R.string.error_incorrect)
         }
 
         if (data.cardHolderName.isNullOrBlank()) {
-            invalidFields[FIELD_CARD_HOLDER] = "Can't be blank"
+            invalidFields[FIELD_CARD_HOLDER] = app.getString(R.string.error_empty)
         }
 
         if (data.cardNumber.isNullOrBlank()) {
-            invalidFields[FIELD_CARD_NUMBER] = "Can't be blank"
+            invalidFields[FIELD_CARD_NUMBER] = app.getString(R.string.error_empty)
         } else if (!CreditCardTypeDetector().isValid(data.cardNumber)) {
-            invalidFields[FIELD_CARD_NUMBER] = "Incorrect"
+            invalidFields[FIELD_CARD_NUMBER] = app.getString(R.string.error_incorrect)
+        }
+
+        if (data.cvv.isNullOrBlank()) {
+            invalidFields[FIELD_CVV] = app.getString(R.string.error_empty)
         }
 
         return if (invalidFields.isEmpty()) Single.just(data)

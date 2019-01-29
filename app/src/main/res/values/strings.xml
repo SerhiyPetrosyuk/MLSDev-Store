@@ -80,5 +80,8 @@
     <string name="hint_card_number">4111 1111 1111 1111</string>
     <string name="hint_card_expiration">MM/YY</string>
     <string name="label_place_order">Place Order</string>
+    <string name="hint_cvv">CVV</string>
+    <string name="error_empty">Empty</string>
+    <string name="error_incorrect">Incorrect</string>
 
 </resources>

@@ -2,10 +2,10 @@ package com.mlsdev.mlsdevstore.data.remote
 
 import android.util.ArrayMap
 import android.util.Base64
-
 import com.mlsdev.mlsdevstore.BuildConfig
 import com.mlsdev.mlsdevstore.data.DataSource
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager
+import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.Key
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessTokenRequestBody
@@ -18,20 +18,13 @@ import com.mlsdev.mlsdevstore.data.model.item.SearchResult
 import com.mlsdev.mlsdevstore.data.remote.service.AuthenticationService
 import com.mlsdev.mlsdevstore.data.remote.service.BrowseService
 import com.mlsdev.mlsdevstore.data.remote.service.TaxonomyService
-
-import java.io.UnsupportedEncodingException
-import java.util.ArrayList
-import java.util.Calendar
-import java.util.HashMap
-
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
-
-import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.Key
+import java.io.UnsupportedEncodingException
+import java.util.*
 
 class RemoteDataSource(private val browseService: BrowseService,
                        private val authenticationService: AuthenticationService,
@@ -154,6 +147,8 @@ class RemoteDataSource(private val browseService: BrowseService,
         queries["offset"] = searchItems.size.toString()
         return queries
     }
+
+//    fun initGuesCheckoutSession(guestCheckoutSessionRequest: GuestCheckoutSessionRequest)
 
     fun <T> prepareSingle(single: Single<T>): Single<T> {
         return single

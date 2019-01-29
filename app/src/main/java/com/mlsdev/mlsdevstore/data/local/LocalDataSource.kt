@@ -7,16 +7,15 @@ import com.mlsdev.mlsdevstore.data.model.category.CategoryTree
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
 import com.mlsdev.mlsdevstore.data.model.item.Item
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult
+import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSessionRequest
 import com.mlsdev.mlsdevstore.data.model.user.Address
 import com.mlsdev.mlsdevstore.data.model.user.CreditCard
 import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
 import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource
-import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSessionRequest
-
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Function4
+import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
 
 class LocalDataSource(
@@ -35,28 +34,23 @@ class LocalDataSource(
             .map { addresses -> if (!addresses.isEmpty()) addresses[0] else Address() }
 
     fun getGuestCheckoutSession(): Single<GuestCheckoutSessionRequest> {
-        val billingAddressSource = remoteDataSource
-                .prepareSingle(database.addressDao().queryByType(Address.Type.BILLING))
-                .map { addresses -> if (!addresses.isEmpty()) addresses[0] else Address() }
-
         val creditCardSource = remoteDataSource
                 .prepareSingle(database.creditCardDao().queryCard())
                 .map { creditCards -> if (!creditCards.isEmpty()) creditCards[0] else CreditCard() }
 
-        return Single.zip<Address, Address, CreditCard, PersonalInfo, GuestCheckoutSessionRequest>(
+        return Single.zip<Address, CreditCard, PersonalInfo, GuestCheckoutSessionRequest>(
                 getShippingInfo(),
-                billingAddressSource,
                 creditCardSource,
                 personalInfo,
-                Function4 { shippingAddress, billingAddress, creditCard, personalInfo ->
-                    creditCard.billingAddress = billingAddress
+                Function3 { address, card, personalInfo ->
+                    card.billingAddress = address
                     val guestCheckoutSession = GuestCheckoutSessionRequest(
                             personalInfo.contactEmail ?: "",
                             personalInfo.contactFirstName ?: "",
                             personalInfo.contactLastName ?: "",
-                            creditCard,
+                            card,
                             cart.getLineItemInputs(),
-                            shippingAddress
+                            address
                     )
                     guestCheckoutSession
                 })

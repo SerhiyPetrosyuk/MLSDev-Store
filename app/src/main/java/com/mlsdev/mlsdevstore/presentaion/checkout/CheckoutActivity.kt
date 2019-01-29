@@ -1,11 +1,12 @@
 package com.mlsdev.mlsdevstore.presentaion.checkout
 
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-
+import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.mlsdev.mlsdevstore.R
 import com.mlsdev.mlsdevstore.databinding.ActivityCheckoutBinding
 import com.mlsdev.mlsdevstore.presentaion.BaseActivity
@@ -28,6 +29,9 @@ class CheckoutActivity : BaseActivity() {
         errorInViewHandler.observeNetworkError(this, checkoutViewModel.networkErrorLiveData)
         errorInViewHandler.observeCommonError(this, checkoutViewModel.commonErrorLiveData)
         errorInViewHandler.observeTechError(this, checkoutViewModel.technicalErrorLiveData)
+        checkoutViewModel.personalInfoErrorEvent.observe(this, Observer {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        })
 
         initToolbar(binding.toolbar)
         displayBackArrow(true)

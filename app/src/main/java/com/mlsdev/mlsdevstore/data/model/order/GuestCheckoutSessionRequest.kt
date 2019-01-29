@@ -12,7 +12,7 @@ data class GuestCheckoutSessionRequest(
         @SerializedName("contactLastName")
         val contactLastName: String,
         @SerializedName("creditCard")
-        val creditCard: CreditCard,
+        var creditCard: CreditCard,
         @SerializedName("lineItemInputs")
         val lineItemInputs: List<LineItemInput>,
         @SerializedName("shippingAddress")

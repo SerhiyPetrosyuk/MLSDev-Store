@@ -83,5 +83,6 @@
     <string name="hint_cvv">CVV</string>
     <string name="error_empty">Empty</string>
     <string name="error_incorrect">Incorrect</string>
+    <string name="error_incorrect_personal_info">Please check you personal info. All fields must be filled in</string>
 
 </resources>

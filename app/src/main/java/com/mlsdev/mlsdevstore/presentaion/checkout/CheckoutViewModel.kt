@@ -84,7 +84,7 @@ constructor(
             compositeDisposable.add(paymentMethodValidator
                     .validate(credentials)
                     .flatMap { paymentMethod ->
-                        val creditCard = CreditCard(0,
+                        val creditCard = CreditCard(
                                 getCardType(),
                                 paymentMethod.cardNumber,
                                 paymentMethod.cvv,

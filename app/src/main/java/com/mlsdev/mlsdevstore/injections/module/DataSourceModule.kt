@@ -1,7 +1,6 @@
 package com.mlsdev.mlsdevstore.injections.module
 
 import com.mlsdev.mlsdevstore.data.DataSource
-import com.mlsdev.mlsdevstore.data.cart.Cart
 import com.mlsdev.mlsdevstore.data.local.LocalDataSource
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
@@ -25,8 +24,8 @@ class DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideLocalDataSource(remoteDataSource: RemoteDataSource, appDatabase: AppDatabase, cart: Cart): LocalDataSource {
-        return LocalDataSource(remoteDataSource, appDatabase, cart)
+    fun provideLocalDataSource(remoteDataSource: RemoteDataSource, appDatabase: AppDatabase): LocalDataSource {
+        return LocalDataSource(remoteDataSource, appDatabase)
     }
 
     @Provides

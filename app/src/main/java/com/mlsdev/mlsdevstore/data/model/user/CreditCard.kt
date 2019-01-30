@@ -1,21 +1,13 @@
 package com.mlsdev.mlsdevstore.data.model.user
 
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
-
 import com.google.gson.annotations.SerializedName
-import com.mlsdev.mlsdevstore.data.local.database.Table
 
 const val AMEX = "AmEx"
 const val VISA = "Visa"
 const val MASTERCARD = "MasterCard"
 const val DISCOVER = "Discover"
 
-@Entity(tableName = Table.CREDIT_CARDS)
 data class CreditCard(
-        @PrimaryKey(autoGenerate = true)
-        var id: Int = 0,
         @SerializedName("brand")
         var brand: String? = null,
         @SerializedName("cardNumber")
@@ -26,8 +18,5 @@ data class CreditCard(
         var expireMonth: Int = 0,
         @SerializedName("expireYear")
         var expireYear: Int = 0,
-        @Ignore
         @SerializedName("billingAddress")
-        var billingAddress: Address? = null,
-        var billingAddressId: Int = 0
-)
+        var billingAddress: Address? = null)

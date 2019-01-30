@@ -1,7 +1,6 @@
 package com.mlsdev.mlsdevstore.data.local
 
 import com.mlsdev.mlsdevstore.data.DataSource
-import com.mlsdev.mlsdevstore.data.cart.Cart
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
@@ -17,8 +16,7 @@ import io.reactivex.schedulers.Schedulers
 
 class LocalDataSource(
         private val remoteDataSource: RemoteDataSource,
-        private val database: AppDatabase,
-        private val cart: Cart
+        private val database: AppDatabase
 ) : DataSource {
 
     val personalInfo: Single<PersonalInfo>
@@ -29,14 +27,6 @@ class LocalDataSource(
     fun getShippingInfo(): Single<Address> = remoteDataSource
             .prepareSingle(database.addressDao().queryByType(Address.Type.SHIPPING))
             .map { addresses -> if (!addresses.isEmpty()) addresses[0] else Address() }
-
-    fun getShippingInfoSync(): Address {
-        database.addressDao().queryByTypeSync(Address.Type.SHIPPING).getOrNull(0)?.let {
-            return it
-        }
-
-        return Address()
-    }
 
     override fun loadDefaultCategoryTreeId(): Single<String> {
         val single = database.categoriesDao().queryDefaultCategoryTree()

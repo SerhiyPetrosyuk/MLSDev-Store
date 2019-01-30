@@ -35,18 +35,27 @@ constructor(
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     internal fun start() {
         checkNetworkConnection(utils!!) {
-            compositeDisposable.add(localDataSource.getGuestCheckoutSession().subscribe(
-                    { guestCheckoutSessionRequest ->
-                        email.set(guestCheckoutSessionRequest.contactEmail)
-                        firstName.set(guestCheckoutSessionRequest.contactFirstName)
-                        lastName.set(guestCheckoutSessionRequest.contactLastName)
-                        phoneNumber.set(guestCheckoutSessionRequest.shippingAddress.phoneNumber)
-                        address.set(guestCheckoutSessionRequest.shippingAddress.address)
-                        city.set(guestCheckoutSessionRequest.shippingAddress.city)
-                        state.set(guestCheckoutSessionRequest.shippingAddress.state)
-                        zip.set(guestCheckoutSessionRequest.shippingAddress.postalCode)
-                    },
-                    { handleError(it) }))
+            compositeDisposable.add(
+                    localDataSource.getShippingInfo().subscribe(
+                            { shippingAddress ->
+                                phoneNumber.set(shippingAddress.phoneNumber)
+                                address.set(shippingAddress.address)
+                                city.set(shippingAddress.city)
+                                state.set(shippingAddress.state)
+                                zip.set(shippingAddress.postalCode)
+                            },
+                            { handleError(it) })
+            )
+
+            compositeDisposable.add(
+                    localDataSource.personalInfo.subscribe(
+                            { personalInfo ->
+                                email.set(personalInfo.contactEmail)
+                                firstName.set(personalInfo.contactFirstName)
+                                lastName.set(personalInfo.contactLastName)
+                            },
+                            { handleError(it) })
+            )
         }
     }
 }

@@ -1,17 +1,24 @@
 package com.mlsdev.mlsdevstore.presentaion.checkout
 
+import android.util.Log
 import androidx.databinding.ObservableField
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.OnLifecycleEvent
 import com.mlsdev.mlsdevstore.MLSDevStoreApplication
 import com.mlsdev.mlsdevstore.data.cart.Cart
 import com.mlsdev.mlsdevstore.data.local.LocalDataSource
 import com.mlsdev.mlsdevstore.data.model.error.ValidationException
+import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSessionRequest
+import com.mlsdev.mlsdevstore.data.model.user.Address
 import com.mlsdev.mlsdevstore.data.model.user.CreditCard
 import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource
 import com.mlsdev.mlsdevstore.data.validator.*
 import com.mlsdev.mlsdevstore.presentaion.utils.CreditCardTypeDetector
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel
+import io.reactivex.Single
+import io.reactivex.functions.BiFunction
 import java.text.DecimalFormat
 import javax.inject.Inject
 
@@ -38,6 +45,13 @@ constructor(
 
     init {
         totalSum.set(DecimalFormat("#0.00").format(cart.getTotalSum()))
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun onStart() {
+        compositeDisposable.add(localDataSource.personalInfo.subscribe(
+                { cardHolder.set("${it.contactFirstName} ${it.contactLastName}") },
+                { handleError(it) }))
     }
 
     fun cardNumberChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -69,22 +83,28 @@ constructor(
 
             compositeDisposable.add(paymentMethodValidator
                     .validate(credentials)
-                    .flatMap { localDataSource.getGuestCheckoutSession() }
-                    .flatMap { checkoutSessionValidator.validate(it) }
-                    .map {
-                        it.creditCard = CreditCard(
-                                0,
+                    .flatMap { paymentMethod ->
+                        val creditCard = CreditCard(0,
                                 getCardType(),
-                                cardNumber.get(),
-                                cvv.get(),
+                                paymentMethod.cardNumber,
+                                paymentMethod.cvv,
                                 getExpirationMoth(),
-                                getExpirationYear(),
-                                it.shippingAddress)
-                        return@map it
+                                getExpirationYear())
+
+                        return@flatMap Single.zip(
+                                Single.just(creditCard),
+                                localDataSource.getShippingInfo(),
+                                BiFunction<CreditCard, Address, GuestCheckoutSessionRequest> { card, address ->
+                                    card.billingAddress = address
+                                    return@BiFunction GuestCheckoutSessionRequest(card, cart.getLineItemInputs(), address)
+                                })
                     }
+                    .flatMap { checkoutSessionValidator.validate(it) }
+                    .flatMap { remoteDataSource.initGuestCheckoutSession(it) }
                     .subscribe(
-                            {},
-                            { handleError(it) }))
+                            { Log.d(LOG_TAG, "${it.checkoutSessionId}}") },
+                            { handleError(it) })
+            )
         }
     }
 

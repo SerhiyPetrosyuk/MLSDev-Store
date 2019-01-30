@@ -23,6 +23,7 @@ class CheckoutActivity : BaseActivity() {
 
     private fun init() {
         checkoutViewModel = ViewModelProviders.of(this, viewModelFactory).get(CheckoutViewModel::class.java)
+        lifecycle.addObserver(checkoutViewModel)
         binding.viewModel = checkoutViewModel
 
         errorInViewHandler.observeAuthError(this, checkoutViewModel.authErrorLiveData)
@@ -35,6 +36,11 @@ class CheckoutActivity : BaseActivity() {
 
         initToolbar(binding.toolbar)
         displayBackArrow(true)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        lifecycle.removeObserver(checkoutViewModel)
     }
 
     companion object {

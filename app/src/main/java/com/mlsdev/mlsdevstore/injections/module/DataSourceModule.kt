@@ -8,12 +8,11 @@ import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
 import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource
 import com.mlsdev.mlsdevstore.data.remote.service.AuthenticationService
 import com.mlsdev.mlsdevstore.data.remote.service.BrowseService
+import com.mlsdev.mlsdevstore.data.remote.service.OrderService
 import com.mlsdev.mlsdevstore.data.remote.service.TaxonomyService
-
-import javax.inject.Singleton
-
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
 class DataSourceModule {
@@ -33,10 +32,11 @@ class DataSourceModule {
     @Provides
     @Singleton
     fun remoteDataSource(browseService: BrowseService,
-                                  authenticationService: AuthenticationService,
-                                  taxonomyService: TaxonomyService,
-                                  sharedPreferencesManager: SharedPreferencesManager,
-                                  database: AppDatabase): RemoteDataSource {
-        return RemoteDataSource(browseService, authenticationService, taxonomyService, sharedPreferencesManager, database)
+                         authenticationService: AuthenticationService,
+                         taxonomyService: TaxonomyService,
+                         orderService: OrderService,
+                         sharedPreferencesManager: SharedPreferencesManager,
+                         database: AppDatabase): RemoteDataSource {
+        return RemoteDataSource(browseService, authenticationService, taxonomyService, orderService, sharedPreferencesManager, database)
     }
 }

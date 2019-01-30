@@ -7,15 +7,12 @@ import com.mlsdev.mlsdevstore.data.model.category.CategoryTree
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
 import com.mlsdev.mlsdevstore.data.model.item.Item
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult
-import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSessionRequest
 import com.mlsdev.mlsdevstore.data.model.user.Address
-import com.mlsdev.mlsdevstore.data.model.user.CreditCard
 import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
 import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
 
 class LocalDataSource(
@@ -33,29 +30,12 @@ class LocalDataSource(
             .prepareSingle(database.addressDao().queryByType(Address.Type.SHIPPING))
             .map { addresses -> if (!addresses.isEmpty()) addresses[0] else Address() }
 
-    fun getGuestCheckoutSession(): Single<GuestCheckoutSessionRequest> {
-        val creditCardSource = remoteDataSource
-                .prepareSingle(database.creditCardDao().queryCard())
-                .map { creditCards -> if (!creditCards.isEmpty()) creditCards[0] else CreditCard() }
+    fun getShippingInfoSync(): Address {
+        database.addressDao().queryByTypeSync(Address.Type.SHIPPING).getOrNull(0)?.let {
+            return it
+        }
 
-        return Single.zip<Address, CreditCard, PersonalInfo, GuestCheckoutSessionRequest>(
-                getShippingInfo(),
-                creditCardSource,
-                personalInfo,
-                Function3 { address, card, personalInfo ->
-                    card.billingAddress = address
-                    val guestCheckoutSession = GuestCheckoutSessionRequest(
-                            personalInfo.contactEmail ?: "",
-                            personalInfo.contactFirstName ?: "",
-                            personalInfo.contactLastName ?: "",
-                            card,
-                            cart.getLineItemInputs(),
-                            address
-                    )
-                    guestCheckoutSession
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        return Address()
     }
 
     override fun loadDefaultCategoryTreeId(): Single<String> {
@@ -140,6 +120,7 @@ class LocalDataSource(
             address: String,
             city: String,
             state: String,
+            country: String,
             postalCode: String): Completable {
 
         return Completable.fromRunnable {
@@ -153,6 +134,7 @@ class LocalDataSource(
             insertAddress.address = address
             insertAddress.city = city
             insertAddress.state = state
+            insertAddress.country = country
             insertAddress.postalCode = postalCode
             database.addressDao().insert(insertAddress)
         }

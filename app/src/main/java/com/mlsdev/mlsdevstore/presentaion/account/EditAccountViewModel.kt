@@ -1,9 +1,9 @@
 package com.mlsdev.mlsdevstore.presentaion.account
 
+import android.content.Context
 import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.OnLifecycleEvent
 import com.mlsdev.mlsdevstore.data.local.LocalDataSource
@@ -13,11 +13,18 @@ import io.reactivex.CompletableObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.util.*
 import javax.inject.Inject
 
 class EditAccountViewModel @Inject
-constructor(private val localDataSource: LocalDataSource, private val fieldsValidator: FieldsValidator) : BaseViewModel() {
+constructor(
+        context: Context,
+        private val localDataSource: LocalDataSource,
+        private val fieldsValidator: FieldsValidator) : BaseViewModel() {
+
+    init {
+        this.context = context
+    }
+
     val accountUpdated = CustomObservableBoolean()
     val email = ObservableField<String>()
     val firstName = ObservableField<String>()
@@ -103,12 +110,14 @@ constructor(private val localDataSource: LocalDataSource, private val fieldsVali
     }
 
     private fun updateShippingInfo() {
+        val country: String = context!!.resources.configuration.locales[0].country
         compositeDisposable.add(
                 localDataSource.updateShippingInfo(
                         phoneNumber.get() ?: "",
                         address.get() ?: "",
                         city.get() ?: "",
                         state.get() ?: "",
+                        country,
                         postalCode.get() ?: "").subscribe(
                         {
                             Log.d(BaseViewModel.LOG_TAG, "Shipping info has been updated")

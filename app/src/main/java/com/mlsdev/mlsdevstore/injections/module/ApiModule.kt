@@ -6,11 +6,9 @@ import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager
 import com.mlsdev.mlsdevstore.data.remote.AuthInterceptor
 import com.mlsdev.mlsdevstore.data.remote.service.AuthenticationService
 import com.mlsdev.mlsdevstore.data.remote.service.BrowseService
+import com.mlsdev.mlsdevstore.data.remote.service.OrderService
 import com.mlsdev.mlsdevstore.data.remote.service.TaxonomyService
 import com.mlsdev.mlsdevstore.injections.Named
-
-import javax.inject.Singleton
-
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -18,6 +16,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
 class ApiModule {
@@ -91,6 +90,12 @@ class ApiModule {
     @Singleton
     fun provideTaxonomyService(retrofit: Retrofit): TaxonomyService {
         return retrofit.create(TaxonomyService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOrderService(retrofit: Retrofit): OrderService {
+        return retrofit.create(OrderService::class.java)
     }
 
     @Provides

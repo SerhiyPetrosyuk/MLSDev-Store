@@ -15,8 +15,11 @@ import com.mlsdev.mlsdevstore.data.model.item.CategoryDistribution
 import com.mlsdev.mlsdevstore.data.model.item.Item
 import com.mlsdev.mlsdevstore.data.model.item.Refinement
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult
+import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSession
+import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSessionRequest
 import com.mlsdev.mlsdevstore.data.remote.service.AuthenticationService
 import com.mlsdev.mlsdevstore.data.remote.service.BrowseService
+import com.mlsdev.mlsdevstore.data.remote.service.OrderService
 import com.mlsdev.mlsdevstore.data.remote.service.TaxonomyService
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -29,6 +32,7 @@ import java.util.*
 class RemoteDataSource(private val browseService: BrowseService,
                        private val authenticationService: AuthenticationService,
                        private val taxonomyService: TaxonomyService,
+                       private val orderService: OrderService,
                        private val sharedPreferencesManager: SharedPreferencesManager,
                        private val database: AppDatabase) : DataSource {
     private var searchOffset = 0
@@ -148,7 +152,8 @@ class RemoteDataSource(private val browseService: BrowseService,
         return queries
     }
 
-//    fun initGuesCheckoutSession(guestCheckoutSessionRequest: GuestCheckoutSessionRequest)
+    fun initGuestCheckoutSession(guestCheckoutSessionRequest: GuestCheckoutSessionRequest): Single<GuestCheckoutSession> =
+            prepareSingle(orderService.initiateGuestCheckoutSession(guestCheckoutSessionRequest))
 
     fun <T> prepareSingle(single: Single<T>): Single<T> {
         return single

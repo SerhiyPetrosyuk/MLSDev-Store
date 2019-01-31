@@ -11,7 +11,9 @@ import com.mlsdev.mlsdevstore.data.local.LocalDataSource
 import com.mlsdev.mlsdevstore.data.model.error.ValidationException
 import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSessionRequest
 import com.mlsdev.mlsdevstore.data.model.user.Address
+import com.mlsdev.mlsdevstore.data.model.user.BillingAddress
 import com.mlsdev.mlsdevstore.data.model.user.CreditCard
+import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
 import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource
 import com.mlsdev.mlsdevstore.data.validator.*
 import com.mlsdev.mlsdevstore.presentaion.utils.CreditCardTypeDetector
@@ -42,6 +44,7 @@ constructor(
     val cardTypeDetector = CreditCardTypeDetector()
     val totalSum = ObservableField<String>("00.00")
     val personalInfoErrorEvent = MutableLiveData<String>()
+    val orderPostedEvent = MutableLiveData<Boolean>()
 
     init {
         totalSum.set(DecimalFormat("#0.00").format(cart.getTotalSum()))
@@ -73,36 +76,38 @@ constructor(
 
     fun onPlaceOrderClick() {
         checkNetworkConnection(appUtils) {
+            setIsLoading(true)
             val checkoutSessionValidator = GuestCheckoutSessionValidator(application)
             val paymentMethodValidator = PaymentMethodValidator(application)
-            val credentials = PaymentMethod(
-                    cardNumber.get(),
-                    cardExpirationDate.get(),
-                    cardHolder.get(),
-                    cvv.get())
+            val credentials = PaymentMethod(cardNumber.get(), cardExpirationDate.get(), cardHolder.get(), cvv.get())
 
             compositeDisposable.add(paymentMethodValidator
                     .validate(credentials)
                     .flatMap { paymentMethod ->
-                        val creditCard = CreditCard(
-                                getCardType(),
-                                paymentMethod.cardNumber,
-                                paymentMethod.cvv,
-                                getExpirationMoth(),
-                                getExpirationYear())
-
-                        return@flatMap Single.zip(
-                                Single.just(creditCard),
-                                localDataSource.getShippingInfo(),
-                                BiFunction<CreditCard, Address, GuestCheckoutSessionRequest> { card, address ->
-                                    card.billingAddress = address
-                                    return@BiFunction GuestCheckoutSessionRequest(card, cart.getLineItemInputs(), address)
+                        return@flatMap Single.zip(localDataSource.getShippingInfo(), localDataSource.personalInfo,
+                                BiFunction<Address, PersonalInfo, GuestCheckoutSessionRequest> { address, personalInfo ->
+                                    val recipient = "${personalInfo.contactFirstName} ${personalInfo.contactLastName}"
+                                    val billingAddress = BillingAddress(address, personalInfo.contactFirstName, personalInfo.contactLastName)
+                                    val creditCard = CreditCard(getCardType(), paymentMethod.cardNumber, paymentMethod.cvv,
+                                            getExpirationMoth(), getExpirationYear(), recipient, billingAddress)
+                                    address.recipient = recipient
+                                    return@BiFunction GuestCheckoutSessionRequest(
+                                            personalInfo.contactEmail,
+                                            personalInfo.contactFirstName,
+                                            personalInfo.contactLastName,
+                                            creditCard,
+                                            cart.getLineItemInputs(), address)
                                 })
                     }
                     .flatMap { checkoutSessionValidator.validate(it) }
                     .flatMap { remoteDataSource.initGuestCheckoutSession(it) }
+                    .flatMap { remoteDataSource.postOrder(it.checkoutSessionId) }
                     .subscribe(
-                            { Log.d(LOG_TAG, "${it.checkoutSessionId}}") },
+                            {
+                                setIsLoading(false)
+                                Log.d(LOG_TAG, "${it.purchaseOrderId}}")
+                                orderPostedEvent.postValue(true)
+                            },
                             { handleError(it) })
             )
         }
@@ -125,7 +130,7 @@ constructor(
 
         cardExpirationDate.get()?.split("/")?.let {
             if (it.size > 1)
-                return it[1].toInt()
+                return 2000 + it[1].toInt()
         }
 
         return 0

@@ -18,5 +18,7 @@ data class CreditCard(
         var expireMonth: Int = 0,
         @SerializedName("expireYear")
         var expireYear: Int = 0,
+        @SerializedName("accountHolderName")
+        var accountHolderName: String?,
         @SerializedName("billingAddress")
-        var billingAddress: Address? = null)
+        var billingAddress: BillingAddress)

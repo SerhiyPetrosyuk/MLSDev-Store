@@ -1,3 +1,6 @@
+# v0.0.6
+* Post new order as a guest user [IT-852](https://mlsdev.atlassian.net/browse/IT-852)
+
 # v0.0.5
 * Update `personal info` block
 

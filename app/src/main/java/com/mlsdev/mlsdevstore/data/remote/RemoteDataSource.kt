@@ -4,6 +4,7 @@ import android.util.ArrayMap
 import android.util.Base64
 import com.mlsdev.mlsdevstore.BuildConfig
 import com.mlsdev.mlsdevstore.data.DataSource
+import com.mlsdev.mlsdevstore.data.cart.Cart
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.Key
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
@@ -17,6 +18,7 @@ import com.mlsdev.mlsdevstore.data.model.item.Refinement
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult
 import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSession
 import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSessionRequest
+import com.mlsdev.mlsdevstore.data.model.order.PostOrderResult
 import com.mlsdev.mlsdevstore.data.remote.service.AuthenticationService
 import com.mlsdev.mlsdevstore.data.remote.service.BrowseService
 import com.mlsdev.mlsdevstore.data.remote.service.OrderService
@@ -34,7 +36,8 @@ class RemoteDataSource(private val browseService: BrowseService,
                        private val taxonomyService: TaxonomyService,
                        private val orderService: OrderService,
                        private val sharedPreferencesManager: SharedPreferencesManager,
-                       private val database: AppDatabase) : DataSource {
+                       private val database: AppDatabase,
+                       private val cart: Cart) : DataSource {
     private var searchOffset = 0
     private var searchLimit = 10
     private val searchItems = ArrayList<Item>()
@@ -154,6 +157,13 @@ class RemoteDataSource(private val browseService: BrowseService,
 
     fun initGuestCheckoutSession(guestCheckoutSessionRequest: GuestCheckoutSessionRequest): Single<GuestCheckoutSession> =
             prepareSingle(orderService.initiateGuestCheckoutSession(guestCheckoutSessionRequest))
+                    .doOnSuccess {
+                        database.checkoutSessionDao().insert(it)
+                        cart.reset()
+                    }
+
+    fun postOrder(checkoutSessionId: String): Single<PostOrderResult> =
+            prepareSingle(orderService.postOrder(checkoutSessionId))
 
     fun <T> prepareSingle(single: Single<T>): Single<T> {
         return single

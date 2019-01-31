@@ -7,7 +7,7 @@ annotation class Table {
         const val CATEGORY_TREES = "category_trees"
         const val ADDRESSES = "addresses"
         const val PERSONAL_INFO = "personal_info"
-        const val CREDIT_CARDS = "credit_cards"
+        const val GUEST_CHECKOUT_SESSION = "guest_checkout_session"
     }
 
 }

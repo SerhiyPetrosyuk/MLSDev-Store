@@ -2,8 +2,7 @@ package com.mlsdev.mlsdevstore.data.model.authentication
 
 import com.google.gson.annotations.SerializedName
 import com.mlsdev.mlsdevstore.BuildConfig
-
-import java.util.HashMap
+import java.util.*
 
 class AppAccessTokenRequestBody {
 
@@ -14,7 +13,8 @@ class AppAccessTokenRequestBody {
     private val redirectUri: String = BuildConfig.REDIRECT_URI
 
     @SerializedName("scope")
-    private val scope = "https://api.ebay.com/oauth/api_scope"
+    private val scope = "https://api.ebay.com/oauth/api_scope " +
+            "https://api.ebay.com/oauth/api_scope/buy.guest.order"
 
     val fields: Map<String, String>
         get() {

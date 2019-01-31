@@ -10,8 +10,14 @@ class GuestCheckoutSessionValidator(val app: Application) : Validator<GuestCheck
     override fun validate(data: GuestCheckoutSessionRequest): Single<GuestCheckoutSessionRequest> {
         val invalidFields = HashMap<String, String>()
 
-        if (data.creditCard.billingAddress == null
+        if (data.contactEmail.isNullOrBlank()
+                || data.contactFirstName.isNullOrBlank()
+                || data.contactLastName.isNullOrBlank()
                 || data.creditCard.brand.isNullOrBlank()
+                || data.creditCard.accountHolderName.isNullOrBlank()
+                || data.creditCard.billingAddress.firstName.isBlank()
+                || data.creditCard.billingAddress.lastName.isBlank()
+                || data.shippingAddress.recipient.isNullOrBlank()
                 || data.shippingAddress.address.isNullOrBlank()
                 || data.shippingAddress.city.isNullOrBlank()
                 || data.shippingAddress.phoneNumber.isNullOrBlank()

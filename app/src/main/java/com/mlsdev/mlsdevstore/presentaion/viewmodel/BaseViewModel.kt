@@ -34,7 +34,9 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
     val commonErrorLiveData = MutableLiveData<Boolean>()
     val authErrorLiveData = MutableLiveData<Boolean>()
     val isRefreshing = ObservableBoolean()
+    @Deprecated("use loadingStateLiveData")
     val isLoading = CustomObservableBoolean()
+    val loadingStateLiveData = MutableLiveData<Boolean>()
     protected var context: Context? = null
     protected var dataSource: DataSource? = null
     protected var utils: Utils? = null
@@ -51,6 +53,7 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
             val loading = it == DataLoadState.LOADING
             isRefreshing.set(isRefreshing.get() and loading)
             isLoading.set(isLoading.get() and loading)
+            loadingStateLiveData.postValue(isLoading.get() and loading)
         })
     }
 
@@ -94,6 +97,7 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
     protected fun setIsLoading(isLoading: Boolean) {
         this.isLoading.set(isLoading)
         this.isLoading.notifyChange()
+        loadingStateLiveData.postValue(isLoading)
     }
 
     companion object {
@@ -106,6 +110,7 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
     }
 
     fun handleError(error: Throwable) {
+        loadingStateLiveData.postValue(false)
         isLoading.set(false)
         isRefreshing.set(false)
 
@@ -116,7 +121,7 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
             is HttpException -> {
                 when {
                     error.code() == HTTP_ERROR_CODE_401 -> onAuthorizationErrorOccurred()
-                    error.code() == HTTP_SERVER_ERROR_500 or HTTP_SERVER_ERROR_504 -> onTechnicalErrorOccurred()
+                    error.code() in HTTP_SERVER_ERROR_500..HTTP_SERVER_ERROR_504 -> onTechnicalErrorOccurred()
                     error.response().body() != null -> {
                         val errorsWrapper = ErrorParser().parse(error)
                         errorsWrapper.errors?.getOrNull(0)?.let { parsedError ->

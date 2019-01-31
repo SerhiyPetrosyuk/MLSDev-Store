@@ -34,6 +34,12 @@ class CheckoutActivity : BaseActivity() {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         })
 
+        checkoutViewModel.loadingStateLiveData.observe(this, Observer { binding.isLoading = it })
+        checkoutViewModel.orderPostedEvent.observe(this, Observer {
+            Toast.makeText(this, getString(R.string.message_order_sent), Toast.LENGTH_LONG).show()
+            finish()
+        })
+
         initToolbar(binding.toolbar)
         displayBackArrow(true)
     }

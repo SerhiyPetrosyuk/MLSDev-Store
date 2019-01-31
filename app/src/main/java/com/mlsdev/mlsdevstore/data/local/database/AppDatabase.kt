@@ -6,10 +6,12 @@ import androidx.room.TypeConverters
 import com.mlsdev.mlsdevstore.data.local.database.converter.CategoryConverter
 import com.mlsdev.mlsdevstore.data.local.database.dao.AddressDao
 import com.mlsdev.mlsdevstore.data.local.database.dao.CategoriesDao
+import com.mlsdev.mlsdevstore.data.local.database.dao.CheckoutSessionDao
 import com.mlsdev.mlsdevstore.data.local.database.dao.PersonalInfoDao
 import com.mlsdev.mlsdevstore.data.model.category.Category
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
+import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSession
 import com.mlsdev.mlsdevstore.data.model.user.Address
 import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
 
@@ -18,11 +20,13 @@ import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
     CategoryTreeNode::class,
     CategoryTree::class,
     Address::class,
-    PersonalInfo::class
+    PersonalInfo::class,
+    GuestCheckoutSession::class
 ], version = 1, exportSchema = false)
 @TypeConverters(CategoryConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun categoriesDao(): CategoriesDao
     abstract fun addressDao(): AddressDao
     abstract fun personalInfoDao(): PersonalInfoDao
+    abstract fun checkoutSessionDao(): CheckoutSessionDao
 }

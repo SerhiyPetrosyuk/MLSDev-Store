@@ -3,14 +3,10 @@ package com.mlsdev.mlsdevstore.data.remote
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.Key
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken
-
-import java.io.IOException
-
-import javax.inject.Inject
-
 import okhttp3.Interceptor
-import okhttp3.Request
 import okhttp3.Response
+import java.io.IOException
+import javax.inject.Inject
 
 class AuthInterceptor @Inject
 constructor(private val sharedPreferencesManager: SharedPreferencesManager) : Interceptor {
@@ -20,7 +16,7 @@ constructor(private val sharedPreferencesManager: SharedPreferencesManager) : In
 
         val appAccessToken = sharedPreferencesManager[Key.APPLICATION_ACCESS_TOKEN, AppAccessToken::class.java]
         var appAccessTokenString: String? = null
-        if (appAccessToken != null && appAccessToken.accessToken != null)
+        if (appAccessToken?.accessToken != null)
             appAccessTokenString = appAccessToken.accessToken
 
         val original = chain.request()

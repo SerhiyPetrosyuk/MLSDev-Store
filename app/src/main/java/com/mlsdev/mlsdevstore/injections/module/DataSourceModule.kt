@@ -1,6 +1,7 @@
 package com.mlsdev.mlsdevstore.injections.module
 
 import com.mlsdev.mlsdevstore.data.DataSource
+import com.mlsdev.mlsdevstore.data.cart.Cart
 import com.mlsdev.mlsdevstore.data.local.LocalDataSource
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
@@ -35,7 +36,9 @@ class DataSourceModule {
                          taxonomyService: TaxonomyService,
                          orderService: OrderService,
                          sharedPreferencesManager: SharedPreferencesManager,
-                         database: AppDatabase): RemoteDataSource {
-        return RemoteDataSource(browseService, authenticationService, taxonomyService, orderService, sharedPreferencesManager, database)
+                         database: AppDatabase,
+                         cart: Cart): RemoteDataSource {
+        return RemoteDataSource(browseService, authenticationService, taxonomyService, orderService,
+                sharedPreferencesManager, database, cart)
     }
 }

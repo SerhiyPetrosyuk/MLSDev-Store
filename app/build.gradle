@@ -89,6 +89,8 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
 
+    implementation 'com.microsoft.azure.cognitiveservices:azure-cognitiveservices-imagesearch:1.0.1'
+
     // Room DB
     def room = '2.1.0-alpha03'
     implementation "androidx.room:room-runtime:$room"

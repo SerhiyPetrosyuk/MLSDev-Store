@@ -16,6 +16,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -38,7 +39,7 @@ class ApiModule {
     @Singleton
     @Named(Name.WITHOUT_AUTHORIZATION_INTERCEPTOR)
     fun provideRetrofitWithoutAuthInterceptor(@Named(Name.WITHOUT_AUTHORIZATION_INTERCEPTOR) client: OkHttpClient,
-                                                       gson: Gson): Retrofit {
+                                              gson: Gson): Retrofit {
         return createRetrofit(client, gson)
     }
 
@@ -71,6 +72,9 @@ class ApiModule {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         builder.addInterceptor(interceptor)
+        builder.connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
         return builder
     }
 

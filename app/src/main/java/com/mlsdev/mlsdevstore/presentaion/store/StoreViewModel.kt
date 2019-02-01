@@ -13,7 +13,7 @@ constructor(dataSource: DataSource, utils: Utils) : BaseViewModel() {
     val searchResultLiveData = MutableLiveData<SearchResult>()
 
     private val searchResultsConsumer = Consumer<SearchResult> { searchResult ->
-        isLoading.set(false)
+        setIsLoading(false)
         isRefreshing.set(false)
         searchResultLiveData.postValue(searchResult)
     }
@@ -25,8 +25,7 @@ constructor(dataSource: DataSource, utils: Utils) : BaseViewModel() {
 
     fun getProducts() {
         checkNetworkConnection(utils!!) {
-            isLoading.set(true)
-            isLoading.notifyChange()
+            setIsLoading(true)
             compositeDisposable.add(dataSource!!.searchItemsByRandomCategory()
                     .subscribe(searchResultsConsumer, errorConsumer))
         }
@@ -45,7 +44,7 @@ constructor(dataSource: DataSource, utils: Utils) : BaseViewModel() {
         checkNetworkConnection(utils!!) {
             compositeDisposable.add(dataSource!!.searchMoreItemsByRandomCategory().subscribe(
                     { result ->
-                        isLoading.set(false)
+                        setIsLoading(false)
                         isRefreshing.set(false)
                         searchResultLiveData.value?.let { liveSearchResult ->
                             liveSearchResult.offset = result.offset

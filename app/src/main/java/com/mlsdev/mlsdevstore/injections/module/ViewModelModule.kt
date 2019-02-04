@@ -11,6 +11,7 @@ import com.mlsdev.mlsdevstore.presentaion.cart.CartViewModel
 import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesViewModel
 import com.mlsdev.mlsdevstore.presentaion.checkout.CheckoutViewModel
 import com.mlsdev.mlsdevstore.presentaion.product.ProductDetailsViewModel
+import com.mlsdev.mlsdevstore.presentaion.products.ProductsViewModel
 import com.mlsdev.mlsdevstore.presentaion.splashscreen.SplashScreenViewModel
 import com.mlsdev.mlsdevstore.presentaion.store.StoreViewModel
 
@@ -65,6 +66,11 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(EditAccountViewModel::class)
     fun bindEditAccountViewModel(editAccountViewModel: EditAccountViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProductsViewModel::class)
+    fun bindProductsViewModel(productsViewModel: ProductsViewModel): ViewModel
 
     @Binds
     fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

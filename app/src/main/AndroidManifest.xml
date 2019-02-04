@@ -56,7 +56,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".presentaion.categories.CategoryActivity"
+            android:name=".presentaion.products.ProductsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
     </application>

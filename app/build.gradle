@@ -89,10 +89,16 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
 
-    implementation 'com.microsoft.azure.cognitiveservices:azure-cognitiveservices-imagesearch:1.0.1'
+    // Ktx
+    implementation 'androidx.core:core-ktx:1.0.1'
+
+    // Paging
+    def paging_version = "2.1.0"
+    implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation "androidx.paging:paging-rxjava2:$paging_version"
 
     // Room DB
-    def room = '2.1.0-alpha03'
+    def room = '2.1.0-alpha04'
     implementation "androidx.room:room-runtime:$room"
     implementation "androidx.room:room-rxjava2:$room"
     kapt "androidx.room:room-compiler:$room"

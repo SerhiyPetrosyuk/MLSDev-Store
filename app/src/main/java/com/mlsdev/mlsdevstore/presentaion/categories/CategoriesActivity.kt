@@ -10,7 +10,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.mlsdev.mlsdevstore.R
 import com.mlsdev.mlsdevstore.databinding.ActivityCategoriesBinding
 import com.mlsdev.mlsdevstore.presentaion.BaseActivity
+import com.mlsdev.mlsdevstore.presentaion.products.ProductsActivity
 import com.mlsdev.mlsdevstore.presentaion.store.CategoriesAdapter
+import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys.Companion.KEY_CATEGORY_ID
 
 class CategoriesActivity : BaseActivity() {
     lateinit var categoriesAdapter: CategoriesAdapter
@@ -36,7 +38,11 @@ class CategoriesActivity : BaseActivity() {
 
     private fun initRecyclerView() {
         categoriesAdapter = CategoriesAdapter { category ->
-            Log.d("ON_ITEM_CLICK", "Category id: ${category.id}")
+            Log.d("ON_ITEM_CLICK", "Category id: ${category.category.categoryId}; " +
+                    "Category name: ${category.category.categoryName}")
+            val intent = Intent(this, ProductsActivity::class.java)
+            intent.putExtra(KEY_CATEGORY_ID, category.category.categoryId)
+            startActivity(intent)
         }
         binding.rvCategories.adapter = categoriesAdapter
         viewModel.categories.observe(this, Observer {

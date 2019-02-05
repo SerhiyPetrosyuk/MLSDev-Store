@@ -1,9 +1,8 @@
 package com.mlsdev.mlsdevstore.presentaion.store
 
-import androidx.databinding.ObservableField
 import android.os.Bundle
 import android.view.View
-
+import androidx.databinding.ObservableField
 import com.mlsdev.mlsdevstore.data.cart.Cart
 import com.mlsdev.mlsdevstore.data.model.item.Item
 import com.mlsdev.mlsdevstore.data.model.item.ListItem
@@ -21,7 +20,7 @@ class ProductItemViewModel {
     val imageUrl = ObservableField<String>()
     val isNew = CustomObservableBoolean()
 
-    fun setItem(cart: Cart, listItem: ListItem) {
+    fun setItem(cart: Cart?, listItem: ListItem) {
         this.cart = cart
         this.listItem = listItem
 
@@ -49,7 +48,7 @@ class ProductItemViewModel {
     }
 
     fun removeFromCart() {
-        cart!!.removeItem(listItem!!.id)
+        cart?.removeItem(listItem!!.id)
     }
 
 }

@@ -39,7 +39,7 @@ class ProductsDataSource @Inject constructor(
 
         try {
             loadStateLiveData.postValue(DataLoadState.LOADING)
-            disposable = browseService.searchItemsByCategoryId(categoryId, params.startPosition, params.loadSize)
+            disposable = browseService.searchItemsByCategoryId(categoryId, params.startPosition, params.loadSize + params.startPosition)
                     .subscribe(
                             {
                                 loadStateLiveData.postValue(DataLoadState.LOADED)
@@ -113,12 +113,12 @@ class ProductsDataSourceFactory @Inject constructor(
         val provider: Provider<ProductsDataSource>
 ) : DataSource.Factory<Int, Item>() {
 
-    val categoryIdLiveData = MutableLiveData<String>()
+    var categoryId: String = "0"
     val dataSourceLiveData = MutableLiveData<ProductsDataSource>()
 
     override fun create(): DataSource<Int, Item> {
         val productsDataSource = provider.get()
-        categoryIdLiveData.value?.let { categoryId -> productsDataSource.categoryId = categoryId }
+        productsDataSource.categoryId = categoryId
         dataSourceLiveData.postValue(productsDataSource)
         return productsDataSource
     }

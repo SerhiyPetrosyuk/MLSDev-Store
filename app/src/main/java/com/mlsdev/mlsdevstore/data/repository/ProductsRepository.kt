@@ -16,7 +16,7 @@ class ProductsRepository @Inject constructor(
 ) {
 
     fun getItems(categoryId: String): Observable<PagedList<Item>> {
-        itemsDataSourceFactory.categoryIdLiveData.postValue(categoryId)
+        itemsDataSourceFactory.categoryId = categoryId
         return RxPagedListBuilder(itemsDataSourceFactory, getPagingConfig()).buildObservable()
     }
 

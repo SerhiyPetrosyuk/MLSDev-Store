@@ -2,7 +2,7 @@ package com.mlsdev.mlsdevstore.presentaion.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
+import com.mlsdev.mlsdevstore.data.model.item.Price
 
 class Utils(private val context: Context) {
 
@@ -14,3 +14,6 @@ class Utils(private val context: Context) {
         }
 
 }
+
+fun formatProductPrice(price: Price): Array<String> =
+        price.value.toString().split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()

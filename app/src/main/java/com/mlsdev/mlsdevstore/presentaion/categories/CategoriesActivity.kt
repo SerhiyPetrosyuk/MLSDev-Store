@@ -13,6 +13,7 @@ import com.mlsdev.mlsdevstore.presentaion.BaseActivity
 import com.mlsdev.mlsdevstore.presentaion.products.ProductsActivity
 import com.mlsdev.mlsdevstore.presentaion.store.CategoriesAdapter
 import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys.Companion.KEY_CATEGORY_ID
+import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys.Companion.KEY_CATEGORY_NAME
 
 class CategoriesActivity : BaseActivity() {
     lateinit var categoriesAdapter: CategoriesAdapter
@@ -42,6 +43,7 @@ class CategoriesActivity : BaseActivity() {
                     "Category name: ${category.category.categoryName}")
             val intent = Intent(this, ProductsActivity::class.java)
             intent.putExtra(KEY_CATEGORY_ID, category.category.categoryId)
+            intent.putExtra(KEY_CATEGORY_NAME, category.category.categoryName)
             startActivity(intent)
         }
         binding.rvCategories.adapter = categoriesAdapter

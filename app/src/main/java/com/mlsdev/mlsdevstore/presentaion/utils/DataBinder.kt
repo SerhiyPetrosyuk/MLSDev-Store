@@ -20,6 +20,14 @@ object DataBinder {
                 .into(imageView)
     }
 
+    @BindingAdapter("categoryImage")
+    @JvmStatic
+    fun setCategoryImage(imageView: ImageView, categoryImage: String?) {
+        Picasso.with(imageView.context)
+                .load(categoryImage)
+                .into(imageView)
+    }
+
     @BindingAdapter("badgeCount")
     @JvmStatic
     fun setBadgeCount(bottomBar: BottomBar, badgeCount: Int) {

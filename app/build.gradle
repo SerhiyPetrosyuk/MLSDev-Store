@@ -33,6 +33,7 @@ android {
             buildConfigField "String", "CLIENT_ID", "\"DickMoun-MLSDevSt-SBX-05d7a0307-0697aff6\""
             buildConfigField "String", "CLIENT_SECRET", "\"SBX-5d7a03073185-0dd8-4b87-ae38-f61d\""
             buildConfigField "String", "REDIRECT_URI", "\"Dick_Mountain-DickMoun-MLSDev-qjxfadmee\""
+            buildConfigField "String", "SEARCH_API_KEY", "\"11508179-83ac43fa7326da134c9093d3d\""
             minifyEnabled false
             versionNameSuffix '-DEBUG'
             applicationIdSuffix '.debug'
@@ -45,6 +46,7 @@ android {
             buildConfigField "String", "CLIENT_ID", "\"DickMoun-MLSDevSt-PRD-7132041a0-99f80320\""
             buildConfigField "String", "CLIENT_SECRET", "\"PRD-132041a09e1f-bfaf-41ad-a77c-1e70\""
             buildConfigField "String", "REDIRECT_URI", "\"Dick_Mountain-DickMoun-MLSDev-ckswkaq\""
+            buildConfigField "String", "SEARCH_API_KEY", "\"11508179-83ac43fa7326da134c9093d3d\""
             minifyEnabled false
             signingConfig = android.signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

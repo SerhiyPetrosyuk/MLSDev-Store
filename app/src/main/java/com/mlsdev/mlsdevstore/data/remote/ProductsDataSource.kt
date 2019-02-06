@@ -33,13 +33,19 @@ class ProductsDataSource @Inject constructor(
 ) : PositionalDataSource<Item>() {
     private var retryCompletable: Completable? = null
     private var disposable: Disposable? = null
+    private var totalCount = 0
     var categoryId: String = "0"
     val loadStateLiveData = MutableLiveData<DataLoadState>()
 
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Item>) {
 
+        if ((params.startPosition + params.loadSize) >= totalCount) {
+            callback.onResult(emptyList())
+            return
+        }
+
         try {
-            disposable = browseService.searchItemsByCategoryId(categoryId, params.startPosition, params.loadSize + params.startPosition)
+            disposable = browseService.searchItemsByCategoryId(categoryId, params.loadSize, params.loadSize + params.startPosition)
                     .handleLoading(loadStateLiveData)
                     .subscribe(
                             { callback.onResult(it.itemSummaries) },
@@ -57,7 +63,10 @@ class ProductsDataSource @Inject constructor(
             disposable = browseService.searchItemsByCategoryId(categoryId, params.pageSize, 0)
                     .handleLoading(loadStateLiveData)
                     .subscribe(
-                            { callback.onResult(it.itemSummaries, it.offset, it.total) },
+                            {
+                                totalCount = it.total
+                                callback.onResult(it.itemSummaries, it.offset, it.total)
+                            },
                             { handleError(it, params, callback) })
         } catch (exception: Exception) {
             handleError(exception, params, callback)

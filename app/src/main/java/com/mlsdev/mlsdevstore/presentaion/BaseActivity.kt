@@ -37,11 +37,16 @@ abstract class BaseActivity : DaggerAppCompatActivity(), LifecycleOwner {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if (item.itemId == android.R.id.home) {
-            finish()
+            onBackPressed()
             true
         } else {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onBackPressed() {
+        supportFinishAfterTransition();
+        super.onBackPressed()
     }
 
     open fun setToolBarTitle(@StringRes title: Int) {

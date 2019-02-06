@@ -1,6 +1,7 @@
 package com.mlsdev.mlsdevstore.presentaion.store
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +10,9 @@ import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
 import com.mlsdev.mlsdevstore.databinding.ItemCategoryBinding
 import java.util.*
 
-class CategoriesAdapter(val onItemClick: (item: CategoryTreeNode) -> Unit) : RecyclerView.Adapter<CategoriesAdapter.ViewHolder>() {
+class CategoriesAdapter(
+        val onItemClick: (item: CategoryTreeNode, itemView: View) -> Unit
+) : RecyclerView.Adapter<CategoriesAdapter.ViewHolder>() {
 
     private val categoryTreeNodes = ArrayList<CategoryTreeNode>()
 
@@ -35,9 +38,12 @@ class CategoriesAdapter(val onItemClick: (item: CategoryTreeNode) -> Unit) : Rec
         fun onBindView() {
             val node = categoryTreeNodes[adapterPosition]
 
-            if (binding.viewModel == null)
-                binding.viewModel = CategoryItemViewModel(onItemClick)
-
+            if (binding.viewModel == null) {
+                binding.viewModel = CategoryItemViewModel { categoryTreeNode ->
+                    onItemClick(categoryTreeNode, binding.tvCategoryName)
+                }
+            }
+            binding.tvCategoryName.transitionName = node.category.categoryName
             binding.viewModel?.setData(node)
         }
     }

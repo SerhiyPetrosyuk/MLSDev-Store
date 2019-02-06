@@ -1,5 +1,8 @@
 package com.mlsdev.mlsdevstore.presentaion.products
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
@@ -8,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mlsdev.mlsdevstore.R
 import com.mlsdev.mlsdevstore.data.DataLoadState
+import com.mlsdev.mlsdevstore.data.local.database.Column.Companion.CATEGORY_NAME
 import com.mlsdev.mlsdevstore.databinding.ActivityProductsBinding
 import com.mlsdev.mlsdevstore.presentaion.BaseActivity
 import io.reactivex.disposables.Disposable
@@ -26,7 +30,14 @@ class ProductsActivity : BaseActivity() {
         binding.viewModel = viewModel
         initToolbar(binding.toolbar)
         displayBackArrow(true)
+        initTransitionName()
         initCollectionView()
+    }
+
+    private fun initTransitionName() {
+        intent.getStringExtra(CATEGORY_NAME)?.let { categoryName ->
+            binding.textTitle.transitionName = categoryName
+        }
     }
 
     private fun initCollectionView() {
@@ -73,4 +84,8 @@ class ProductsActivity : BaseActivity() {
         collectionSubscription?.dispose()
     }
 
+    override fun onBackPressed() {
+        binding.textTitle.setTextColor(Color.BLACK)
+        super.onBackPressed()
+    }
 }

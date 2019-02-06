@@ -1,9 +1,11 @@
 package com.mlsdev.mlsdevstore.presentaion.categories
 
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -38,13 +40,18 @@ class CategoriesActivity : BaseActivity() {
     }
 
     private fun initRecyclerView() {
-        categoriesAdapter = CategoriesAdapter { category ->
+        categoriesAdapter = CategoriesAdapter { category, itemView ->
             Log.d("ON_ITEM_CLICK", "Category id: ${category.category.categoryId}; " +
                     "Category name: ${category.category.categoryName}")
             val intent = Intent(this, ProductsActivity::class.java)
+            val activityOptions = ActivityOptions.makeSceneTransitionAnimation(
+                    this,
+                    itemView,
+                    ViewCompat.getTransitionName(itemView)
+            )
             intent.putExtra(KEY_CATEGORY_ID, category.category.categoryId)
             intent.putExtra(KEY_CATEGORY_NAME, category.category.categoryName)
-            startActivity(intent)
+            startActivity(intent, activityOptions.toBundle())
         }
         binding.rvCategories.adapter = categoriesAdapter
         viewModel.categories.observe(this, Observer {

@@ -1,29 +1,30 @@
 package com.mlsdev.mlsdevstore.data.repository
 
+import com.mlsdev.mlsdevstore.data.applyDefaultSchedulers
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
 import com.mlsdev.mlsdevstore.data.model.image.CategoryImageEntity
 import com.mlsdev.mlsdevstore.data.remote.service.SearchImageService
 import io.reactivex.Completable
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class SearchImageRepository @Inject constructor(
         private val searchImageService: SearchImageService,
         private val database: AppDatabase
-) {
+) : BaseRepository() {
 
     fun searchImage(categoryId: String, categoryName: String): Single<CategoryImageEntity> =
             database.categoryImagesDao().queryCategoryImageEntity(categoryId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .applyDefaultSchedulers()
                     .flatMap {
-                        return@flatMap if (it.isEmpty()) {
-                            val name = Regex("[^A-Za-z ]").replace(categoryName, "").toLowerCase()
+                        return@flatMap if (it.isEmpty() || (it.isNotEmpty() && it[0].imageUrl.isNullOrBlank())) {
+                            var name = Regex("[^A-Za-z ]").replace(categoryName.replace("/", " "), "").toLowerCase()
+                            val words = name.split(' ')
+                            if (words.size >= 2) name = "${words[0]} ${words[1]}"
+
                             searchImageService.searchImage(name)
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .applyDefaultSchedulers()
                                     .flatMap { page ->
                                         val categoryImage = CategoryImageEntity(categoryId, page.getImageUrl())
                                         Completable.fromCallable { database.categoryImagesDao().insert(categoryImage) }

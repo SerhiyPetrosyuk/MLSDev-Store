@@ -3,23 +3,33 @@ package com.mlsdev.mlsdevstore.presentaion.products
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.mlsdev.mlsdevstore.R
 import com.mlsdev.mlsdevstore.data.model.item.Item
 import com.mlsdev.mlsdevstore.data.model.item.ListItem
 import com.mlsdev.mlsdevstore.databinding.ItemProductBinding
+import com.mlsdev.mlsdevstore.presentaion.adapter.BasePagedAdapter
 import com.mlsdev.mlsdevstore.presentaion.adapter.BaseViewHolder
 import com.mlsdev.mlsdevstore.presentaion.store.ProductItemViewModel
 
 class PagedProductsAdapter(
+        retryCallback: () -> Unit,
         val onItemClickListener: (item: Item) -> Unit
-) : PagedListAdapter<Item, PagedProductsAdapter.ViewHolder>(diffCallback) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_product, parent, false))
+) : BasePagedAdapter<Item>(retryCallback, diffCallback) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (getItemViewType(position)) {
+            R.layout.layout_network_state -> (holder as BasePagedAdapter<*>.NetworkStateViewHolder).bindTo()
+            R.layout.item_product -> (holder as ViewHolder).bindView(getItem(position))
+        }
+    }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindView(getItem(position))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
+        R.layout.layout_network_state -> NetworkStateViewHolder(LayoutInflater.from(parent.context)
+                .inflate(R.layout.layout_network_state, parent, false), retryCallback)
+        R.layout.item_product -> ViewHolder(LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_product, parent, false))
+        else -> throw Exception("Unknown item view type")
     }
 
     inner class ViewHolder(itemView: View) : BaseViewHolder<Item>(itemView) {
@@ -29,8 +39,14 @@ class PagedProductsAdapter(
             val viewModel = ProductItemViewModel()
             viewModel.setItem(null, item as ListItem)
             binding.viewModel = viewModel
-            binding.root.setOnClickListener { onItemClickListener(item!!) }
+            binding.root.setOnClickListener { onItemClickListener(item) }
         }
+    }
+
+    override fun getItemViewType(position: Int): Int = when {
+        (hasExtraRow() && position == itemCount - 1) -> R.layout.layout_network_state
+        getItem(position) != null -> R.layout.item_product
+        else -> throw Exception("Unknown item view type")
     }
 
     companion object {

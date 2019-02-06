@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class ProductsRepository @Inject constructor(
         private val itemsDataSourceFactory: ProductsDataSourceFactory
-) {
+) : BaseRepository() {
 
     fun getItems(categoryId: String): Observable<PagedList<Item>> {
         itemsDataSourceFactory.categoryId = categoryId

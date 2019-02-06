@@ -7,6 +7,7 @@ import androidx.paging.DataSource
 import androidx.paging.PagedList
 import androidx.paging.PositionalDataSource
 import com.mlsdev.mlsdevstore.data.DataLoadState
+import com.mlsdev.mlsdevstore.data.handleLoading
 import com.mlsdev.mlsdevstore.data.model.item.Item
 import com.mlsdev.mlsdevstore.data.remote.service.BrowseService
 import io.reactivex.Completable
@@ -38,13 +39,10 @@ class ProductsDataSource @Inject constructor(
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Item>) {
 
         try {
-            loadStateLiveData.postValue(DataLoadState.LOADING)
             disposable = browseService.searchItemsByCategoryId(categoryId, params.startPosition, params.loadSize + params.startPosition)
+                    .handleLoading(loadStateLiveData)
                     .subscribe(
-                            {
-                                loadStateLiveData.postValue(DataLoadState.LOADED)
-                                callback.onResult(it.itemSummaries)
-                            },
+                            { callback.onResult(it.itemSummaries) },
                             { handleError(it, params, callback) })
         } catch (exception: Exception) {
             handleError(exception, params, callback)
@@ -57,11 +55,9 @@ class ProductsDataSource @Inject constructor(
         try {
             loadStateLiveData.postValue(DataLoadState.LOADING)
             disposable = browseService.searchItemsByCategoryId(categoryId, params.pageSize, 0)
+                    .handleLoading(loadStateLiveData)
                     .subscribe(
-                            {
-                                loadStateLiveData.postValue(DataLoadState.LOADED)
-                                callback.onResult(it.itemSummaries, it.offset, it.total)
-                            },
+                            { callback.onResult(it.itemSummaries, it.offset, it.total) },
                             { handleError(it, params, callback) })
         } catch (exception: Exception) {
             handleError(exception, params, callback)

@@ -20,6 +20,7 @@ class ProductsViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     lateinit var products: Observable<PagedList<Item>>
+    val loadingState = productsRepository.getPageLoadingState()
     val categoryName = ObservableField<String>("")
     val categoryImage = ObservableField<String>()
 
@@ -30,8 +31,9 @@ class ProductsViewModel @Inject constructor(
 
             loadImageForCategory(categoryId, categoryName.get())
 
-            if (categoryId != null) products = productsRepository.getItems(categoryId)
-            else throw Exception("'Category id' hasn't been passed")
+            if (categoryId != null) {
+                products = productsRepository.getItems(categoryId)
+            } else throw Exception("'Category id' hasn't been passed")
         }
     }
 

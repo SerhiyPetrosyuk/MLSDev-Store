@@ -18,11 +18,11 @@ constructor(dataSource: DataSource, utils: Utils) : BaseViewModel() {
 
     fun getRootCategories() {
         checkNetworkConnection(utils!!) {
-            isLoading.set(true)
+            setIsLoading(true)
             compositeDisposable.add(dataSource!!.loadRootCategoryTree().subscribe(
                     {
+                        setIsLoading(false)
                         categories.postValue(it.categoryTreeNode.childCategoryTreeNodes)
-                        isLoading.set(false)
                     },
                     { handleError(it) }))
         }

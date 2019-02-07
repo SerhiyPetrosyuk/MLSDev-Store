@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mlsdev.mlsdevstore.R
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
 import com.mlsdev.mlsdevstore.databinding.ItemCategoryBinding
+import com.mlsdev.mlsdevstore.presentaion.adapter.BaseViewHolder
 import java.util.*
 
 class CategoriesAdapter(
         val onItemClick: (item: CategoryTreeNode, itemView: View) -> Unit
-) : RecyclerView.Adapter<CategoriesAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<BaseViewHolder<CategoryTreeNode>>() {
 
     private val categoryTreeNodes = ArrayList<CategoryTreeNode>()
 
@@ -25,26 +26,22 @@ class CategoriesAdapter(
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.onBindView()
+    override fun onBindViewHolder(holder: BaseViewHolder<CategoryTreeNode>, position: Int) {
+        holder.bindView(categoryTreeNodes[position])
     }
 
     override fun getItemCount(): Int {
         return categoryTreeNodes.size
     }
 
-    inner class ViewHolder(private val binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
-
-        fun onBindView() {
-            val node = categoryTreeNodes[adapterPosition]
-
-            if (binding.viewModel == null) {
-                binding.viewModel = CategoryItemViewModel { categoryTreeNode ->
-                    onItemClick(categoryTreeNode, binding.tvCategoryName)
-                }
+    inner class ViewHolder(private val binding: ItemCategoryBinding) : BaseViewHolder<CategoryTreeNode>(binding.root) {
+        override fun bindView(item: CategoryTreeNode?) {
+            binding.textCategoryName.setOnClickListener {
+                item?.let { categoryTreeNode -> onItemClick(categoryTreeNode, binding.textCategoryName) }
             }
-            binding.tvCategoryName.transitionName = node.category.categoryName
-            binding.viewModel?.setData(node)
+
+            binding.textCategoryName.text = item?.category?.categoryName
+            binding.textCategoryName.transitionName = item?.category?.categoryName
         }
     }
 

@@ -4,6 +4,7 @@
 * Add the `retry` button and the `loading` indicator onto the `products` screen [IT-857](https://mlsdev.atlassian.net/browse/IT-857)
 * Fixed the `products data source`
 * Add activity transitions [IT-860](https://mlsdev.atlassian.net/browse/IT-860)
+* Add android architecture components for the `Categories` screen
 
 # v0.0.6
 * Post new order as a guest user [IT-852](https://mlsdev.atlassian.net/browse/IT-852)

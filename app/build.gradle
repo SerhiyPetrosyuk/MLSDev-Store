@@ -86,13 +86,18 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
-    implementation 'com.google.android.material:material:1.1.0-alpha02'
+    implementation 'com.google.android.material:material:1.1.0-alpha03'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha01'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha02'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
 
     // Ktx
     implementation 'androidx.core:core-ktx:1.0.1'
+
+    // Navigation library
+    def nav_version = "1.0.0-beta01"
+    implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
 
     // Paging
     def paging_version = "2.1.0"
@@ -107,7 +112,7 @@ dependencies {
     androidTestImplementation 'androidx.arch.core:core-testing:2.0.0'
 
     // Lifecycle
-    def lifecycle = '2.1.0-alpha01'
+    def lifecycle = '2.1.0-alpha02'
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle"
 
@@ -122,7 +127,7 @@ dependencies {
     androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$dagger"
 
     // RxJava
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
 
     // Retrofit

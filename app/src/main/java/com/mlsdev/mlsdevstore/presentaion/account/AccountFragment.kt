@@ -1,13 +1,12 @@
 package com.mlsdev.mlsdevstore.presentaion.account
 
-import android.content.Intent
-import androidx.lifecycle.ViewModelProviders
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import com.mlsdev.mlsdevstore.R
 import com.mlsdev.mlsdevstore.databinding.FragmentAccountBinding
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment
@@ -26,12 +25,13 @@ class AccountFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val navController = Navigation.findNavController(binding.root)
         binding.buttonEditPersonalInfo.setOnClickListener {
-            startActivity(Intent(context, EditPersonalInfoActivity::class.java))
+            navController.navigate(R.id.edit_personal_info_activity)
         }
 
         binding.buttonEditShippingInfo.setOnClickListener {
-            startActivity(Intent(context, EditShippingInfoActivity::class.java))
+            navController.navigate(R.id.edit_shipping_info_activity)
         }
     }
 

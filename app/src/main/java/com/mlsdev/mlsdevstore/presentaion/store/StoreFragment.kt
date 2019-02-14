@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mlsdev.mlsdevstore.R
@@ -66,7 +67,7 @@ class StoreFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
 
         productsAdapter.setOnClickListeners(
                 View.OnClickListener { (activity as MainActivity).selectTab(R.id.navigation_item_account) },
-                View.OnClickListener { CategoriesActivity.launch(context!!) },
+                View.OnClickListener { Navigation.findNavController(binding.root).navigate(R.id.categories_activity) },
                 View.OnClickListener { viewModel.loadMoreItemsFromRandomCategory() }
         )
 

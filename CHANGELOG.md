@@ -1,3 +1,6 @@
+# v0.0.8
+* Added base navigation stuff
+
 # v0.0.7
 * As a user I can see the category screen [IT-854](https://mlsdev.atlassian.net/browse/IT-854)
 * Add the "Search image API" [IT-856](https://mlsdev.atlassian.net/browse/IT-856)

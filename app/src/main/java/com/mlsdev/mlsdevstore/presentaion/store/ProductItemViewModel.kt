@@ -42,8 +42,7 @@ class ProductItemViewModel {
     }
 
     fun onItemClick(itemView: View) {
-        val bundle = Bundle()
-        bundle.putParcelable(ExtrasKeys.KEY_PRODUCT_DETAILS, listItem!!.parcelable)
+        val bundle = Bundle().apply { putParcelable(ExtrasKeys.KEY_PRODUCT_DETAILS, listItem!!.parcelable) }
         ProductDetailsActivity.launch(itemView.context, bundle)
     }
 

@@ -1,3 +1,7 @@
+# v0.0.9
+* Finished the [Navigation Arch Component] implementing. But it is needed to refactor the whole
+application structure: [from multi-activity to single activity] app structure.
+
 # v0.0.8
 * Added base navigation stuff
 

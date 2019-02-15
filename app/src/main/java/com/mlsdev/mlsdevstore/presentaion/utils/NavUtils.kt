@@ -1,10 +1,10 @@
 package com.mlsdev.mlsdevstore.presentaion.utils
 
-import androidx.navigation.NavController
-import androidx.navigation.NavOptions
-import androidx.navigation.NavOptionsBuilder
-import androidx.navigation.navOptions
+import androidx.navigation.*
 import com.mlsdev.mlsdevstore.R
+import com.mlsdev.mlsdevstore.presentaion.account.AccountFragmentDirections
+import com.mlsdev.mlsdevstore.presentaion.cart.CartFragmentDirections
+import com.mlsdev.mlsdevstore.presentaion.store.StoreFragmentDirections
 import com.roughike.bottombar.BottomBar
 
 class NavUtils {

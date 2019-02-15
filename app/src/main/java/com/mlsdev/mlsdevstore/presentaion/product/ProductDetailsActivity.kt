@@ -31,8 +31,7 @@ class ProductDetailsActivity : BaseActivity() {
         viewModel.imagesLiveData.observe(this, Observer { galleryAdapter.setImages(it) })
         viewModel.descriptionStateLiveData.observe(this, Observer {
             if (it) {
-                val data = Bundle()
-                data.putString(ExtrasKeys.KEY_PRODUCT_DESCRIPTION, viewModel.description.get())
+                val data = Bundle().apply { putString(ExtrasKeys.KEY_PRODUCT_DESCRIPTION, viewModel.description.get()) }
                 val bottomSheet = DescriptionBottomSheetFragment()
                 bottomSheet.arguments = data
                 bottomSheet.show(supportFragmentManager, bottomSheet.tag)
@@ -59,9 +58,7 @@ class ProductDetailsActivity : BaseActivity() {
     companion object {
 
         fun launch(context: Context, bundleProductData: Bundle) {
-            val intent = Intent(context, ProductDetailsActivity::class.java)
-            intent.putExtras(bundleProductData)
-            context.startActivity(intent)
+            context.startActivity(Intent(context, ProductDetailsActivity::class.java).apply { putExtras(bundleProductData) })
         }
     }
 }

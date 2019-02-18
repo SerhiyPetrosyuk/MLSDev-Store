@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data />
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/app_nav_host"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:clipToPadding="true"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toTopOf="@id/bottom_bar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navGraph="@navigation/app_nav" />
+
+        <com.roughike.bottombar.BottomBar
+            android:id="@+id/bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            app:bb_badgeBackgroundColor="@color/colorAccent"
+            app:bb_tabXmlResource="@xml/bottom_view_tabs"
+            app:bb_titleTextAppearance="@style/BottomBarTextStyle"
+            app:layout_constraintBottom_toBottomOf="parent" />
+        <!--bind:badgeCount="@{bottomViewModel.itemCount}" />-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

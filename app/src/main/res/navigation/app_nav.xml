@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_nav"
+    app:startDestination="@+id/store_flow_fragment">
+
+    <fragment
+        android:id="@+id/store_flow_fragment"
+        android:name="com.mlsdev.mlsdevstore.presentaion.store.StoreFragment"
+        android:label="StoreFragment"
+        tools:layout="@layout/fragment_store" />
+    <fragment
+        android:id="@+id/cart_flow_fragment"
+        android:name="com.mlsdev.mlsdevstore.presentaion.cart.CartFragment"
+        android:label="CartFragment"
+        tools:layout="@layout/fragment_cart" />
+    <fragment
+        android:id="@+id/account_flow_fragment"
+        android:name="com.mlsdev.mlsdevstore.presentaion.account.AccountFragment"
+        android:label="AccountFragment"
+        tools:layout="@layout/fragment_account" />
+
+</navigation>

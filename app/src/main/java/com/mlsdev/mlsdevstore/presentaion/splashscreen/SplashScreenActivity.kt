@@ -2,13 +2,11 @@ package com.mlsdev.mlsdevstore.presentaion.splashscreen
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.databinding.Observable
-import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.mlsdev.mlsdevstore.R
+import com.mlsdev.mlsdevstore.presentaion.AppActivity
 import com.mlsdev.mlsdevstore.presentaion.BaseActivity
-import com.mlsdev.mlsdevstore.presentaion.bottom_navigation.MainActivity
 
 class SplashScreenActivity : BaseActivity() {
     lateinit var viewModel: SplashScreenViewModel
@@ -26,7 +24,7 @@ class SplashScreenActivity : BaseActivity() {
 
         viewModel.appAccessTokenLiveData.observe(this, Observer {
             if (it) {
-                startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
+                startActivity(Intent(this@SplashScreenActivity, AppActivity::class.java))
                 this@SplashScreenActivity.finish()
             }
         })

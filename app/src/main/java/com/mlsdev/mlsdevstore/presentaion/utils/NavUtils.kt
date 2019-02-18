@@ -18,9 +18,9 @@ class NavUtils {
 
             bottomBar.setOnTabSelectListener {
                 when (it) {
-                    R.id.navigation_item_cart -> navController.navigate(R.id.cart_fragment, null, navOptions)
-                    R.id.navigation_item_account -> navController.navigate(R.id.account_fragment, null, navOptions)
-                    else -> navController.navigate(R.id.store_fragment, null, navOptions)
+                    R.id.navigation_item_cart -> navController.navigate(R.id.cart_flow_fragment, null, navOptions)
+                    R.id.navigation_item_account -> navController.navigate(R.id.account_flow_fragment, null, navOptions)
+                    else -> navController.navigate(R.id.store_flow_fragment, null, navOptions)
                 }
             }
         }

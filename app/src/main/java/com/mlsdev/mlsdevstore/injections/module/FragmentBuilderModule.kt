@@ -2,6 +2,9 @@ package com.mlsdev.mlsdevstore.injections.module
 
 import com.mlsdev.mlsdevstore.presentaion.account.AccountFragment
 import com.mlsdev.mlsdevstore.presentaion.cart.CartFragment
+import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesFragment
+import com.mlsdev.mlsdevstore.presentaion.product.ProductFragment
+import com.mlsdev.mlsdevstore.presentaion.products.ProductsFragment
 import com.mlsdev.mlsdevstore.presentaion.store.StoreFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -18,4 +21,12 @@ interface FragmentBuilderModule {
     @ContributesAndroidInjector
     fun contributeAccountFragment(): AccountFragment
 
+    @ContributesAndroidInjector
+    fun contributeCategoriesFragment(): CategoriesFragment
+
+    @ContributesAndroidInjector
+    fun contributeProductsFragment(): ProductsFragment
+
+    @ContributesAndroidInjector
+    fun contributeProducFragment(): ProductFragment
 }

@@ -68,7 +68,7 @@ class StoreFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
 
         productsAdapter.setOnClickListeners(
                 View.OnClickListener { (activity as MainActivity).selectTab(R.id.navigation_item_account) },
-                View.OnClickListener { findNavController(this).navigate(R.id.categories_activity) },
+                View.OnClickListener { findNavController(this).navigate(R.id.categories_fragment) },
                 View.OnClickListener { viewModel.loadMoreItemsFromRandomCategory() }
         )
 

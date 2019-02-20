@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mlsdev.mlsdevstore.R
 import com.mlsdev.mlsdevstore.data.DataLoadState
@@ -33,6 +35,8 @@ class ProductsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let { viewModel.initCategoryData(ProductsFragmentArgs.fromBundle(it).toBundle()) }
         initCollectionView()
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun initCollectionView() {
@@ -40,6 +44,7 @@ class ProductsFragment : BaseFragment() {
                 { viewModel.retry() },
                 { product ->
                     Log.d("ON_PRODUCT_ITEM_CLICK", "Product id: ${product.id}; Product name: ${product.title}")
+                    findNavController().navigate(ProductsFragmentDirections.actionProductsFragmentToProductFragment(product))
                 })
         binding.rvProducts.adapter = adapter
         binding.refreshLayout.setOnRefreshListener { viewModel.refresh() }

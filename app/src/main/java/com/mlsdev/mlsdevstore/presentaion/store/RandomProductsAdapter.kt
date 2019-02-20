@@ -13,7 +13,9 @@ import com.mlsdev.mlsdevstore.databinding.ItemHeaderCategoryBinding
 import com.mlsdev.mlsdevstore.presentaion.adapter.BaseViewHolder
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseHeaderViewModel
 
-class RandomProductsAdapter : ProductsAdapter() {
+class RandomProductsAdapter(
+        val onItemClickListener: (product: Item) -> Unit
+) : ProductsAdapter() {
 
     private var onFooterClickListener: View.OnClickListener? = null
     private var onAllCategoriesListener: View.OnClickListener? = null
@@ -61,6 +63,9 @@ class RandomProductsAdapter : ProductsAdapter() {
                 binding.viewModel = BaseHeaderViewModel()
 
             binding.viewModel?.setHeader(item?.title ?: "")
+            binding.root.setOnClickListener {
+                onItemClickListener(item as Item)
+            }
         }
     }
 

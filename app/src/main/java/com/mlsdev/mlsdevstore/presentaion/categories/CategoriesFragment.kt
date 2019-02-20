@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -35,6 +36,9 @@ class CategoriesFragment : BaseFragment() {
         errorInViewHandler.observeTechError(this, viewModel.technicalErrorLiveData)
         errorInViewHandler.observeNetworkError(this, viewModel.networkErrorLiveData)
         viewModel.getRootCategories()
+
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun initRecyclerView() {

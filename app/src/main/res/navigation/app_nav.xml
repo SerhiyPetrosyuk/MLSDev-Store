@@ -31,7 +31,11 @@
         android:id="@+id/product_fragment"
         android:name="com.mlsdev.mlsdevstore.presentaion.product.ProductFragment"
         android:label="ProductFragment"
-        tools:layout="@layout/fragment_product" />
+        tools:layout="@layout/fragment_product" >
+        <argument
+            android:name="product_details"
+            app:argType="com.mlsdev.mlsdevstore.data.model.item.Item" />
+    </fragment>
     <fragment
         android:id="@+id/categories_fragment"
         android:name="com.mlsdev.mlsdevstore.presentaion.categories.CategoriesFragment"

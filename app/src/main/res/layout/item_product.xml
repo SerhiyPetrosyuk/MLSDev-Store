@@ -20,7 +20,6 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
-        android:onClick="@{(view) -> viewModel.onItemClick(view)}"
         android:stateListAnimator="@animator/card_view_elevation_on_click"
         app:cardCornerRadius="6dp"
         app:cardUseCompatPadding="true">

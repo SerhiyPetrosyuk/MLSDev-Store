@@ -7,7 +7,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleObserver
 import androidx.recyclerview.widget.RecyclerView
 import com.mlsdev.mlsdevstore.R
-import com.mlsdev.mlsdevstore.data.cart.Cart
 import com.mlsdev.mlsdevstore.data.model.item.ListItem
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult
 import com.mlsdev.mlsdevstore.databinding.ItemProductBinding
@@ -21,10 +20,10 @@ const val VIEW_TYPE_ITEM = 2
 const val HEADER_OR_FOOTER = 1
 
 open class ProductsAdapter @Inject constructor() : RecyclerView.Adapter<BaseViewHolder<ListItem>>(), LifecycleObserver {
-    lateinit var cart: Cart
     protected var withHeader = false
     protected var withFooter = false
     protected val items: MutableList<ListItem> = ArrayList()
+    protected var removeFromCartListener: ((productId: String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<ListItem> {
         return ProductViewHolder(
@@ -56,9 +55,9 @@ open class ProductsAdapter @Inject constructor() : RecyclerView.Adapter<BaseView
 
         override fun bindView(item: ListItem?) {
             if (binding.viewModel == null)
-                binding.viewModel = ProductItemViewModel()
+                binding.viewModel = ProductItemViewModel(removeFromCartListener)
 
-            binding.viewModel?.setItem(cart, item!!)
+            binding.viewModel?.setItem(item!!)
         }
     }
 

@@ -14,7 +14,6 @@ import com.mlsdev.mlsdevstore.data.cart.Cart
 import com.mlsdev.mlsdevstore.data.model.item.Image
 import com.mlsdev.mlsdevstore.data.model.item.Item
 import com.mlsdev.mlsdevstore.presentaion.utils.CustomObservableBoolean
-import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel
 import javax.inject.Inject
@@ -68,7 +67,7 @@ constructor(
         if (productDetailsData == null)
             return
 
-        productDetailsData.getParcelable<Item>(ExtrasKeys.KEY_PRODUCT_DETAILS)?.let {
+        ProductFragmentArgs.fromBundle(productDetailsData).productDetails.let {
             item = it
             title.set(it.title)
             imageUrl.set(it.imageUrl)
@@ -77,7 +76,6 @@ constructor(
             condition.set(it.condition)
             retrieveDetailedInfo(it.id)
         }
-
     }
 
     private fun retrieveDetailedInfo(itemId: String) {

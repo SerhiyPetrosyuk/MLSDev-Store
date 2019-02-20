@@ -1,18 +1,14 @@
 package com.mlsdev.mlsdevstore.presentaion.store
 
-import android.os.Bundle
-import android.view.View
 import androidx.databinding.ObservableField
-import com.mlsdev.mlsdevstore.data.cart.Cart
 import com.mlsdev.mlsdevstore.data.model.item.Item
 import com.mlsdev.mlsdevstore.data.model.item.ListItem
-import com.mlsdev.mlsdevstore.presentaion.product.ProductDetailsActivity
 import com.mlsdev.mlsdevstore.presentaion.utils.CustomObservableBoolean
-import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys
 
-class ProductItemViewModel {
+class ProductItemViewModel(
+        val removeFromCartListener: ((productId: String) -> Unit)?
+) {
     private var listItem: ListItem? = null
-    private var cart: Cart? = null
     val title = ObservableField<String>()
     val priceFirstPart = ObservableField<String>()
     val priceSecondPart = ObservableField<String>()
@@ -20,8 +16,7 @@ class ProductItemViewModel {
     val imageUrl = ObservableField<String>()
     val isNew = CustomObservableBoolean()
 
-    fun setItem(cart: Cart?, listItem: ListItem) {
-        this.cart = cart
+    fun setItem(listItem: ListItem) {
         this.listItem = listItem
 
         val priceArray = listItem.price.value.toString().split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -41,13 +36,8 @@ class ProductItemViewModel {
         isNew.set(listItem.condition != null && listItem.condition == Item.Condition.New)
     }
 
-    fun onItemClick(itemView: View) {
-        val bundle = Bundle().apply { putParcelable(ExtrasKeys.KEY_PRODUCT_DETAILS, listItem!!.parcelable) }
-        ProductDetailsActivity.launch(itemView.context, bundle)
-    }
-
     fun removeFromCart() {
-        cart?.removeItem(listItem!!.id)
+        removeFromCartListener?.let { it(listItem!!.id) }
     }
 
 }

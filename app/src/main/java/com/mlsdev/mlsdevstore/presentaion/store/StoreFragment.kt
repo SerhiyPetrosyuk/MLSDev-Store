@@ -20,7 +20,6 @@ import javax.inject.Inject
 
 class StoreFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
 
-    @Inject
     lateinit var productsAdapter: RandomProductsAdapter
     lateinit var binding: FragmentStoreBinding
     lateinit var viewModel: StoreViewModel
@@ -53,6 +52,10 @@ class StoreFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun initRecyclerView() {
+        productsAdapter = RandomProductsAdapter { item ->
+            findNavController(this).navigate(StoreFragmentDirections.actionStoreFlowFragmentToProductFragment(item))
+        }
+
         binding.rvProducts.adapter = productsAdapter
         (binding.rvProducts.layoutManager as GridLayoutManager).spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {

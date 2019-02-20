@@ -9,10 +9,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.mlsdev.mlsdevstore.R
 import com.mlsdev.mlsdevstore.databinding.FragmentCartBinding
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment
-import javax.inject.Inject
 
 class CartFragment : BaseFragment() {
-    @Inject
     lateinit var itemsAdapter: ItemsAdapter
     lateinit var binding: FragmentCartBinding
     lateinit var viewModel: CartViewModel
@@ -21,7 +19,6 @@ class CartFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CartViewModel::class.java)
         lifecycle.addObserver(viewModel)
-        lifecycle.addObserver(itemsAdapter)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -32,12 +29,14 @@ class CartFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
+        itemsAdapter = ItemsAdapter {productId ->
+
+        }
         binding.itemsRecycler.adapter = itemsAdapter
     }
 
     override fun onDestroy() {
         lifecycle.removeObserver(viewModel)
-        lifecycle.removeObserver(itemsAdapter)
         super.onDestroy()
     }
 

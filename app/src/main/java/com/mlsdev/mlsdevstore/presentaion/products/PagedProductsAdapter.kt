@@ -36,8 +36,8 @@ class PagedProductsAdapter(
         val binding = ItemProductBinding.bind(itemView)
 
         override fun bindView(item: Item?) {
-            val viewModel = ProductItemViewModel()
-            viewModel.setItem(null, item as ListItem)
+            val viewModel = ProductItemViewModel(null)
+            viewModel.setItem(item as ListItem)
             binding.viewModel = viewModel
             binding.root.setOnClickListener { onItemClickListener(item) }
         }

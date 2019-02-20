@@ -13,13 +13,11 @@ import javax.inject.Singleton
     AndroidSupportInjectionModule::class,
     ActivityModule::class,
     ApplicationModule::class,
-    AdapterModule::class,
     FragmentBuilderModule::class,
     ViewModelModule::class,
     ApiModule::class,
     DatabaseModule::class,
-    DataSourceModule::class,
-    ProductsAdapterModule::class
+    DataSourceModule::class
 ])
 interface ApplicationComponent : AndroidInjector<MLSDevStoreApplication> {
 

@@ -2,14 +2,12 @@ package com.mlsdev.mlsdevstore.presentaion
 
 import android.os.Bundle
 import android.view.MenuItem
-
-import javax.inject.Inject
-
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerAppCompatActivity
+import javax.inject.Inject
 
 abstract class BaseActivity : DaggerAppCompatActivity(), LifecycleOwner {
 
@@ -42,11 +40,6 @@ abstract class BaseActivity : DaggerAppCompatActivity(), LifecycleOwner {
         } else {
             super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onBackPressed() {
-        supportFinishAfterTransition();
-        super.onBackPressed()
     }
 
     open fun setToolBarTitle(@StringRes title: Int) {

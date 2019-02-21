@@ -4,11 +4,9 @@ import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import com.mlsdev.mlsdevstore.R
 import com.mlsdev.mlsdevstore.databinding.ActivityMainBinding
 import com.mlsdev.mlsdevstore.presentaion.BaseActivity
-import com.mlsdev.mlsdevstore.presentaion.utils.NavUtils
 
 class MainActivity : BaseActivity() {
     lateinit var binding: ActivityMainBinding
@@ -37,7 +35,5 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initBottomNavigation() {
-        val navController = Navigation.findNavController(this, R.id.nav_host)
-        NavUtils.setupWithNavController(binding.bottomBar, navController)
     }
 }

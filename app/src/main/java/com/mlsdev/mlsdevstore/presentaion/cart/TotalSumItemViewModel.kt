@@ -4,12 +4,8 @@ import androidx.databinding.ObservableField
 
 import java.text.DecimalFormat
 
-class TotalSumItemViewModel(totalSum: Double) {
+class TotalSumItemViewModel() {
     val totalSum = ObservableField("00.00")
-
-    init {
-        setTotalSum(totalSum)
-    }
 
     fun setTotalSum(totalSum: Double) {
         this.totalSum.set(DecimalFormat("#0.00").format(totalSum))

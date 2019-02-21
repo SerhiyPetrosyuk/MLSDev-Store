@@ -6,7 +6,7 @@ import com.mlsdev.mlsdevstore.data.model.item.ListItem
 import com.mlsdev.mlsdevstore.presentaion.utils.CustomObservableBoolean
 
 class ProductItemViewModel(
-        val removeFromCartListener: ((productId: String) -> Unit)?
+        private val removeFromCartListener: ((productId: String) -> Unit)?
 ) {
     private var listItem: ListItem? = null
     val title = ObservableField<String>()

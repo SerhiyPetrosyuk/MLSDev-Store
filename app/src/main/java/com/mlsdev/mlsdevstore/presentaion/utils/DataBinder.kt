@@ -13,6 +13,8 @@ object DataBinder {
     @BindingAdapter("imageUrl")
     @JvmStatic
     fun setImageUrl(imageView: ImageView, imageUrl: String?) {
+        if (imageUrl.isNullOrBlank()) return
+
         Picasso.with(imageView.context)
                 .load(imageUrl)
                 .error(R.drawable.bg_splash_screen)

@@ -27,11 +27,9 @@ class AccountFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         val navController = Navigation.findNavController(binding.root)
         binding.buttonEditPersonalInfo.setOnClickListener {
-            navController.navigate(R.id.edit_personal_info_activity)
         }
 
         binding.buttonEditShippingInfo.setOnClickListener {
-            navController.navigate(R.id.edit_shipping_info_activity)
         }
     }
 

@@ -1,100 +1,78 @@
 package com.mlsdev.mlsdevstore.presentaion.cart
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import com.mlsdev.mlsdevstore.R
 import com.mlsdev.mlsdevstore.data.model.item.ListItem
 import com.mlsdev.mlsdevstore.databinding.ItemCartProductBinding
 import com.mlsdev.mlsdevstore.databinding.ItemOrderTotalBinding
 import com.mlsdev.mlsdevstore.presentaion.adapter.BaseViewHolder
-import com.mlsdev.mlsdevstore.presentaion.store.*
+import com.mlsdev.mlsdevstore.presentaion.store.ProductItemViewModel
+import com.mlsdev.mlsdevstore.presentaion.store.VIEW_TYPE_FOOTER
+import com.mlsdev.mlsdevstore.presentaion.store.VIEW_TYPE_ITEM
 
 class ItemsAdapter(
         val removeItemFromCartListener: (productId: String) -> Unit
-) : ProductsAdapter() {
-    init {
-        withFooter = true
-    }
+) : PagedListAdapter<ListItem, BaseViewHolder<ListItem>>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<ListItem> {
         return if (viewType == VIEW_TYPE_ITEM)
-            ProductViewHolder(
-                    DataBindingUtil.inflate(
-                            LayoutInflater.from(parent.context),
-                            R.layout.item_cart_product,
-                            parent,
-                            false))
+            ProductViewHolder(LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_cart_product,
+                    parent,
+                    false))
         else
-            TotalSumViewHolder(
-                    DataBindingUtil.inflate(
-                            LayoutInflater.from(parent.context),
-                            R.layout.item_order_total,
-                            parent,
-                            false
-                    ))
+            TotalSumViewHolder(LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_order_total,
+                    parent,
+                    false))
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<ListItem>, position: Int) {
-        if (position < items.size)
-            super.onBindViewHolder(holder, position)
-        else
-            holder.bindView(null)
+        holder.bindView(getItem(position))
     }
 
-    override fun getItemCount(): Int {
-        return if (items.isEmpty())
-            super.getItemCount()
-        else
-            items.size + HEADER_OR_FOOTER
-    }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == items.size)
-            VIEW_TYPE_FOOTER
-        else
-            VIEW_TYPE_ITEM
+        return if (position == itemCount - 1) VIEW_TYPE_FOOTER
+        else VIEW_TYPE_ITEM
     }
 
-//    override fun onItemCountChanged(count: Int) {
-//        if (!items.isEmpty())
-//            return
-//
-//        items.clear()
-//        items.addAll(cart.items)
-//        notifyDataSetChanged()
-//    }
-//
-//    override fun onItemRemoved(itemId: String) {
-//        var removedItemPosition = -1
-//
-//        for (item in items)
-//            if (item.id == itemId)
-//                removedItemPosition = items.indexOf(item)
-//
-//        items.removeAt(removedItemPosition)
-//        notifyItemRemoved(removedItemPosition)
-//        notifyItemChanged(items.size)
-//    }
-
-    inner class ProductViewHolder(private val binding: ItemCartProductBinding) : BaseViewHolder<ListItem>(binding.root) {
+    inner class ProductViewHolder(itemView: View) : BaseViewHolder<ListItem>(itemView) {
+        private val binding = ItemCartProductBinding.bind(itemView)
 
         override fun bindView(item: ListItem?) {
             if (binding.viewModel == null)
-                binding.viewModel = ProductItemViewModel(removeFromCartListener)
+                binding.viewModel = ProductItemViewModel(removeItemFromCartListener)
 
             if (binding.viewModel != null)
                 binding.viewModel?.setItem(item!!)
         }
     }
 
-    inner class TotalSumViewHolder(private val binding: ItemOrderTotalBinding) : BaseViewHolder<ListItem>(binding.root) {
+    inner class TotalSumViewHolder(itemView: View) : BaseViewHolder<ListItem>(itemView) {
+        private val binding = ItemOrderTotalBinding.bind(itemView)
 
         override fun bindView(item: ListItem?) {
-//            if (binding.viewModel == null)
-//                binding.viewModel = TotalSumItemViewModel(cart.getTotalSum())
-//            else
-//                binding.viewModel?.setTotalSum(cart.getTotalSum())
+            if (binding.viewModel == null)
+                binding.viewModel = TotalSumItemViewModel()
+
+            binding.viewModel?.setTotalSum(item?.price?.value ?: 0.0)
+        }
+    }
+
+    companion object {
+        val diffCallback = object : DiffUtil.ItemCallback<ListItem>() {
+            override fun areItemsTheSame(oldItem: ListItem, newItem: ListItem): Boolean =
+                    oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: ListItem, newItem: ListItem): Boolean =
+                    oldItem.id == newItem.id &&
+                            oldItem.price.value == newItem.price.value &&
+                            oldItem.title == newItem.title
         }
     }
 

@@ -1,11 +1,10 @@
 package com.mlsdev.mlsdevstore.data.cart
 
 
+import androidx.lifecycle.MutableLiveData
 import com.mlsdev.mlsdevstore.data.model.item.Item
 import com.mlsdev.mlsdevstore.data.model.order.LineItemInput
-
-import java.util.ArrayList
-
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,6 +16,7 @@ constructor() {
     private val itemRemovedListeners: MutableList<OnItemRemovedListener>
     private val maxItemsReachedListeners: MutableList<OnMaxItemsReachedListener>
     private val itemAddedListeners: MutableList<OnItemAddedListener>
+    val products = MutableLiveData<Item>()
 
     fun getTotalSum(): Double {
         var totalSum = 0.0
@@ -52,7 +52,7 @@ constructor() {
     }
 
     fun removeItem(itemId: String?) {
-        if (itemId == null || itemId.length == 0)
+        if (itemId == null || itemId.isEmpty())
             return
 
         for (item in items)

@@ -7,16 +7,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mlsdev.mlsdevstore.R
 import com.mlsdev.mlsdevstore.databinding.FragmentStoreBinding
-import com.mlsdev.mlsdevstore.presentaion.bottom_navigation.MainActivity
-import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesActivity
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment
-import javax.inject.Inject
+import com.mlsdev.mlsdevstore.presentaion.utils.NavUtils
 
 class StoreFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
 
@@ -70,7 +67,7 @@ class StoreFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
         }
 
         productsAdapter.setOnClickListeners(
-                View.OnClickListener { (activity as MainActivity).selectTab(R.id.navigation_item_account) },
+                View.OnClickListener { NavUtils.navigateToAccoutn(findNavController(this)) },
                 View.OnClickListener { findNavController(this).navigate(R.id.categories_fragment) },
                 View.OnClickListener { viewModel.loadMoreItemsFromRandomCategory() }
         )

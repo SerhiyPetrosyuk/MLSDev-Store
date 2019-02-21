@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.mlsdev.mlsdevstore.R
 import com.mlsdev.mlsdevstore.databinding.FragmentCartBinding
@@ -29,10 +30,18 @@ class CartFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        itemsAdapter = ItemsAdapter {productId ->
-
+        itemsAdapter = ItemsAdapter { productId ->
+            viewModel.removeItem(productId)
         }
         binding.itemsRecycler.adapter = itemsAdapter
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.productsInCart.observe(this, Observer { pagedList ->
+            itemsAdapter.submitList(pagedList)
+            binding.viewModel?.cartIsEmpty?.set(pagedList.isEmpty())
+        })
     }
 
     override fun onDestroy() {

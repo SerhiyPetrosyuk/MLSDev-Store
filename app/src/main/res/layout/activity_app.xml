@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data />
 
@@ -15,19 +14,20 @@
             android:layout_height="0dp"
             android:clipToPadding="true"
             app:defaultNavHost="true"
-            app:layout_constraintBottom_toTopOf="@id/bottom_bar"
+            app:layout_constraintBottom_toTopOf="@id/navigation"
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/app_nav" />
 
-        <com.roughike.bottombar.BottomBar
-            android:id="@+id/bottom_bar"
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/navigation"
             android:layout_width="match_parent"
-            android:layout_height="63dp"
-            app:bb_badgeBackgroundColor="@color/colorAccent"
-            app:bb_tabXmlResource="@xml/bottom_view_tabs"
-            app:bb_titleTextAppearance="@style/BottomBarTextStyle"
-            app:layout_constraintBottom_toBottomOf="parent" />
-        <!--bind:badgeCount="@{bottomViewModel.itemCount}" />-->
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            app:itemBackground="?attr/selectableItemBackground"
+            app:itemIconTint="@color/color_tab_item_text"
+            app:itemTextColor="@color/color_tab_item_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/bottom_tabs" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

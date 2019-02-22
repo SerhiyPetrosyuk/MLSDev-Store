@@ -18,13 +18,14 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/appbar_height"
-            android:background="@color/colorPrimary"
+            android:background="@android:color/white"
+            android:elevation="4dp"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="@string/navigation_title_account"
             app:titleTextAppearance="@style/ToolbarTextStyle"
-            app:titleTextColor="@android:color/white" />
+            app:titleTextColor="@android:color/black" />
 
         <LinearLayout
             android:id="@+id/ll_container"

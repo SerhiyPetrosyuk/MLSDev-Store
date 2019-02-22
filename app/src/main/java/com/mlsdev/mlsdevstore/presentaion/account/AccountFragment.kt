@@ -40,9 +40,4 @@ class AccountFragment : BaseFragment() {
         lifecycle.removeObserver(accountViewModel)
     }
 
-    override fun onResume() {
-        super.onResume()
-        setTitle(R.string.navigation_title_account)
-    }
-
 }

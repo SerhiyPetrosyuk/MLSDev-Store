@@ -21,12 +21,16 @@
         android:id="@+id/cart_flow_fragment"
         android:name="com.mlsdev.mlsdevstore.presentaion.cart.CartFragment"
         android:label="CartFragment"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_cart_flow_fragment_to_checkout_fragment"
+            app:destination="@id/checkout_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/account_flow_fragment"
         android:name="com.mlsdev.mlsdevstore.presentaion.account.AccountFragment"
         android:label="AccountFragment"
-        tools:layout="@layout/fragment_account" >
+        tools:layout="@layout/fragment_account">
         <action
             android:id="@+id/action_account_flow_fragment_to_edit_personal_info_fragment"
             app:destination="@id/edit_personal_info_fragment" />
@@ -38,7 +42,7 @@
         android:id="@+id/product_fragment"
         android:name="com.mlsdev.mlsdevstore.presentaion.product.ProductFragment"
         android:label="ProductFragment"
-        tools:layout="@layout/fragment_product" >
+        tools:layout="@layout/fragment_product">
         <argument
             android:name="product_details"
             app:argType="com.mlsdev.mlsdevstore.data.model.item.Item" />
@@ -79,6 +83,10 @@
         android:name="com.mlsdev.mlsdevstore.presentaion.account.EditShippingInfoFragment"
         android:label="EditShippingInfoFragment"
         tools:layout="@layout/fragment_edit_shipping_info" />
-
+    <fragment
+        android:id="@+id/checkout_fragment"
+        android:name="com.mlsdev.mlsdevstore.presentaion.checkout.CheckoutFragment"
+        android:label="CheckoutFragment"
+        tools:layout="@layout/fragment_checkout"/>
 
 </navigation>

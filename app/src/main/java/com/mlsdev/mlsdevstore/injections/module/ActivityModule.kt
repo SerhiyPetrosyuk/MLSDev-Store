@@ -2,7 +2,6 @@ package com.mlsdev.mlsdevstore.injections.module
 
 import com.mlsdev.mlsdevstore.injections.component.scope.ActivityScope
 import com.mlsdev.mlsdevstore.presentaion.AppActivity
-import com.mlsdev.mlsdevstore.presentaion.checkout.CheckoutActivity
 import com.mlsdev.mlsdevstore.presentaion.splashscreen.SplashScreenActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -17,9 +16,5 @@ interface ActivityModule {
     @ContributesAndroidInjector
     @ActivityScope
     fun contributeSplashScreenActivity(): SplashScreenActivity
-
-    @ContributesAndroidInjector
-    @ActivityScope
-    fun contributeCheckoutActivity(): CheckoutActivity
 
 }

@@ -11,11 +11,13 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/appbar_height"
+            android:background="@android:color/white"
             android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -28,7 +30,7 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:title="@string/app_name"
                 app:titleTextAppearance="@style/ToolbarTextStyle"
-                app:titleTextColor="@android:color/white" />
+                app:titleTextColor="@android:color/black" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

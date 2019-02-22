@@ -34,11 +34,6 @@ class StoreFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
         initErrorHandler()
     }
 
-    override fun onResume() {
-        super.onResume()
-        setTitle(R.string.app_name)
-    }
-
     private fun initErrorHandler() {
         errorInViewHandler.observeNetworkError(this, viewModel.networkErrorLiveData)
         errorInViewHandler.observeCommonError(this, viewModel.commonErrorLiveData)

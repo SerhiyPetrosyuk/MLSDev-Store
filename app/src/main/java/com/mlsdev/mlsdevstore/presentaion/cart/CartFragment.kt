@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.mlsdev.mlsdevstore.R
 import com.mlsdev.mlsdevstore.databinding.FragmentCartBinding
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment
@@ -28,11 +29,12 @@ class CartFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        itemsAdapter = ItemsAdapter { productId -> viewModel.removeItem(productId) }
         binding.viewModel = viewModel
-        itemsAdapter = ItemsAdapter { productId ->
-            viewModel.removeItem(productId)
-        }
         binding.itemsRecycler.adapter = itemsAdapter
+        binding.buttonCheckout.setOnClickListener {
+            findNavController().navigate(CartFragmentDirections.actionCartFlowFragmentToCheckoutFragment())
+        }
     }
 
     override fun onStart() {
@@ -46,10 +48,5 @@ class CartFragment : BaseFragment() {
     override fun onDestroy() {
         lifecycle.removeObserver(viewModel)
         super.onDestroy()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        setTitle(R.string.navigation_title_cart)
     }
 }

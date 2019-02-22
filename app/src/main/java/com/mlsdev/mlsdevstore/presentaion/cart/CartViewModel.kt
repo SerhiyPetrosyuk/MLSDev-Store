@@ -13,10 +13,6 @@ class CartViewModel @Inject constructor(
     val cartIsEmpty = ObservableBoolean(true)
     val productsInCart = cartProductsRepository.getProducts()
 
-    fun onCheckoutClick() {
-
-    }
-
     fun removeItem(productId: String) {
         cart.removeItem(productId)
     }

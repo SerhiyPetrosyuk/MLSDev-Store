@@ -27,20 +27,11 @@
 
         <activity
             android:name=".presentaion.AppActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
             android:exported="false" />
 
         <activity
             android:name=".presentaion.checkout.CheckoutActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".presentaion.account.EditPersonalInfoActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".presentaion.account.EditShippingInfoActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 

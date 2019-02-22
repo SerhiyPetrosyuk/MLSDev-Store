@@ -1,6 +1,8 @@
 package com.mlsdev.mlsdevstore.injections.module
 
 import com.mlsdev.mlsdevstore.presentaion.account.AccountFragment
+import com.mlsdev.mlsdevstore.presentaion.account.EditPersonalInfoFragment
+import com.mlsdev.mlsdevstore.presentaion.account.EditShippingInfoFragment
 import com.mlsdev.mlsdevstore.presentaion.cart.CartFragment
 import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesFragment
 import com.mlsdev.mlsdevstore.presentaion.product.ProductFragment
@@ -29,4 +31,10 @@ interface FragmentBuilderModule {
 
     @ContributesAndroidInjector
     fun contributeProducFragment(): ProductFragment
+
+    @ContributesAndroidInjector
+    fun contributeEditPersonalInfoFragment(): EditPersonalInfoFragment
+
+    @ContributesAndroidInjector
+    fun contributeEditShippingInfoFragment(): EditShippingInfoFragment
 }

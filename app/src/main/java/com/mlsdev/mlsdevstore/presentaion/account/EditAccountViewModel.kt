@@ -25,7 +25,6 @@ constructor(
         this.context = context
     }
 
-    val accountUpdated = CustomObservableBoolean()
     val email = ObservableField<String>()
     val firstName = ObservableField<String>()
     val lastName = ObservableField<String>()
@@ -83,8 +82,8 @@ constructor(
                         { this.updatePersonalInfo() },
                         { throwable ->
                             emailError.set((throwable as FieldsValidator.ValidationError).getErrorForField(EMAIL))
-                            firstName.set(throwable.getErrorForField(FIRST_NAME))
-                            lastName.set(throwable.getErrorForField(LAST_NAME))
+                            firstNameError.set(throwable.getErrorForField(FIRST_NAME))
+                            lastNameError.set(throwable.getErrorForField(LAST_NAME))
                         }))
     }
 
@@ -135,7 +134,7 @@ constructor(
 
                     override fun onComplete() {
                         Log.d(BaseViewModel.LOG_TAG, "Personal info was updated")
-                        accountUpdated.set(true)
+                        profileDataUpdated.postValue(true)
                     }
 
                     override fun onError(e: Throwable) {

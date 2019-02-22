@@ -26,7 +26,14 @@
         android:id="@+id/account_flow_fragment"
         android:name="com.mlsdev.mlsdevstore.presentaion.account.AccountFragment"
         android:label="AccountFragment"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_account_flow_fragment_to_edit_personal_info_fragment"
+            app:destination="@id/edit_personal_info_fragment" />
+        <action
+            android:id="@+id/action_account_flow_fragment_to_edit_shipping_info_fragment"
+            app:destination="@id/edit_shipping_info_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/product_fragment"
         android:name="com.mlsdev.mlsdevstore.presentaion.product.ProductFragment"
@@ -62,6 +69,16 @@
             android:id="@+id/action_productsFragment_to_product_fragment"
             app:destination="@id/product_fragment" />
     </fragment>
+    <fragment
+        android:id="@+id/edit_personal_info_fragment"
+        android:name="com.mlsdev.mlsdevstore.presentaion.account.EditPersonalInfoFragment"
+        android:label="EditPersonalInfoFragment"
+        tools:layout="@layout/fragment_edit_personal_info" />
+    <fragment
+        android:id="@+id/edit_shipping_info_fragment"
+        android:name="com.mlsdev.mlsdevstore.presentaion.account.EditShippingInfoFragment"
+        android:label="EditShippingInfoFragment"
+        tools:layout="@layout/fragment_edit_shipping_info" />
 
 
 </navigation>

@@ -5,7 +5,6 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
 import com.mlsdev.mlsdevstore.R
-import com.roughike.bottombar.BottomBar
 import com.squareup.picasso.Picasso
 
 object DataBinder {
@@ -28,13 +27,6 @@ object DataBinder {
         Picasso.with(imageView.context)
                 .load(categoryImage)
                 .into(imageView)
-    }
-
-    @BindingAdapter("badgeCount")
-    @JvmStatic
-    fun setBadgeCount(bottomBar: BottomBar, badgeCount: Int) {
-        val tab = bottomBar.getTabWithId(R.id.navigation_item_cart)
-        tab.setBadgeCount(badgeCount)
     }
 
     @BindingAdapter("error")

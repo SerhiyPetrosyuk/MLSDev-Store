@@ -2,18 +2,13 @@ package com.mlsdev.mlsdevstore.presentation.cart;
 
 import android.app.Instrumentation;
 import android.content.Intent;
-import androidx.test.InstrumentationRegistry;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.intent.matcher.IntentMatchers;
-import androidx.test.espresso.intent.rule.IntentsTestRule;
-import androidx.test.filters.LargeTest;
 
 import com.mlsdev.mlsdevstore.AssetUtils;
 import com.mlsdev.mlsdevstore.MockMLSDevStoreApplication;
 import com.mlsdev.mlsdevstore.R;
 import com.mlsdev.mlsdevstore.data.cart.Cart;
 import com.mlsdev.mlsdevstore.data.model.item.Item;
-import com.mlsdev.mlsdevstore.presentaion.bottom_navigation.MainActivity;
+import com.mlsdev.mlsdevstore.presentaion.AppActivity;
 import com.mlsdev.mlsdevstore.presentaion.cart.CartFragment;
 import com.mlsdev.mlsdevstore.presentaion.checkout.CheckoutActivity;
 import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys;
@@ -24,6 +19,12 @@ import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 
 import javax.inject.Inject;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.intent.matcher.IntentMatchers;
+import androidx.test.espresso.intent.rule.IntentsTestRule;
+import androidx.test.filters.LargeTest;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -43,8 +44,8 @@ public class CartFragmentTest {
     Cart cart;
 
     @Rule
-    public IntentsTestRule<MainActivity> rule = new IntentsTestRule<>(
-            MainActivity.class, true, false);
+    public IntentsTestRule<AppActivity> rule = new IntentsTestRule<>(
+            AppActivity.class, true, false);
 
 
     @Before
@@ -57,7 +58,7 @@ public class CartFragmentTest {
 
 
         item = AssetUtils.getProductItem();
-        intent = new Intent(instrumentation.getTargetContext(), MainActivity.class);
+        intent = new Intent(instrumentation.getTargetContext(), AppActivity.class);
         intent.putExtra(ExtrasKeys.KEY_PRODUCT_DETAILS, item);
         price = "$196.00";
     }

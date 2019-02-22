@@ -26,11 +26,6 @@
         </activity>
 
         <activity
-            android:name=".presentaion.bottom_navigation.MainActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name=".presentaion.AppActivity"
             android:exported="false" />
 

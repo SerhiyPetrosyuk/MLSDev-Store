@@ -13,7 +13,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mlsdev.mlsdevstore.R
 import com.mlsdev.mlsdevstore.databinding.FragmentStoreBinding
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment
-import com.mlsdev.mlsdevstore.presentaion.utils.NavUtils
 
 class StoreFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
 
@@ -67,7 +66,7 @@ class StoreFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
         }
 
         productsAdapter.setOnClickListeners(
-                View.OnClickListener { NavUtils.navigateToAccoutn(findNavController(this)) },
+                View.OnClickListener {  },
                 View.OnClickListener { findNavController(this).navigate(R.id.categories_fragment) },
                 View.OnClickListener { viewModel.loadMoreItemsFromRandomCategory() }
         )

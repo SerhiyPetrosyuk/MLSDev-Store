@@ -12,7 +12,6 @@ import com.mlsdev.mlsdevstore.inject.module.MockApplicationModule;
 import com.mlsdev.mlsdevstore.inject.module.MockDataSourceModule;
 import com.mlsdev.mlsdevstore.presentation.account.EditPersonalInfoActivityTest;
 import com.mlsdev.mlsdevstore.presentation.cart.CartFragmentTest;
-import com.mlsdev.mlsdevstore.presentation.product.ProductDetailsActivityTest;
 
 import javax.inject.Singleton;
 

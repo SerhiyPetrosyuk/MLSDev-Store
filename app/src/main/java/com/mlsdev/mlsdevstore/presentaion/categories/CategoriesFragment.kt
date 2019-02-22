@@ -17,12 +17,11 @@ import com.mlsdev.mlsdevstore.presentaion.store.CategoriesAdapter
 
 class CategoriesFragment : BaseFragment() {
 
-    lateinit var viewModel: CategoriesViewModel
+    val viewModel: CategoriesViewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(CategoriesViewModel::class.java) }
     lateinit var binding: FragmentCategoriesBinding
     lateinit var adapter: CategoriesAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CategoriesViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_categories, container, false)
         binding.viewModel = viewModel
         return binding.root

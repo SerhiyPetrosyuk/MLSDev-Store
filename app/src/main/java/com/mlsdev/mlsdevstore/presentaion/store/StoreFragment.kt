@@ -18,12 +18,11 @@ class StoreFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
 
     lateinit var productsAdapter: RandomProductsAdapter
     lateinit var binding: FragmentStoreBinding
-    lateinit var viewModel: StoreViewModel
+    val viewModel: StoreViewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(StoreViewModel::class.java) }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_store, container, false)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(StoreViewModel::class.java)
         binding.viewModel = viewModel
         return binding.root
     }
@@ -66,7 +65,7 @@ class StoreFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
         }
 
         productsAdapter.setOnClickListeners(
-                View.OnClickListener {  },
+                View.OnClickListener { },
                 View.OnClickListener { findNavController(this).navigate(R.id.categories_fragment) },
                 View.OnClickListener { viewModel.loadMoreItemsFromRandomCategory() }
         )

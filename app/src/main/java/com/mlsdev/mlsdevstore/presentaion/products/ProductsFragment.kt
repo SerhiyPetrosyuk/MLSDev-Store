@@ -19,13 +19,12 @@ import io.reactivex.disposables.Disposable
 
 class ProductsFragment : BaseFragment() {
 
-    lateinit var viewModel: ProductsViewModel
+    val viewModel: ProductsViewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(ProductsViewModel::class.java) }
     lateinit var binding: FragmentProductsBinding
     lateinit var adapter: PagedProductsAdapter
     private var collectionSubscription: Disposable? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProductsViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_products, container, false)
         binding.viewModel = viewModel
         return binding.root

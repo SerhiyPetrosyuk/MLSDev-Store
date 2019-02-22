@@ -9,14 +9,34 @@
             type="com.mlsdev.mlsdevstore.presentaion.store.StoreViewModel" />
     </data>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/appbar_height"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/appbar_height"
+                android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="@string/app_name"
+                app:titleTextAppearance="@style/ToolbarTextStyle"
+                app:titleTextColor="@android:color/white" />
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:refreshing="@{viewModel.isRefreshing}">
 
             <com.mlsdev.animatedrv.AnimatedRecyclerView
@@ -27,8 +47,7 @@
                 app:layoutAnimation="@anim/layout_animation_from_bottom_random"
                 app:layoutManagerOrientation="vertical"
                 app:layoutManagerReverse="false"
-                app:layoutManagerType="grid"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                app:layoutManagerType="grid" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -36,5 +55,5 @@
             android:id="@+id/loading_indicator"
             layout="@layout/layout_loading_indicator"
             bind:viewModel="@{viewModel}" />
-    </FrameLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

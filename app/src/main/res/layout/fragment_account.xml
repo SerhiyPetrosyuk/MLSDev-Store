@@ -8,10 +8,23 @@
             type="com.mlsdev.mlsdevstore.presentaion.account.AccountViewModel" />
     </data>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:paddingBottom="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/appbar_height"
+            android:background="@color/colorPrimary"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="@string/navigation_title_account"
+            app:titleTextAppearance="@style/ToolbarTextStyle"
+            app:titleTextColor="@android:color/white" />
 
         <LinearLayout
             android:id="@+id/ll_container"
@@ -199,5 +212,5 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </LinearLayout>
 </layout>

@@ -19,12 +19,11 @@ class ProductFragment : BaseFragment() {
 
     @Inject
     lateinit var galleryAdapter: ProductGalleryAdapter
-    lateinit var viewModel: ProductDetailsViewModel
     lateinit var binding: FragmentProductBinding
+    val viewModel: ProductDetailsViewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(ProductDetailsViewModel::class.java) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_product, container, false)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProductDetailsViewModel::class.java)
         binding.viewModel = viewModel
         lifecycle.addObserver(viewModel)
         return binding.root

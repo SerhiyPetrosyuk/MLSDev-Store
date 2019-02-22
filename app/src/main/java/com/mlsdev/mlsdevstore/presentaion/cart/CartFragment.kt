@@ -14,11 +14,10 @@ import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment
 class CartFragment : BaseFragment() {
     lateinit var itemsAdapter: ItemsAdapter
     lateinit var binding: FragmentCartBinding
-    lateinit var viewModel: CartViewModel
+    val viewModel: CartViewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(CartViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CartViewModel::class.java)
         lifecycle.addObserver(viewModel)
     }
 

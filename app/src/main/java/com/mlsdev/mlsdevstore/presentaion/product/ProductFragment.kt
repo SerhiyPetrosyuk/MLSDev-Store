@@ -15,6 +15,7 @@ import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment
 import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys
 import javax.inject.Inject
 
+
 class ProductFragment : BaseFragment() {
 
     @Inject

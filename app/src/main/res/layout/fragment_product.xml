@@ -19,7 +19,8 @@
             android:layout_height="@dimen/appbar_height"
             android:background="@android:color/white"
             android:fitsSystemWindows="true"
-            android:theme="@style/ThemeOverlay.AppCompat.Light">
+            android:theme="@style/ThemeOverlay.AppCompat.Light"
+            android:translationZ="50dp">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"

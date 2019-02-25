@@ -157,10 +157,7 @@ class RemoteDataSource(private val browseService: BrowseService,
 
     fun initGuestCheckoutSession(guestCheckoutSessionRequest: GuestCheckoutSessionRequest): Single<GuestCheckoutSession> =
             prepareSingle(orderService.initiateGuestCheckoutSession(guestCheckoutSessionRequest))
-                    .doOnSuccess {
-                        database.checkoutSessionDao().insert(it)
-                        cart.reset()
-                    }
+                    .doOnSuccess { cart.reset() }
 
     fun postOrder(checkoutSessionId: String): Single<PostOrderResult> =
             prepareSingle(orderService.postOrder(checkoutSessionId))

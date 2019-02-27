@@ -14,7 +14,7 @@ import com.mlsdev.mlsdevstore.data.model.user.Address
 import com.mlsdev.mlsdevstore.data.model.user.BillingAddress
 import com.mlsdev.mlsdevstore.data.model.user.CreditCard
 import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
-import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource
+import com.mlsdev.mlsdevstore.data.remote.datasource.RemoteDataSource
 import com.mlsdev.mlsdevstore.data.validator.*
 import com.mlsdev.mlsdevstore.presentaion.utils.CreditCardTypeDetector
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils

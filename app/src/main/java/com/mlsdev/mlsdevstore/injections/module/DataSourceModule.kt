@@ -5,7 +5,7 @@ import com.mlsdev.mlsdevstore.data.cart.Cart
 import com.mlsdev.mlsdevstore.data.local.LocalDataSource
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
-import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource
+import com.mlsdev.mlsdevstore.data.remote.datasource.RemoteDataSource
 import com.mlsdev.mlsdevstore.data.remote.service.AuthenticationService
 import com.mlsdev.mlsdevstore.data.remote.service.BrowseService
 import com.mlsdev.mlsdevstore.data.remote.service.OrderService

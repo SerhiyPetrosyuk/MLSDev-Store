@@ -1,7 +1,7 @@
 package com.mlsdev.mlsdevstore.data.remote
 
+import com.mlsdev.mlsdevstore.data.local.Key
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager
-import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.Key
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken
 import okhttp3.Interceptor
 import okhttp3.Response

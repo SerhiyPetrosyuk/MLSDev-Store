@@ -31,8 +31,6 @@ interface DataSource {
      */
     fun searchItemsByCategoryId(queries: Map<String, String>): Single<SearchResult>
 
-    fun searchItemsByRandomCategory(): Single<SearchResult>
-
     fun searchMoreItemsByRandomCategory(): Single<SearchResult>
 
     fun getItem(itemId: String): Single<Item>

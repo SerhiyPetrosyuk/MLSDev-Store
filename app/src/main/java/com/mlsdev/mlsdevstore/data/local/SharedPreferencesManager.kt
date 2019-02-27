@@ -45,13 +45,11 @@ constructor(private val gson: Gson, val sharedPreferences: SharedPreferences) {
 
         return data
     }
+}
 
-
-    annotation class Key {
-        companion object {
-            const val APPLICATION_ACCESS_TOKEN = "application_access_token"
-            const val RANDOM_CATEGORY_TREE_NODE = "random_category_tree_node"
-        }
+annotation class Key {
+    companion object {
+        const val APPLICATION_ACCESS_TOKEN = "application_access_token"
+        const val RANDOM_CATEGORY_TREE_NODE = "random_category_tree_node"
     }
-
 }

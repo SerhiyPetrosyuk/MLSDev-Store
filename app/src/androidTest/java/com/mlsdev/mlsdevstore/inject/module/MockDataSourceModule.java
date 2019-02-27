@@ -3,7 +3,7 @@ package com.mlsdev.mlsdevstore.inject.module;
 import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.local.LocalDataSource;
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken;
-import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource;
+import com.mlsdev.mlsdevstore.data.remote.datasource.RemoteDataSource;
 
 import org.mockito.Mockito;
 

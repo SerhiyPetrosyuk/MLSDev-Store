@@ -37,8 +37,11 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
     @Deprecated("use loadingStateLiveData")
     val isLoading = CustomObservableBoolean()
     val loadingStateLiveData = MutableLiveData<Boolean>()
+    @Deprecated("do not use it")
     protected var context: Context? = null
+    @Deprecated("do not use it")
     protected var dataSource: DataSource? = null
+    @Deprecated("do not use it")
     protected var utils: Utils? = null
     private val contentLoadingSubscription = CompositeDisposable()
 

@@ -8,16 +8,21 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mlsdev.mlsdevstore.R
+import com.mlsdev.mlsdevstore.data.DataLoadState
 import com.mlsdev.mlsdevstore.databinding.FragmentStoreBinding
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment
+import com.mlsdev.mlsdevstore.presentaion.products.PagedProductsAdapter
+import io.reactivex.disposables.Disposable
 
 class StoreFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
 
-    lateinit var productsAdapter: RandomProductsAdapter
+    lateinit var adapter: PagedProductsAdapter
     lateinit var binding: FragmentStoreBinding
+    private var collectionSubscription: Disposable? = null
     val viewModel: StoreViewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(StoreViewModel::class.java) }
 
 
@@ -32,6 +37,13 @@ class StoreFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
         binding.refreshLayout.setOnRefreshListener(this)
         initRecyclerView()
         initErrorHandler()
+        initClickHandlers()
+    }
+
+    private fun initClickHandlers() {
+        binding.buttonBrowseCategories.setOnClickListener {
+            findNavController().navigate(StoreFragmentDirections.actionStoreFlowFragmentToCategoriesFragment())
+        }
     }
 
     private fun initErrorHandler() {
@@ -42,38 +54,56 @@ class StoreFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun initRecyclerView() {
-        productsAdapter = RandomProductsAdapter { item ->
-            findNavController(this).navigate(StoreFragmentDirections.actionStoreFlowFragmentToProductFragment(item))
-        }
+        adapter = PagedProductsAdapter(
+                {},
+                { findNavController(this).navigate(StoreFragmentDirections.actionStoreFlowFragmentToProductFragment(it)) })
 
-        binding.rvProducts.adapter = productsAdapter
+        binding.rvProducts.adapter = adapter
         (binding.rvProducts.layoutManager as GridLayoutManager).spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                val viewType = productsAdapter.getItemViewType(position)
+                val viewType = adapter.getItemViewType(position)
                 return when (viewType) {
-                    VIEW_TYPE_FOOTER -> 2
-                    VIEW_TYPE_HEADER -> 2
-                    VIEW_TYPE_ITEM -> 1
+                    R.layout.layout_network_state -> 2
+                    R.layout.item_product -> 1
                     else -> -1
                 }
             }
         }
 
-        productsAdapter.setOnClickListeners(
-                View.OnClickListener { },
-                View.OnClickListener { findNavController(this).navigate(R.id.categories_fragment) },
-                View.OnClickListener { viewModel.loadMoreItemsFromRandomCategory() }
-        )
+        viewModel.loadingState.observe(this, Observer {
+            adapter.setLoadState(it)
 
-        viewModel.searchResultLiveData.observe(this, Observer {
-            productsAdapter.setData(it)
-            binding.rvProducts.notifyDataSetChanged()
+            when (it) {
+                DataLoadState.LOADING -> {
+                    binding.loadingIndicator.root.visibility =
+                            if (!binding.refreshLayout.isRefreshing && adapter.itemCount == 0) View.VISIBLE
+                            else View.GONE
+
+                    binding.refreshLayout.isRefreshing = binding.refreshLayout.isRefreshing
+                }
+                else -> {
+                    binding.refreshLayout.isRefreshing = false
+                    binding.loadingIndicator.root.visibility = View.GONE
+                }
+            }
+
         })
 
-        viewModel.getProducts()
     }
 
     override fun onRefresh() {
         viewModel.refresh()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        collectionSubscription = viewModel.products.subscribe { pagedList ->
+            adapter.submitList(pagedList)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        collectionSubscription?.dispose()
     }
 }

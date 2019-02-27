@@ -8,7 +8,7 @@ import com.mlsdev.mlsdevstore.data.model.item.Item
 import com.mlsdev.mlsdevstore.data.model.item.SearchResult
 import com.mlsdev.mlsdevstore.data.model.user.Address
 import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
-import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource
+import com.mlsdev.mlsdevstore.data.remote.datasource.RemoteDataSource
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -69,11 +69,6 @@ class LocalDataSource(
 
     override fun searchItemsByCategoryId(queries: Map<String, String>): Single<SearchResult> {
         return remoteDataSource.searchItemsByCategoryId(queries)
-    }
-
-    override fun searchItemsByRandomCategory(): Single<SearchResult> {
-        return loadRootCategoryTree()
-                .flatMap { categoryTree -> remoteDataSource.searchItemsByRandomCategory() }
     }
 
     override fun searchMoreItemsByRandomCategory(): Single<SearchResult> {

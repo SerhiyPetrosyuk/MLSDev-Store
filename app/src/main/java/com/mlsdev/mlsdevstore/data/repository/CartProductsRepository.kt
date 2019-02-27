@@ -6,7 +6,7 @@ import androidx.paging.PagedList
 import com.mlsdev.mlsdevstore.data.cart.Cart
 import com.mlsdev.mlsdevstore.data.local.CartItemsDataSourceFactory
 import com.mlsdev.mlsdevstore.data.model.item.ListItem
-import com.mlsdev.mlsdevstore.data.remote.getPagingConfig
+import com.mlsdev.mlsdevstore.data.remote.datasource.getPagingConfig
 import javax.inject.Inject
 import javax.inject.Singleton
 

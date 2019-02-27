@@ -1,12 +1,12 @@
-package com.mlsdev.mlsdevstore.data.remote
+package com.mlsdev.mlsdevstore.data.remote.datasource
 
 import android.util.ArrayMap
 import android.util.Base64
 import com.mlsdev.mlsdevstore.BuildConfig
 import com.mlsdev.mlsdevstore.data.DataSource
 import com.mlsdev.mlsdevstore.data.cart.Cart
+import com.mlsdev.mlsdevstore.data.local.Key
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager
-import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.Key
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessTokenRequestBody
@@ -24,7 +24,6 @@ import com.mlsdev.mlsdevstore.data.remote.service.BrowseService
 import com.mlsdev.mlsdevstore.data.remote.service.OrderService
 import com.mlsdev.mlsdevstore.data.remote.service.TaxonomyService
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -106,29 +105,6 @@ class RemoteDataSource(private val browseService: BrowseService,
 
     override fun searchItemsByCategoryId(queries: Map<String, String>): Single<SearchResult> {
         return prepareSingle(browseService.searchItemsByCategoryId(queries))
-    }
-
-    override fun searchItemsByRandomCategory(): Single<SearchResult> {
-        if (!searchItems.isEmpty()) {
-            val searchResult = SearchResult()
-            searchResult.itemSummaries = searchItems
-            searchResult.refinement = categoryRefinement
-            return Single.just(searchResult)
-        }
-
-        return prepareSingle(database.categoriesDao().queryCategoryTreeNode())
-                .toFlowable()
-                .flatMap { Flowable.fromIterable(it) }
-                .filter { node -> node.category != null && node.category.categoryId != null }
-                .toList()
-                .map { nodes -> nodes[(Math.random() * nodes.size).toInt()] }
-                .flatMap { node ->
-                    sharedPreferencesManager.save(Key.RANDOM_CATEGORY_TREE_NODE, node)
-                    val queries = prepareSearchQueryMap()
-                    prepareSingle(browseService.searchItemsByCategoryId(queries))
-                }
-                .flatMap { searchResult -> if (searchResult.itemSummaries.isEmpty()) searchItemsByRandomCategory() else Single.just(searchResult) }
-                .doOnSuccess(searchResultConsumer)
     }
 
     override fun searchMoreItemsByRandomCategory(): Single<SearchResult> {

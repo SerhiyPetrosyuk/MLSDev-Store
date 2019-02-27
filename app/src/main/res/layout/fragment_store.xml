@@ -16,7 +16,7 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/appbar_height"
+            android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -31,6 +31,22 @@
                 app:title="@string/app_name"
                 app:titleTextAppearance="@style/ToolbarTextStyle"
                 app:titleTextColor="@android:color/black" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_browse_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_transparent"
+                android:drawableStart="@drawable/ic_categories"
+                android:drawableEnd="@drawable/ic_chevron_right"
+                android:drawablePadding="16dp"
+                android:gravity="start|center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/button_browse_all_categories"
+                android:textAllCaps="false"
+                android:textColor="@android:color/black"
+                app:layout_scrollFlags="scroll|enterAlways" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

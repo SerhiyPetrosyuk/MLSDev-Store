@@ -1,58 +1,24 @@
 package com.mlsdev.mlsdevstore.presentaion.store
 
-import androidx.lifecycle.MutableLiveData
-import com.mlsdev.mlsdevstore.data.DataSource
-import com.mlsdev.mlsdevstore.data.model.item.SearchResult
+import com.mlsdev.mlsdevstore.data.repository.RandomProductsRepository
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel
-import io.reactivex.functions.Consumer
 import javax.inject.Inject
 
 class StoreViewModel @Inject
-constructor(dataSource: DataSource, utils: Utils) : BaseViewModel() {
-    val searchResultLiveData = MutableLiveData<SearchResult>()
+constructor(
+        private val appUtils: Utils,
+        private val repository: RandomProductsRepository
+) : BaseViewModel() {
 
-    private val searchResultsConsumer = Consumer<SearchResult> { searchResult ->
-        setIsLoading(false)
-        isRefreshing.set(false)
-        searchResultLiveData.postValue(searchResult)
-    }
-
-    init {
-        this.dataSource = dataSource
-        this.utils = utils
-    }
-
-    fun getProducts() {
-        checkNetworkConnection(utils!!) {
-            setIsLoading(true)
-            compositeDisposable.add(dataSource!!.searchItemsByRandomCategory()
-                    .subscribe(searchResultsConsumer, errorConsumer))
-        }
-    }
+    val products = repository.getItems()
+    val loadingState = repository.getPageLoadingState()
 
     fun refresh() {
-        checkNetworkConnection(utils!!) {
-            isRefreshing.set(true)
-            dataSource!!.resetSearchResults()
-            compositeDisposable.add(dataSource!!.searchItemsByRandomCategory()
-                    .subscribe(searchResultsConsumer, errorConsumer))
-        }
+        checkNetworkConnection(appUtils) { repository.refresh() }
     }
 
-    fun loadMoreItemsFromRandomCategory() {
-        checkNetworkConnection(utils!!) {
-            compositeDisposable.add(dataSource!!.searchMoreItemsByRandomCategory().subscribe(
-                    { result ->
-                        setIsLoading(false)
-                        isRefreshing.set(false)
-                        searchResultLiveData.value?.let { liveSearchResult ->
-                            liveSearchResult.offset = result.offset
-                            liveSearchResult.itemSummaries.addAll(result.itemSummaries)
-                            searchResultLiveData.postValue(searchResultLiveData.value)
-                        }
-                    },
-                    { handleError(it) }))
-        }
+    fun retry() {
+        checkNetworkConnection(appUtils) { repository.retry() }
     }
 }

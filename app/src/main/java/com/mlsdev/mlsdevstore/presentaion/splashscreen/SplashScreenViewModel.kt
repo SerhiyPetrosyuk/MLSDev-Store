@@ -1,10 +1,10 @@
 package com.mlsdev.mlsdevstore.presentaion.splashscreen
 
 import androidx.lifecycle.MutableLiveData
+import com.mlsdev.mlsdevstore.data.local.Key
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager
-import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager.Key
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken
-import com.mlsdev.mlsdevstore.data.remote.RemoteDataSource
+import com.mlsdev.mlsdevstore.data.remote.datasource.RemoteDataSource
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel
 import java.util.*
 import javax.inject.Inject

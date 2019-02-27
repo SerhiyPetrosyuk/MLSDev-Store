@@ -59,6 +59,7 @@
     <string name="btn_add_to_cart">Add to cart</string>
     <string name="btn_checkout">Checkout</string>
     <string name="btn_edit">edit</string>
+    <string name="button_browse_all_categories">browse all categories</string>
 
     <!--Value-->
     <string name="value_percent">%1$s%%</string>

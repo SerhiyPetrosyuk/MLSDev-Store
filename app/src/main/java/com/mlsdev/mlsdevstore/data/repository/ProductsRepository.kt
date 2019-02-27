@@ -6,11 +6,13 @@ import androidx.paging.PagedList
 import androidx.paging.RxPagedListBuilder
 import com.mlsdev.mlsdevstore.data.DataLoadState
 import com.mlsdev.mlsdevstore.data.model.item.Item
-import com.mlsdev.mlsdevstore.data.remote.ProductsDataSourceFactory
-import com.mlsdev.mlsdevstore.data.remote.getPagingConfig
+import com.mlsdev.mlsdevstore.data.remote.datasource.ProductsDataSourceFactory
+import com.mlsdev.mlsdevstore.data.remote.datasource.getPagingConfig
 import io.reactivex.Observable
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class ProductsRepository @Inject constructor(
         private val itemsDataSourceFactory: ProductsDataSourceFactory
 ) : BaseRepository() {
@@ -21,7 +23,7 @@ class ProductsRepository @Inject constructor(
     }
 
     fun refresh() {
-        itemsDataSourceFactory.refresh()
+        itemsDataSourceFactory.invalidateDataSource()
     }
 
     fun retry() {
@@ -29,6 +31,6 @@ class ProductsRepository @Inject constructor(
     }
 
     fun getPageLoadingState(): LiveData<DataLoadState> =
-            Transformations.switchMap(itemsDataSourceFactory.dataSourceLiveData) { it.loadStateLiveData }
+            Transformations.switchMap(itemsDataSourceFactory.getDataSourceLiveData()) { it.loadStateLiveData }
 
 }

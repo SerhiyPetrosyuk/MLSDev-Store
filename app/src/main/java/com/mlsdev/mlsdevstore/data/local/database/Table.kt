@@ -9,6 +9,7 @@ annotation class Table {
         const val PERSONAL_INFO = "personal_info"
         const val GUEST_CHECKOUT_SESSION = "guest_checkout_session"
         const val CATEGORY_IMAGES = "category_images"
+        const val PRODUCTS = "products"
     }
 
 }

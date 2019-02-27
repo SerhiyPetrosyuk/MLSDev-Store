@@ -62,7 +62,7 @@ public class CartTest {
         Item item = new Item();
         item.setItemId(String.valueOf(item.hashCode()));
         item.setTitle("title");
-        item.setCondition(Item.Condition.New);
+        item.setCondition(Item.Condition.Companion.getNew());
         item.setPrice(price);
 
         return item;

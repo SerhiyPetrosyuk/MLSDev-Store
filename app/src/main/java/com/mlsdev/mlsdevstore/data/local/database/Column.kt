@@ -20,5 +20,10 @@ annotation class Column {
         const val CATEGORY_TREE_NODE_LEVEL = "category_tree_node_level"
         const val LEAF_CATEGORY_TREE_NODE = "leaf_category_tree_node"
         const val PARENT_CATEGORY_TREE_NODE_HREF = "parent_category_tree_node_href"
+
+        /**
+         * @see [com.mlsdev.mlsdevstore.data.model.item.Item]
+         * */
+
     }
 }

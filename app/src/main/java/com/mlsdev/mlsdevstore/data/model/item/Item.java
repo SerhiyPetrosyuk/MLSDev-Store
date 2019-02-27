@@ -14,7 +14,6 @@ public class Item implements Parcelable, ListItem {
     private String itemHref;
     @Condition
     private String condition;
-    private String conditionId;
     private String description;
     private String brand;
     private String size;
@@ -24,11 +23,7 @@ public class Item implements Parcelable, ListItem {
     private boolean adultOnly;
     private Image image;
     private Price price;
-    private Price currentBidPrice;
     private Seller seller;
-    private List<String> buyingOptions = new ArrayList<>();
-    private List<ShippingOption> shippingOptions = new ArrayList<>();
-    private ItemLocation itemLocation;
     private List<Image> additionalImages = new ArrayList<>();
 
     public List<Image> getAdditionalImages() {
@@ -142,15 +137,10 @@ public class Item implements Parcelable, ListItem {
         dest.writeString(this.title);
         dest.writeString(this.itemHref);
         dest.writeString(this.condition);
-        dest.writeString(this.conditionId);
         dest.writeByte(this.adultOnly ? (byte) 1 : (byte) 0);
         dest.writeParcelable(this.image, flags);
         dest.writeParcelable(this.price, flags);
-        dest.writeParcelable(this.currentBidPrice, flags);
         dest.writeParcelable(this.seller, flags);
-        dest.writeStringList(this.buyingOptions);
-        dest.writeTypedList(this.shippingOptions);
-        dest.writeParcelable(this.itemLocation, flags);
     }
 
     protected Item(Parcel in) {
@@ -158,15 +148,10 @@ public class Item implements Parcelable, ListItem {
         this.title = in.readString();
         this.itemHref = in.readString();
         this.condition = in.readString();
-        this.conditionId = in.readString();
         this.adultOnly = in.readByte() != 0;
         this.image = in.readParcelable(Image.class.getClassLoader());
         this.price = in.readParcelable(Price.class.getClassLoader());
-        this.currentBidPrice = in.readParcelable(Price.class.getClassLoader());
         this.seller = in.readParcelable(Seller.class.getClassLoader());
-        this.buyingOptions = in.createStringArrayList();
-        this.shippingOptions = in.createTypedArrayList(ShippingOption.CREATOR);
-        this.itemLocation = in.readParcelable(ItemLocation.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {

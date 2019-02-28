@@ -3,6 +3,7 @@ package com.mlsdev.mlsdevstore.data.remote.datasource
 import androidx.paging.DataSource
 import com.mlsdev.mlsdevstore.data.handleLoading
 import com.mlsdev.mlsdevstore.data.local.Key
+import com.mlsdev.mlsdevstore.data.local.LocalDataSource
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
@@ -10,6 +11,7 @@ import com.mlsdev.mlsdevstore.data.model.item.Item
 import com.mlsdev.mlsdevstore.data.remote.service.BrowseService
 import io.reactivex.Flowable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -17,7 +19,8 @@ import javax.inject.Provider
 class RandomProductsDataSource @Inject constructor(
         private val database: AppDatabase,
         private val browseService: BrowseService,
-        private val sharedPreferencesManager: SharedPreferencesManager
+        private val sharedPreferencesManager: SharedPreferencesManager,
+        private val localDataSource: LocalDataSource
 ) : BasePositionalDataSource<Item>() {
 
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Item>) {
@@ -43,9 +46,12 @@ class RandomProductsDataSource @Inject constructor(
 
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Item>) {
         try {
-            disposable = Single.just(listOf(sharedPreferencesManager[Key.RANDOM_CATEGORY_TREE_NODE, CategoryTreeNode::class.java]))
+
+            disposable = localDataSource.loadDefaultCategoryTreeId()
+                    .flatMap { localDataSource.loadRootCategoryTree() }
+                    .flatMap { Single.just(listOf(sharedPreferencesManager[Key.RANDOM_CATEGORY_TREE_NODE, CategoryTreeNode::class.java])) }
                     .flatMap {
-                        if (it.isEmpty()) return@flatMap database.categoriesDao().queryCategoryTreeNode()
+                        if (it[0] == null) return@flatMap database.categoriesDao().queryCategoryTreeNode().subscribeOn(Schedulers.io())
                         else return@flatMap Single.just(it)
                     }
                     .toFlowable()
@@ -56,6 +62,7 @@ class RandomProductsDataSource @Inject constructor(
                     .flatMap { node ->
                         sharedPreferencesManager.save(Key.RANDOM_CATEGORY_TREE_NODE, node)
                         return@flatMap browseService.searchItemsByCategoryId(node.category.categoryId, params.pageSize, 0)
+                                .subscribeOn(Schedulers.io())
                                 .handleLoading(loadStateLiveData)
                     }
                     .subscribe(

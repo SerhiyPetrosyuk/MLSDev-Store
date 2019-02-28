@@ -145,7 +145,7 @@ class RemoteDataSource(private val browseService: BrowseService,
     }
 
     private fun saveCategoryTreeNodes(categoryTree: CategoryTree) {
-        Completable.create { e -> database.categoriesDao().insertCategoryTreeNode(categoryTree.categoryTreeNode.childCategoryTreeNodes) }
+        Completable.create { database.categoriesDao().insertCategoryTreeNode(categoryTree.categoryTreeNode.childCategoryTreeNodes) }
                 .subscribeOn(Schedulers.io())
                 .subscribe()
     }
@@ -153,7 +153,7 @@ class RemoteDataSource(private val browseService: BrowseService,
     private fun saveDefaultCategoryTreeId(categoryTreeId: String) {
         val categoryTree = CategoryTree()
         categoryTree.categoryTreeId = categoryTreeId
-        Completable.create { e -> database.categoriesDao().insertCategoryTree(categoryTree) }
+        Completable.create { database.categoriesDao().insertCategoryTree(categoryTree) }
                 .subscribeOn(Schedulers.io())
                 .subscribe()
     }

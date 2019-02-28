@@ -9,30 +9,46 @@ import com.mlsdev.mlsdevstore.data.model.seller.Seller;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = ProductsTable.NAME)
 public class Item implements Parcelable, ListItem {
     @PrimaryKey
     @ColumnInfo(name = ProductsTable.COLUMN_ID)
-    private String itemId;
+    @NonNull
+    private String itemId = "id";
     @ColumnInfo(name = ProductsTable.COLUMN_TITLE)
     private String title;
+    @Ignore
     private String itemHref;
     @Condition
     private String condition;
+    @Ignore
     private String description;
+    @Ignore
     private String brand;
+    @Ignore
     private String size;
+    @Ignore
     private String gender;
+    @Ignore
     private String color;
+    @Ignore
     private String material;
+    @Ignore
     private boolean adultOnly;
+    @Embedded
     private Image image;
+    @Embedded
     private Price price;
+    @Ignore
     private Seller seller;
+    @Ignore
     private List<Image> additionalImages = new ArrayList<>();
 
     public List<Image> getAdditionalImages() {
@@ -61,6 +77,11 @@ public class Item implements Parcelable, ListItem {
 
     public String getMaterial() {
         return material;
+    }
+
+    @NonNull
+    public String getItemId() {
+        return itemId;
     }
 
     @Override
@@ -132,6 +153,10 @@ public class Item implements Parcelable, ListItem {
 
     public void setPrice(Price price) {
         this.price = price;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     //region Parcelable

@@ -9,6 +9,9 @@ import com.mlsdev.mlsdevstore.data.model.category.Category
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
 import com.mlsdev.mlsdevstore.data.model.image.CategoryImageEntity
+import com.mlsdev.mlsdevstore.data.model.item.Image
+import com.mlsdev.mlsdevstore.data.model.item.Item
+import com.mlsdev.mlsdevstore.data.model.item.Price
 import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSession
 import com.mlsdev.mlsdevstore.data.model.user.Address
 import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
@@ -20,7 +23,10 @@ import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
     Address::class,
     PersonalInfo::class,
     GuestCheckoutSession::class,
-    CategoryImageEntity::class
+    CategoryImageEntity::class,
+    Item::class,
+    Price::class,
+    Image::class
 ], version = 1, exportSchema = false)
 @TypeConverters(CategoryConverter::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -29,4 +35,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun personalInfoDao(): PersonalInfoDao
     abstract fun checkoutSessionDao(): CheckoutSessionDao
     abstract fun categoryImagesDao(): CategoryImagesDao
+    abstract fun productsDao(): ProductsDao
+    abstract fun imagesDao(): ImagesDao
+    abstract fun pricesDao(): PricesDao
 }

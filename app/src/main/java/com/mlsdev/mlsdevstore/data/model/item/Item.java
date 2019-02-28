@@ -3,7 +3,7 @@ package com.mlsdev.mlsdevstore.data.model.item;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.mlsdev.mlsdevstore.data.local.database.dao.ProductTable;
+import com.mlsdev.mlsdevstore.data.local.database.tables.ProductsTable;
 import com.mlsdev.mlsdevstore.data.model.seller.Seller;
 
 import java.util.ArrayList;
@@ -13,12 +13,12 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = ProductTable.NAME)
+@Entity(tableName = ProductsTable.NAME)
 public class Item implements Parcelable, ListItem {
     @PrimaryKey
-    @ColumnInfo(name = ProductTable.COLUMN_ID)
+    @ColumnInfo(name = ProductsTable.COLUMN_ID)
     private String itemId;
-    @ColumnInfo(name = ProductTable.COLUMN_TITLE)
+    @ColumnInfo(name = ProductsTable.COLUMN_TITLE)
     private String title;
     private String itemHref;
     @Condition

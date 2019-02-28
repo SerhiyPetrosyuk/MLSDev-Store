@@ -89,7 +89,7 @@ constructor(
                         color.set(product.color)
                         material.set(product.material)
                         feedbackScore.set(product.seller.feedbackScore.toString())
-                        feedbackPercent.set(product.seller.feedbackPercentage)
+                        feedbackPercent.set(product.seller.getFeedbackRating())
                         imageUrl.set(product.imageUrl)
                         imageUrl.notifyChange()
 

@@ -8,6 +8,7 @@ import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
 import com.mlsdev.mlsdevstore.data.model.product.Product
+import com.mlsdev.mlsdevstore.data.model.product.SearchResult
 import com.mlsdev.mlsdevstore.data.remote.service.BrowseService
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -47,33 +48,61 @@ class RandomProductsDataSource @Inject constructor(
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Product>) {
         try {
 
-            disposable = localDataSource.loadDefaultCategoryTreeId()
-                    .flatMap { localDataSource.loadRootCategoryTree() }
-                    .flatMap { Single.just(listOf(sharedPreferencesManager[Key.RANDOM_CATEGORY_TREE_NODE, CategoryTreeNode::class.java])) }
-                    .flatMap {
-                        if (it[0] == null) return@flatMap database.categoriesDao().queryCategoryTreeNode().subscribeOn(Schedulers.io())
-                        else return@flatMap Single.just(it)
-                    }
-                    .toFlowable()
-                    .flatMap { Flowable.fromIterable(it) }
-                    .filter { node -> node.category != null && node.category.categoryId != null }
-                    .toList()
-                    .map { nodes -> nodes[(Math.random() * nodes.size).toInt()] }
-                    .flatMap { node ->
-                        sharedPreferencesManager.save(Key.RANDOM_CATEGORY_TREE_NODE, node)
-                        return@flatMap browseService.searchItemsByCategoryId(node.category.categoryId, params.pageSize, 0)
-                                .subscribeOn(Schedulers.io())
-                                .handleLoading(loadStateLiveData)
+            disposable = getRandomCategoryId()
+                    .flatMap { categoryId -> searchProductsByCategoryId(categoryId, params) }
+                    .map {
+                        database.productsDao().deleteAllProducts()
+                        database.productsDao().insert(it.itemSummaries)
+                        return@map it
                     }
                     .subscribe(
-                            {
-                                totalCount = it.total
-                                callback.onResult(it.itemSummaries, it.offset, it.total)
+                            { searchResult ->
+                                totalCount = searchResult.total
+                                callback.onResult(searchResult.itemSummaries, searchResult.offset, searchResult.total)
                             },
                             { handleError(it, params, callback) })
         } catch (e: Exception) {
             handleError(e, params, callback)
         }
+    }
+
+    private fun getRandomCategoryId(): Single<String> {
+        return localDataSource.loadDefaultCategoryTreeId()
+                .flatMap { localDataSource.loadRootCategoryTree() }
+                .flatMap { Single.just(listOf(sharedPreferencesManager[Key.RANDOM_CATEGORY_TREE_NODE, CategoryTreeNode::class.java])) }
+                .flatMap { categoryTreeNodes ->
+                    return@flatMap if (categoryTreeNodes[0] == null) {
+                        database.categoriesDao()
+                                .queryCategoryTreeNode()
+                                .subscribeOn(Schedulers.io())
+                    } else Single.just(categoryTreeNodes)
+                }
+                .toFlowable()
+                .flatMap { Flowable.fromIterable(it) }
+                .filter { node -> node.category != null && node.category.categoryId != null }
+                .toList()
+                .map { nodes ->
+                    val randomCategoryTreeNode: CategoryTreeNode = nodes[(Math.random() * nodes.size).toInt()]!!
+                    sharedPreferencesManager.save(Key.RANDOM_CATEGORY_TREE_NODE, randomCategoryTreeNode)
+                    return@map randomCategoryTreeNode.category.categoryId
+                }
+                .subscribeOn(Schedulers.io())
+    }
+
+    private fun searchProductsByCategoryId(categoryId: String, params: LoadInitialParams): Single<SearchResult> {
+        return database.productsDao().queryAllProducts()
+                .flatMap { products ->
+                    if (products.isEmpty()) browseService.searchItemsByCategoryId(categoryId, params.pageSize, 0)
+                    else {
+                        val searchResult = SearchResult()
+                        searchResult.itemSummaries = products
+                        searchResult.total = 100
+                        searchResult.offset = 0
+                        return@flatMap Single.just(searchResult)
+                    }
+                }
+                .subscribeOn(Schedulers.io())
+                .handleLoading(loadStateLiveData)
     }
 
 }

@@ -14,9 +14,15 @@ interface ProductsDao {
     @Insert
     fun insert(vararg product: Product)
 
+    @Insert
+    fun insert(products: List<Product>)
+
     @Query("select * from ${ProductsTable.NAME}")
     fun queryAllProducts(): Single<List<Product>>
 
     @Delete
     fun delete(vararg product: Product)
+
+    @Query("delete from ${ProductsTable.NAME}")
+    fun deleteAllProducts()
 }

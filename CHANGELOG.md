@@ -1,6 +1,8 @@
 # v0.0.10
 * Single activity app [IT-900](https://mlsdev.atlassian.net/browse/IT-900)
 * Fragment transitions [IT-911](https://mlsdev.atlassian.net/browse/IT-911)
+* Add the paging library for on the store fragment
+* Add the paging library for on the categories screen
 
 # v0.0.9
 * Finished the `Navigation Arch Component` implementing. But it is needed to refactor the whole

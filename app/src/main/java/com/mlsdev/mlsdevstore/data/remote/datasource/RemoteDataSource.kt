@@ -12,13 +12,13 @@ import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessToken
 import com.mlsdev.mlsdevstore.data.model.authentication.AppAccessTokenRequestBody
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
-import com.mlsdev.mlsdevstore.data.model.item.CategoryDistribution
-import com.mlsdev.mlsdevstore.data.model.item.Item
-import com.mlsdev.mlsdevstore.data.model.item.Refinement
-import com.mlsdev.mlsdevstore.data.model.item.SearchResult
 import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSession
 import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSessionRequest
 import com.mlsdev.mlsdevstore.data.model.order.PostOrderResult
+import com.mlsdev.mlsdevstore.data.model.product.CategoryDistribution
+import com.mlsdev.mlsdevstore.data.model.product.Product
+import com.mlsdev.mlsdevstore.data.model.product.Refinement
+import com.mlsdev.mlsdevstore.data.model.product.SearchResult
 import com.mlsdev.mlsdevstore.data.remote.service.AuthenticationService
 import com.mlsdev.mlsdevstore.data.remote.service.BrowseService
 import com.mlsdev.mlsdevstore.data.remote.service.OrderService
@@ -39,7 +39,7 @@ class RemoteDataSource(private val browseService: BrowseService,
                        private val cart: Cart) : DataSource {
     private var searchOffset = 0
     private var searchLimit = 10
-    private val searchItems = ArrayList<Item>()
+    private val searchItems = ArrayList<Product>()
 
     val appAccessToken: Single<AppAccessToken>
         get() {
@@ -112,7 +112,7 @@ class RemoteDataSource(private val browseService: BrowseService,
                 .doOnSuccess(searchResultConsumer)
     }
 
-    override fun getItem(itemId: String): Single<Item> {
+    override fun getItem(itemId: String): Single<Product> {
         return prepareSingle(browseService.getItem(itemId))
     }
 

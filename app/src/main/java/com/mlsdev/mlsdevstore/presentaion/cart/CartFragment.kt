@@ -13,7 +13,7 @@ import com.mlsdev.mlsdevstore.databinding.FragmentCartBinding
 import com.mlsdev.mlsdevstore.presentaion.fragment.BaseFragment
 
 class CartFragment : BaseFragment() {
-    lateinit var itemsAdapter: ItemsAdapter
+    lateinit var cartProductsAdapter: CartProductsAdapter
     lateinit var binding: FragmentCartBinding
     val viewModel: CartViewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(CartViewModel::class.java) }
 
@@ -29,9 +29,9 @@ class CartFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        itemsAdapter = ItemsAdapter { productId -> viewModel.removeItem(productId) }
+        cartProductsAdapter = CartProductsAdapter { productId -> viewModel.removeItem(productId) }
         binding.viewModel = viewModel
-        binding.itemsRecycler.adapter = itemsAdapter
+        binding.itemsRecycler.adapter = cartProductsAdapter
         binding.buttonCheckout.setOnClickListener {
             findNavController().navigate(CartFragmentDirections.actionCartFlowFragmentToCheckoutFragment())
         }
@@ -40,7 +40,7 @@ class CartFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         viewModel.productsInCart.observe(this, Observer { pagedList ->
-            itemsAdapter.submitList(pagedList)
+            cartProductsAdapter.submitList(pagedList)
             binding.viewModel?.cartIsEmpty?.set(pagedList.isEmpty())
         })
     }

@@ -23,26 +23,26 @@ constructor() {
         this.context = context
     }
 
-    fun showTechnicalError() {
+    private fun showTechnicalError() {
         showAlertDialog(context!!.getString(R.string.error_title_base), context!!.getString(R.string.error_message_tech))
     }
 
-    fun showNetworkError() {
+    private fun showNetworkError() {
         showAlertDialog(context!!.getString(R.string.error_title_base), context!!.getString(R.string.error_message_network))
     }
 
-    fun showCommonError() {
+    private fun showCommonError() {
         showAlertDialog(context!!.getString(R.string.error_title_base), context!!.getString(R.string.error_message_common))
     }
 
-    fun showAlertDialog(title: String, message: String) {
+    private fun showAlertDialog(title: String, message: String) {
         val builder = AlertDialog.Builder(context!!, R.style.AlertDialogAppCompat)
                 .setMessage(message)
                 .setTitle(title)
                 .setPositiveButton(context!!.getString(R.string.button_close), null)
 
         if (closeAppAfterError) {
-            builder.setPositiveButton(context!!.getString(R.string.button_close)) { dialogInterface, i ->
+            builder.setPositiveButton(context!!.getString(R.string.button_close)) { _, _ ->
                 if (context is Activity)
                     (context as Activity).finish()
             }

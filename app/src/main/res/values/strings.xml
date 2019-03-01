@@ -53,6 +53,7 @@
     <string name="label_state_or_province">State or province:</string>
     <string name="label_payment_info">Payment info</string>
     <string name="label_card_number">Card number:</string>
+    <string name="label_loading_data">loading data…</string>
 
     <!--Button-->
     <string name="btn_submit">Submit</string>

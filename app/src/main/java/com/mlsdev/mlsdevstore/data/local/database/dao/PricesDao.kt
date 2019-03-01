@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.mlsdev.mlsdevstore.data.local.database.tables.PricesTable
-import com.mlsdev.mlsdevstore.data.model.item.Price
+import com.mlsdev.mlsdevstore.data.model.product.Price
 import io.reactivex.Single
 
 @Dao

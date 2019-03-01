@@ -1,19 +1,15 @@
 package com.mlsdev.mlsdevstore.presentaion.viewmodel
 
-import android.content.Context
 import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mlsdev.mlsdevstore.data.DataLoadState
-import com.mlsdev.mlsdevstore.data.DataSource
 import com.mlsdev.mlsdevstore.data.model.error.ErrorParser
 import com.mlsdev.mlsdevstore.data.model.error.ValidationException
-import com.mlsdev.mlsdevstore.presentaion.utils.CustomObservableBoolean
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import retrofit2.HttpException
 import java.io.IOException
@@ -21,72 +17,46 @@ import java.net.SocketTimeoutException
 
 abstract class BaseViewModel : ViewModel(), LifecycleObserver {
     val compositeDisposable = CompositeDisposable()
-    @Deprecated("use technicalErrorLiveData")
-    val technicalErrorOccurred = ObservableBoolean()
-    @Deprecated("use networkErrorLiveData")
-    val networkErrorOccurred = ObservableBoolean()
-    @Deprecated("use commonErrorLiveData")
-    val commonErrorOccurred = ObservableBoolean()
-    @Deprecated("use authErrorLiveData")
-    val authErrorOccurred = ObservableBoolean()
     val technicalErrorLiveData = MutableLiveData<Boolean>()
     val networkErrorLiveData = MutableLiveData<Boolean>()
     val commonErrorLiveData = MutableLiveData<Boolean>()
     val authErrorLiveData = MutableLiveData<Boolean>()
     val isRefreshing = ObservableBoolean()
-    @Deprecated("use loadingStateLiveData")
-    val isLoading = CustomObservableBoolean()
     val loadingStateLiveData = MutableLiveData<Boolean>()
-    @Deprecated("do not use it")
-    protected var context: Context? = null
-    @Deprecated("do not use it")
-    protected var dataSource: DataSource? = null
-    @Deprecated("do not use it")
-    protected var utils: Utils? = null
     private val contentLoadingSubscription = CompositeDisposable()
 
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.dispose()
-        context = null
     }
 
     protected fun observeContentLoadingState(statePublisher: PublishSubject<DataLoadState>) {
         contentLoadingSubscription.add(statePublisher.subscribe {
             val loading = it == DataLoadState.LOADING
             isRefreshing.set(isRefreshing.get() and loading)
-            isLoading.set(isLoading.get() and loading)
-            loadingStateLiveData.postValue(isLoading.get() and loading)
+            loadingStateLiveData.postValue(loading)
         })
     }
 
-    protected val errorConsumer = Consumer<Throwable> {
-        handleError(it)
-    }
-
     fun onTechnicalErrorOccurred() {
-        technicalErrorOccurred.set(true)
         technicalErrorLiveData.postValue(true)
         setIsRefreshing(false)
         setIsLoading(false)
     }
 
     fun onNetworkErrorOccurred() {
-        networkErrorOccurred.set(true)
         networkErrorLiveData.postValue(true)
         setIsRefreshing(false)
         setIsLoading(false)
     }
 
     fun onCommonErrorOccurred() {
-        commonErrorOccurred.set(true)
         commonErrorLiveData.postValue(true)
         setIsRefreshing(false)
         setIsLoading(false)
     }
 
     fun onAuthorizationErrorOccurred() {
-        authErrorOccurred.set(true)
         authErrorLiveData.postValue(true)
         setIsRefreshing(false)
         setIsLoading(false)
@@ -98,8 +68,6 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
     }
 
     protected fun setIsLoading(isLoading: Boolean) {
-        this.isLoading.set(isLoading)
-        this.isLoading.notifyChange()
         loadingStateLiveData.postValue(isLoading)
     }
 
@@ -114,7 +82,6 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
 
     fun handleError(error: Throwable) {
         loadingStateLiveData.postValue(false)
-        isLoading.set(false)
         isRefreshing.set(false)
 
         when (error) {

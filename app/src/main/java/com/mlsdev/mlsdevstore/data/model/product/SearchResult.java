@@ -1,4 +1,4 @@
-package com.mlsdev.mlsdevstore.data.model.item;
+package com.mlsdev.mlsdevstore.data.model.product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ public class SearchResult {
     private int total;
     private String next;
     private String prev;
-    private List<Item> itemSummaries;
+    private List<Product> itemSummaries;
     private Refinement refinement;
 
     public SearchResult() {
@@ -37,7 +37,7 @@ public class SearchResult {
         return prev;
     }
 
-    public List<Item> getItemSummaries() {
+    public List<Product> getItemSummaries() {
         return itemSummaries;
     }
 
@@ -69,7 +69,7 @@ public class SearchResult {
         this.prev = prev;
     }
 
-    public void setItemSummaries(List<Item> itemSummaries) {
+    public void setItemSummaries(List<Product> itemSummaries) {
         this.itemSummaries = itemSummaries;
     }
 }

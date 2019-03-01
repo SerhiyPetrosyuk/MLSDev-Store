@@ -1,8 +1,10 @@
 package com.mlsdev.mlsdevstore.data.local.database.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.mlsdev.mlsdevstore.data.local.database.Table
-import com.mlsdev.mlsdevstore.data.model.category.Category
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
 import io.reactivex.Single
@@ -10,20 +12,8 @@ import io.reactivex.Single
 @Dao
 interface CategoriesDao {
 
-    @Insert
-    fun insertCategories(vararg category: Category)
-
-    @Update
-    fun updateCategories(vararg categories: Category)
-
-    @Delete
-    fun deleteCategories(vararg categories: Category)
-
     @Query("delete from ${Table.CATEGORY_TREE_NODES}")
     fun deleteAllCategoryTreeNodes(): Int
-
-    @Query("select * from ${Table.CATEGORIES}")
-    fun queryAllCategories(): Single<List<Category>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCategoryTreeNode(vararg categoryTreeNodes: CategoryTreeNode)

@@ -41,7 +41,7 @@ class CategoriesFragment : BaseFragment() {
     }
 
     private fun initRecyclerView() {
-        adapter = CategoriesAdapter { category, itemView ->
+        adapter = CategoriesAdapter { category, _ ->
             Log.d("ON_ITEM_CLICK", "Category id: ${category.category.categoryId}; " +
                     "Category name: ${category.category.categoryName}")
 

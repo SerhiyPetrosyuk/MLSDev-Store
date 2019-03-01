@@ -1,4 +1,4 @@
-package com.mlsdev.mlsdevstore.data.model.item;
+package com.mlsdev.mlsdevstore.data.model.product;
 
 import java.util.ArrayList;
 import java.util.List;

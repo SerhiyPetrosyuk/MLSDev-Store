@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.mlsdev.mlsdevstore.R
-import com.mlsdev.mlsdevstore.data.model.item.Image
+import com.mlsdev.mlsdevstore.data.model.product.Image
 import com.mlsdev.mlsdevstore.databinding.LayoutGalleryItemBinding
 
 import java.util.ArrayList

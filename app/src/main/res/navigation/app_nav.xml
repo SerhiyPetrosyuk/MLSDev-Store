@@ -65,7 +65,7 @@
         tools:layout="@layout/fragment_product">
         <argument
             android:name="product_details"
-            app:argType="com.mlsdev.mlsdevstore.data.model.item.Item" />
+            app:argType="com.mlsdev.mlsdevstore.data.model.product.Product" />
     </fragment>
     <fragment
         android:id="@+id/categories_fragment"

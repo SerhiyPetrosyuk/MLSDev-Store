@@ -2,7 +2,7 @@ package com.mlsdev.mlsdevstore.presentaion.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
-import com.mlsdev.mlsdevstore.data.model.item.Price
+import com.mlsdev.mlsdevstore.data.model.product.Price
 
 class Utils(private val context: Context) {
 

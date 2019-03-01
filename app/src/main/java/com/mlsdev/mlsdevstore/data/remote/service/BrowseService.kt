@@ -1,8 +1,7 @@
 package com.mlsdev.mlsdevstore.data.remote.service
 
-import com.mlsdev.mlsdevstore.data.model.item.Item
-import com.mlsdev.mlsdevstore.data.model.item.SearchResult
-
+import com.mlsdev.mlsdevstore.data.model.product.Product
+import com.mlsdev.mlsdevstore.data.model.product.SearchResult
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -30,6 +29,6 @@ interface BrowseService {
     ): Single<SearchResult>
 
     @GET("/buy/browse/v1/item/{id}?fieldgroups=PRODUCT")
-    fun getItem(@Path("id") itemId: String): Single<Item>
+    fun getItem(@Path("id") itemId: String): Single<Product>
 
 }

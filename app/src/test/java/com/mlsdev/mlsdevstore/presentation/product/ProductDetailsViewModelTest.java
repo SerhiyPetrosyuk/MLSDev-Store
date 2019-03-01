@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.mlsdev.mlsdevstore.BuildConfig;
 import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.cart.Cart;
-import com.mlsdev.mlsdevstore.data.model.item.Item;
+import com.mlsdev.mlsdevstore.data.model.product.Item;
 import com.mlsdev.mlsdevstore.presentaion.product.ProductDetailsViewModel;
 import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys;
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils;
@@ -62,10 +62,10 @@ public class ProductDetailsViewModelTest extends BaseViewModelTest {
         when(dataSource.getItem(item.getId())).thenReturn(Single.just(item));
         when(utils.isNetworkAvailable()).thenReturn(true);
         viewModel.setProductDetailsData(itemData);
-        Assert.assertEquals(item.getTitle(), viewModel.getTitle().get());
+        Assert.assertEquals(item.getItemTitle(), viewModel.getTitle().get());
         Assert.assertEquals(item.getImageUrl(), viewModel.getImageUrl().get());
-        Assert.assertEquals(String.valueOf(item.getPrice().getValue()), viewModel.getPrice().get());
-        Assert.assertEquals(item.getPrice().getCurrency(), viewModel.getCurrency().get());
+        Assert.assertEquals(String.valueOf(item.getItemPrice().getValue()), viewModel.getPrice().get());
+        Assert.assertEquals(item.getItemPrice().getCurrency(), viewModel.getCurrency().get());
         verify(dataSource, times(1)).getItem(item.getId());
     }
 

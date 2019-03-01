@@ -1,7 +1,7 @@
 package com.mlsdev.mlsdevstore.data.cart;
 
-import com.mlsdev.mlsdevstore.data.model.item.Item;
-import com.mlsdev.mlsdevstore.data.model.item.Price;
+import com.mlsdev.mlsdevstore.data.model.product.Item;
+import com.mlsdev.mlsdevstore.data.model.product.Price;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,10 +28,10 @@ public class CartTest {
         cart.addItem(item);
         assertEquals(1, cart.getItems().size());
         assertEquals(item.getId(), cart.getItems().get(0).getId());
-        assertEquals(item.getTitle(), cart.getItems().get(0).getTitle());
-        assertEquals(item.getCondition(), cart.getItems().get(0).getCondition());
-        assertEquals(item.getPrice().getCurrency(), cart.getItems().get(0).getPrice().getCurrency());
-        assertEquals(item.getPrice().getValue(), cart.getItems().get(0).getPrice().getValue(), 0);
+        assertEquals(item.getItemTitle(), cart.getItems().get(0).getTitle());
+        assertEquals(item.getItemCondition(), cart.getItems().get(0).getCondition());
+        assertEquals(item.getItemPrice().getCurrency(), cart.getItems().get(0).getPrice().getCurrency());
+        assertEquals(item.getItemPrice().getValue(), cart.getItems().get(0).getPrice().getValue(), 0);
     }
 
     @Test

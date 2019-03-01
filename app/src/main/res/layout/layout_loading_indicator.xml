@@ -4,8 +4,8 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel" />
+            name="isLoading"
+            type="Boolean" />
 
         <import type="android.view.View" />
     </data>
@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}">
+        android:visibility="@{safeUnbox(isLoading) ? View.VISIBLE : View.GONE}">
 
         <ProgressBar
             style="@style/Widget.AppCompat.ProgressBar"
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="loading data..." />
+            android:text="@string/label_loading_data" />
 
     </LinearLayout>
 

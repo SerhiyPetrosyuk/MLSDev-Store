@@ -1,4 +1,4 @@
-package com.mlsdev.mlsdevstore.data.model.item
+package com.mlsdev.mlsdevstore.data.model.product
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
@@ -9,17 +9,17 @@ data class CartTotalSum(
 ) : ListItem, Parcelable {
     override fun getId(): String = "total_sum"
 
-    override fun getTitle(): String = ""
+    override fun getItemTitle(): String = ""
 
     override fun getImageUrl(): String = ""
 
-    override fun getPrice(): Price {
+    override fun getItemPrice(): Price {
         val price = Price()
         price.value = value
         return price
     }
 
-    override fun getCondition(): String = ""
+    override fun getItemCondition(): String = ""
 
     override fun getParcelable(): Parcelable = this
 }

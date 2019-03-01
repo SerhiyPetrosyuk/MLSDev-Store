@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.mlsdev.mlsdevstore.data.local.database.tables.ImagesTable
-import com.mlsdev.mlsdevstore.data.model.item.Image
+import com.mlsdev.mlsdevstore.data.model.product.Image
 import io.reactivex.Single
 
 @Dao

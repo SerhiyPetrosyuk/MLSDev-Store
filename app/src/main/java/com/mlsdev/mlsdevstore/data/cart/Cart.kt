@@ -2,8 +2,8 @@ package com.mlsdev.mlsdevstore.data.cart
 
 
 import androidx.lifecycle.MutableLiveData
-import com.mlsdev.mlsdevstore.data.model.item.Item
 import com.mlsdev.mlsdevstore.data.model.order.LineItemInput
+import com.mlsdev.mlsdevstore.data.model.product.Product
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -11,18 +11,18 @@ import javax.inject.Singleton
 @Singleton
 class Cart @Inject
 constructor() {
-    val items = ArrayList<Item>()
+    val items = ArrayList<Product>()
     private val itemCountChangeListeners: MutableList<OnItemCountChangeListener>
     private val itemRemovedListeners: MutableList<OnItemRemovedListener>
     private val maxItemsReachedListeners: MutableList<OnMaxItemsReachedListener>
     private val itemAddedListeners: MutableList<OnItemAddedListener>
-    val products = MutableLiveData<Item>()
+    val products = MutableLiveData<Product>()
 
     fun getTotalSum(): Double {
         var totalSum = 0.0
 
         for (item in items)
-            totalSum += item.price.value
+            totalSum += item.itemPrice.value
 
         return totalSum
     }
@@ -34,7 +34,7 @@ constructor() {
         maxItemsReachedListeners = ArrayList()
     }
 
-    fun addItem(item: Item?) {
+    fun addItem(item: Product?) {
         if (item == null) {
             return
         } else if (items.size == MAX_ITEMS_PER_CHECKOUT) {
@@ -70,7 +70,7 @@ constructor() {
             listener.onMaxItemsReached()
     }
 
-    private fun notifyOnItemAdded(item: Item) {
+    private fun notifyOnItemAdded(item: Product) {
         for (listener in itemAddedListeners)
             listener.onItemAdded(item)
     }
@@ -131,10 +131,10 @@ constructor() {
     }
 
     interface OnItemAddedListener {
-        fun onItemAdded(item: Item)
+        fun onItemAdded(item: Product)
     }
 
-    fun getItems(): List<Item> {
+    fun getItems(): List<Product> {
         return items
     }
 

@@ -5,7 +5,7 @@ import androidx.lifecycle.Transformations
 import androidx.paging.PagedList
 import androidx.paging.RxPagedListBuilder
 import com.mlsdev.mlsdevstore.data.DataLoadState
-import com.mlsdev.mlsdevstore.data.model.item.Item
+import com.mlsdev.mlsdevstore.data.model.product.Product
 import com.mlsdev.mlsdevstore.data.remote.datasource.ProductsDataSourceFactory
 import com.mlsdev.mlsdevstore.data.remote.datasource.getPagingConfig
 import io.reactivex.Observable
@@ -17,7 +17,7 @@ class ProductsRepository @Inject constructor(
         private val itemsDataSourceFactory: ProductsDataSourceFactory
 ) : BaseRepository() {
 
-    fun getItems(categoryId: String): Observable<PagedList<Item>> {
+    fun getItems(categoryId: String): Observable<PagedList<Product>> {
         itemsDataSourceFactory.categoryId = categoryId
         return RxPagedListBuilder(itemsDataSourceFactory, getPagingConfig()).buildObservable()
     }

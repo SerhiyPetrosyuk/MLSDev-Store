@@ -2,7 +2,7 @@ package com.mlsdev.mlsdevstore.presentation.cart;
 
 import com.mlsdev.mlsdevstore.BuildConfig;
 import com.mlsdev.mlsdevstore.data.cart.Cart;
-import com.mlsdev.mlsdevstore.data.model.item.Item;
+import com.mlsdev.mlsdevstore.data.model.product.Item;
 import com.mlsdev.mlsdevstore.presentaion.cart.CartViewModel;
 import com.mlsdev.mlsdevstore.presentation.viewmodel.BaseViewModelTest;
 

@@ -1,6 +1,5 @@
 package com.mlsdev.mlsdevstore.presentaion.account
 
-import android.content.Context
 import androidx.databinding.ObservableField
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
@@ -11,14 +10,9 @@ import javax.inject.Inject
 
 class AccountViewModel @Inject
 constructor(
-        context: Context,
-        utils: Utils,
-        private val localDataSource: LocalDataSource) : BaseViewModel() {
-
-    init {
-        this.context = context
-        this.utils = utils
-    }
+        private val utils: Utils,
+        private val localDataSource: LocalDataSource
+) : BaseViewModel() {
 
     // Personal info
     val email = ObservableField<String>()
@@ -34,7 +28,7 @@ constructor(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     internal fun start() {
-        checkNetworkConnection(utils!!) {
+        checkNetworkConnection(utils) {
             compositeDisposable.add(
                     localDataSource.getShippingInfo().subscribe(
                             { shippingAddress ->

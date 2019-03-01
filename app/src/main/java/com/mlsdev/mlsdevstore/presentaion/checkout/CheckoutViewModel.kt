@@ -57,19 +57,23 @@ constructor(
                 { handleError(it) }))
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun cardNumberChanged(s: CharSequence, start: Int, before: Int, count: Int) {
         cardNumberError.set(null)
         cardTypeIcon.set(cardTypeDetector.getCardType(s.toString()))
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun cardHolderChanged(s: CharSequence, start: Int, before: Int, count: Int) {
         cardHolderError.set(null)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun cardExpirationChanged(s: CharSequence, start: Int, before: Int, count: Int) {
         cardExpirationDateError.set(null)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun cvvChanged(s: CharSequence, start: Int, before: Int, count: Int) {
         cvvError.set(null)
     }

@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mlsdev.mlsdevstore.R
-import com.mlsdev.mlsdevstore.data.model.item.Item
-import com.mlsdev.mlsdevstore.data.model.item.ListItem
+import com.mlsdev.mlsdevstore.data.model.product.ListItem
+import com.mlsdev.mlsdevstore.data.model.product.Product
 import com.mlsdev.mlsdevstore.databinding.ItemProductBinding
 import com.mlsdev.mlsdevstore.presentaion.adapter.BasePagedAdapter
 import com.mlsdev.mlsdevstore.presentaion.adapter.BaseViewHolder
@@ -15,8 +15,8 @@ import com.mlsdev.mlsdevstore.presentaion.store.ProductItemViewModel
 
 class PagedProductsAdapter(
         retryCallback: () -> Unit,
-        val onItemClickListener: (item: Item) -> Unit
-) : BasePagedAdapter<Item>(retryCallback, diffCallback) {
+        val onItemClickListener: (product: Product) -> Unit
+) : BasePagedAdapter<Product>(retryCallback, diffCallback) {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             R.layout.layout_network_state -> (holder as BasePagedAdapter<*>.NetworkStateViewHolder).bindTo()
@@ -32,10 +32,10 @@ class PagedProductsAdapter(
         else -> throw Exception("Unknown item view type")
     }
 
-    inner class ViewHolder(itemView: View) : BaseViewHolder<Item>(itemView) {
+    inner class ViewHolder(itemView: View) : BaseViewHolder<Product>(itemView) {
         val binding = ItemProductBinding.bind(itemView)
 
-        override fun bindView(item: Item?) {
+        override fun bindView(item: Product?) {
             val viewModel = ProductItemViewModel(null)
             viewModel.setItem(item as ListItem)
             binding.viewModel = viewModel
@@ -50,15 +50,15 @@ class PagedProductsAdapter(
     }
 
     companion object {
-        val diffCallback = object : DiffUtil.ItemCallback<Item>() {
-            override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean =
-                    oldItem.id == newItem.id
+        val diffCallback = object : DiffUtil.ItemCallback<Product>() {
+            override fun areItemsTheSame(oldProduct: Product, newProduct: Product): Boolean =
+                    oldProduct.id == newProduct.id
 
-            override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean =
-                    oldItem.brand == newItem.brand &&
-                            oldItem.description == newItem.description &&
-                            oldItem.price.value == newItem.price.value &&
-                            oldItem.title == newItem.title
+            override fun areContentsTheSame(oldProduct: Product, newProduct: Product): Boolean =
+                    oldProduct.brand == newProduct.brand &&
+                            oldProduct.description == newProduct.description &&
+                            oldProduct.itemPrice.value == newProduct.itemPrice.value &&
+                            oldProduct.itemTitle == newProduct.itemTitle
         }
     }
 }

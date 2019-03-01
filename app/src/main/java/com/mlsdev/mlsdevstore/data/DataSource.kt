@@ -2,9 +2,8 @@ package com.mlsdev.mlsdevstore.data
 
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
-import com.mlsdev.mlsdevstore.data.model.item.Item
-import com.mlsdev.mlsdevstore.data.model.item.SearchResult
-
+import com.mlsdev.mlsdevstore.data.model.product.Product
+import com.mlsdev.mlsdevstore.data.model.product.SearchResult
 import io.reactivex.Single
 
 interface DataSource {
@@ -33,7 +32,7 @@ interface DataSource {
 
     fun searchMoreItemsByRandomCategory(): Single<SearchResult>
 
-    fun getItem(itemId: String): Single<Item>
+    fun getItem(itemId: String): Single<Product>
 
     fun resetSearchResults()
 }

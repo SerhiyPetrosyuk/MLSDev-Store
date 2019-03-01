@@ -1,4 +1,4 @@
-package com.mlsdev.mlsdevstore.data.model.item;
+package com.mlsdev.mlsdevstore.data.model.product;
 
 import com.mlsdev.mlsdevstore.data.model.category.Category;
 

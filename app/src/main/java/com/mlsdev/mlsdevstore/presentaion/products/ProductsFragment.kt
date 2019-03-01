@@ -42,7 +42,7 @@ class ProductsFragment : BaseFragment() {
         adapter = PagedProductsAdapter(
                 { viewModel.retry() },
                 { product ->
-                    Log.d("ON_PRODUCT_ITEM_CLICK", "Product id: ${product.id}; Product name: ${product.title}")
+                    Log.d("ON_PRODUCT_ITEM_CLICK", "Product id: ${product.id}; Product name: ${product.itemTitle}")
                     findNavController().navigate(ProductsFragmentDirections.actionProductsFragmentToProductFragment(product))
                 })
         binding.rvProducts.adapter = adapter

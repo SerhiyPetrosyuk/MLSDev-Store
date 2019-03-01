@@ -2,28 +2,22 @@ package com.mlsdev.mlsdevstore.presentation.store;
 
 import com.mlsdev.mlsdevstore.BuildConfig;
 import com.mlsdev.mlsdevstore.data.DataSource;
-import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
+import com.mlsdev.mlsdevstore.data.model.product.SearchResult;
 import com.mlsdev.mlsdevstore.presentaion.store.StoreViewModel;
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils;
 import com.mlsdev.mlsdevstore.presentation.viewmodel.BaseViewModelTest;
-import com.mlsdev.mlsdevstore.utils.RxUtils;
 import com.mlsdev.mlsdevstore.utils.UnitAssetsUtils;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import io.reactivex.Single;
-import io.reactivex.plugins.RxJavaPlugins;
 
 import static org.mockito.Mockito.*;
 

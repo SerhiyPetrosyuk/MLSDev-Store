@@ -1,15 +1,12 @@
-package com.mlsdev.mlsdevstore.data.model.item
+package com.mlsdev.mlsdevstore.data.model.product
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.mlsdev.mlsdevstore.data.local.database.tables.PricesTable
-import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-@Entity(tableName = PricesTable.NAME)
+//@Entity(tableName = PricesTable.NAME)
 data class Price(
         @ColumnInfo(name = PricesTable.COLUMN_PRICE)
         var value: Double = 0.0,
@@ -17,9 +14,9 @@ data class Price(
         var currency: String? = null
 ) : Parcelable {
 
-    @IgnoredOnParcel
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = PricesTable.COLUMN_ID)
-    var id: Long = 0
+//    @IgnoredOnParcel
+//    @PrimaryKey(autoGenerate = true)
+//    @ColumnInfo(name = PricesTable.COLUMN_ID)
+//    var id: Long = 0
 
 }

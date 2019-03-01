@@ -17,13 +17,9 @@ import javax.inject.Inject
 
 class EditAccountViewModel @Inject
 constructor(
-        context: Context,
+        private val context: Context,
         private val localDataSource: LocalDataSource,
         private val fieldsValidator: FieldsValidator) : BaseViewModel() {
-
-    init {
-        this.context = context
-    }
 
     val email = ObservableField<String>()
     val firstName = ObservableField<String>()
@@ -109,7 +105,7 @@ constructor(
     }
 
     private fun updateShippingInfo() {
-        val country: String = context!!.resources.configuration.locales[0].country
+        val country: String = context.resources.configuration.locales[0].country
         compositeDisposable.add(
                 localDataSource.updateShippingInfo(
                         phoneNumber.get() ?: "",
@@ -155,22 +151,27 @@ constructor(
         lastNameError.set(null)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onPhoneChanged(s: CharSequence, start: Int, count: Int, after: Int) {
         phoneNumberError.set(null)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onAddressChanged(s: CharSequence, start: Int, count: Int, after: Int) {
         addressError.set(null)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onCityChanged(s: CharSequence, start: Int, count: Int, after: Int) {
         cityError.set(null)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onStateChanged(s: CharSequence, start: Int, count: Int, after: Int) {
         stateError.set(null)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onPostalCodeChanged(s: CharSequence, start: Int, count: Int, after: Int) {
         postalCodeError.set(null)
     }

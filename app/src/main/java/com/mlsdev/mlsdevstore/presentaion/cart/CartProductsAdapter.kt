@@ -6,15 +6,13 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.mlsdev.mlsdevstore.R
-import com.mlsdev.mlsdevstore.data.model.item.ListItem
+import com.mlsdev.mlsdevstore.data.model.product.ListItem
 import com.mlsdev.mlsdevstore.databinding.ItemCartProductBinding
 import com.mlsdev.mlsdevstore.databinding.ItemOrderTotalBinding
 import com.mlsdev.mlsdevstore.presentaion.adapter.BaseViewHolder
 import com.mlsdev.mlsdevstore.presentaion.store.ProductItemViewModel
-import com.mlsdev.mlsdevstore.presentaion.store.VIEW_TYPE_FOOTER
-import com.mlsdev.mlsdevstore.presentaion.store.VIEW_TYPE_ITEM
 
-class ItemsAdapter(
+class CartProductsAdapter(
         val removeItemFromCartListener: (productId: String) -> Unit
 ) : PagedListAdapter<ListItem, BaseViewHolder<ListItem>>(diffCallback) {
 
@@ -60,19 +58,24 @@ class ItemsAdapter(
             if (binding.viewModel == null)
                 binding.viewModel = TotalSumItemViewModel()
 
-            binding.viewModel?.setTotalSum(item?.price?.value ?: 0.0)
+            binding.viewModel?.setTotalSum(item?.itemPrice?.value ?: 0.0)
         }
     }
 
     companion object {
+        const val VIEW_TYPE_HEADER = 0
+        const val VIEW_TYPE_FOOTER = 1
+        const val VIEW_TYPE_ITEM = 2
+        const val HEADER_OR_FOOTER = 1
+
         val diffCallback = object : DiffUtil.ItemCallback<ListItem>() {
             override fun areItemsTheSame(oldItem: ListItem, newItem: ListItem): Boolean =
                     oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: ListItem, newItem: ListItem): Boolean =
                     oldItem.id == newItem.id &&
-                            oldItem.price.value == newItem.price.value &&
-                            oldItem.title == newItem.title
+                            oldItem.itemPrice.value == newItem.itemPrice.value &&
+                            oldItem.itemTitle == newItem.itemTitle
         }
     }
 

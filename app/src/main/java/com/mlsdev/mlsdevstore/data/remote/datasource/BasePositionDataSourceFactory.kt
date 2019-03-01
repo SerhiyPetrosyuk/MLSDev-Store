@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 
 abstract class BasePositionDataSourceFactory<Key, Value> : BaseDataSourceFactory<Key, Value>() {
 
-    fun getDataSourceLiveData() : LiveData<BasePositionalDataSource<Value>> =
+    @Suppress("UNCHECKED_CAST")
+    fun getDataSourceLiveData(): LiveData<BasePositionalDataSource<Value>> =
             dataSourceLiveData as LiveData<BasePositionalDataSource<Value>>
 
     override fun retry() {

@@ -7,7 +7,7 @@ import com.mlsdev.mlsdevstore.AssetUtils;
 import com.mlsdev.mlsdevstore.MockMLSDevStoreApplication;
 import com.mlsdev.mlsdevstore.R;
 import com.mlsdev.mlsdevstore.data.cart.Cart;
-import com.mlsdev.mlsdevstore.data.model.item.Item;
+import com.mlsdev.mlsdevstore.data.model.product.Item;
 import com.mlsdev.mlsdevstore.presentaion.AppActivity;
 import com.mlsdev.mlsdevstore.presentaion.cart.CartFragment;
 import com.mlsdev.mlsdevstore.presentaion.checkout.CheckoutActivity;

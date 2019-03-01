@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
 import com.mlsdev.mlsdevstore.data.cart.Cart
-import com.mlsdev.mlsdevstore.data.model.item.CartTotalSum
-import com.mlsdev.mlsdevstore.data.model.item.ListItem
+import com.mlsdev.mlsdevstore.data.model.product.CartTotalSum
+import com.mlsdev.mlsdevstore.data.model.product.ListItem
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton

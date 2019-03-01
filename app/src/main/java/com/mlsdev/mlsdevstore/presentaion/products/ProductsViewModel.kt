@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.paging.PagedList
-import com.mlsdev.mlsdevstore.data.model.item.Item
+import com.mlsdev.mlsdevstore.data.model.product.Product
 import com.mlsdev.mlsdevstore.data.repository.ProductsRepository
 import com.mlsdev.mlsdevstore.data.repository.SearchImageRepository
 import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys
@@ -19,7 +19,7 @@ class ProductsViewModel @Inject constructor(
         private val searchImageRepository: SearchImageRepository
 ) : BaseViewModel() {
 
-    lateinit var products: Observable<PagedList<Item>>
+    lateinit var products: Observable<PagedList<Product>>
     val loadingState = productsRepository.getPageLoadingState()
     val categoryName = ObservableField<String>("")
     val categoryImage = ObservableField<String>()

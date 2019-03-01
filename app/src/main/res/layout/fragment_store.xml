@@ -7,6 +7,10 @@
         <variable
             name="viewModel"
             type="com.mlsdev.mlsdevstore.presentaion.store.StoreViewModel" />
+
+        <variable
+            name="isLoading"
+            type="Boolean" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -72,6 +76,6 @@
         <include
             android:id="@+id/loading_indicator"
             layout="@layout/layout_loading_indicator"
-            bind:viewModel="@{viewModel}" />
+            bind:isLoading="@{isLoading}" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

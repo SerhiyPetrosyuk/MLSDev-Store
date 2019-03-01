@@ -7,7 +7,7 @@ import com.mlsdev.mlsdevstore.data.local.LocalDataSource
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
-import com.mlsdev.mlsdevstore.data.model.item.Item
+import com.mlsdev.mlsdevstore.data.model.product.Product
 import com.mlsdev.mlsdevstore.data.remote.service.BrowseService
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -21,9 +21,9 @@ class RandomProductsDataSource @Inject constructor(
         private val browseService: BrowseService,
         private val sharedPreferencesManager: SharedPreferencesManager,
         private val localDataSource: LocalDataSource
-) : BasePositionalDataSource<Item>() {
+) : BasePositionalDataSource<Product>() {
 
-    override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Item>) {
+    override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Product>) {
         try {
             if ((params.startPosition + params.loadSize) >= totalCount) {
                 callback.onResult(emptyList())
@@ -44,7 +44,7 @@ class RandomProductsDataSource @Inject constructor(
         }
     }
 
-    override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Item>) {
+    override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Product>) {
         try {
 
             disposable = localDataSource.loadDefaultCategoryTreeId()
@@ -81,8 +81,8 @@ class RandomProductsDataSource @Inject constructor(
 // Data source factory
 class RandomProductsDataSourceFactory @Inject constructor(
         val provider: Provider<RandomProductsDataSource>
-) : BasePositionDataSourceFactory<Int, Item>() {
-    override fun create(): DataSource<Int, Item> {
+) : BasePositionDataSourceFactory<Int, Product>() {
+    override fun create(): DataSource<Int, Product> {
         val dataSource = provider.get()
         dataSourceLiveData.postValue(dataSource)
         return dataSource

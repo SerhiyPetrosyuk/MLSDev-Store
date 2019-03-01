@@ -4,8 +4,8 @@ import com.mlsdev.mlsdevstore.data.DataSource
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
-import com.mlsdev.mlsdevstore.data.model.item.Item
-import com.mlsdev.mlsdevstore.data.model.item.SearchResult
+import com.mlsdev.mlsdevstore.data.model.product.Product
+import com.mlsdev.mlsdevstore.data.model.product.SearchResult
 import com.mlsdev.mlsdevstore.data.model.user.Address
 import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
 import com.mlsdev.mlsdevstore.data.remote.datasource.RemoteDataSource
@@ -64,7 +64,7 @@ class LocalDataSource(
         }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { integer -> remoteDataSource.refreshRootCategoryTree() }
+                .flatMap { remoteDataSource.refreshRootCategoryTree() }
     }
 
     override fun searchItemsByCategoryId(queries: Map<String, String>): Single<SearchResult> {
@@ -75,7 +75,7 @@ class LocalDataSource(
         return remoteDataSource.searchMoreItemsByRandomCategory()
     }
 
-    override fun getItem(itemId: String): Single<Item> {
+    override fun getItem(itemId: String): Single<Product> {
         return remoteDataSource.getItem(itemId)
     }
 

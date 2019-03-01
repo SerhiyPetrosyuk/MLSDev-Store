@@ -5,8 +5,8 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
-import com.mlsdev.mlsdevstore.data.model.item.Item;
-import com.mlsdev.mlsdevstore.data.model.item.SearchResult;
+import com.mlsdev.mlsdevstore.data.model.product.Item;
+import com.mlsdev.mlsdevstore.data.model.product.SearchResult;
 
 import org.robolectric.RuntimeEnvironment;
 

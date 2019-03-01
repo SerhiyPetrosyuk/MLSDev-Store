@@ -3,7 +3,7 @@ package com.mlsdev.mlsdevstore.data.remote.datasource
 import androidx.paging.DataSource
 import com.mlsdev.mlsdevstore.data.DataLoadState
 import com.mlsdev.mlsdevstore.data.handleLoading
-import com.mlsdev.mlsdevstore.data.model.item.Item
+import com.mlsdev.mlsdevstore.data.model.product.Product
 import com.mlsdev.mlsdevstore.data.remote.service.BrowseService
 import javax.inject.Inject
 import javax.inject.Provider
@@ -14,10 +14,10 @@ import javax.inject.Singleton
  * */
 class ProductsDataSource @Inject constructor(
         private val browseService: BrowseService
-) : BasePositionalDataSource<Item>() {
+) : BasePositionalDataSource<Product>() {
     var categoryId: String = "0"
 
-    override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Item>) {
+    override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Product>) {
 
         if ((params.startPosition + params.loadSize) >= totalCount) {
             callback.onResult(emptyList())
@@ -36,7 +36,7 @@ class ProductsDataSource @Inject constructor(
 
     }
 
-    override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Item>) {
+    override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Product>) {
 
         try {
             loadStateLiveData.postValue(DataLoadState.LOADING)
@@ -62,11 +62,11 @@ class ProductsDataSource @Inject constructor(
 @Singleton
 class ProductsDataSourceFactory @Inject constructor(
         val provider: Provider<ProductsDataSource>
-) : BasePositionDataSourceFactory<Int, Item>() {
+) : BasePositionDataSourceFactory<Int, Product>() {
 
     var categoryId: String = "0"
 
-    override fun create(): DataSource<Int, Item> {
+    override fun create(): DataSource<Int, Product> {
         val productsDataSource = provider.get()
         productsDataSource.categoryId = categoryId
         dataSourceLiveData.postValue(productsDataSource)

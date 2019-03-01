@@ -1,6 +1,16 @@
 # MLSDev-Store
 eCommerce sample application
 
+## API
+The eBay developers program RESTfull [API](https://developer.ebay.com/). The API allowes to browse `products` and `categories`, `place an order`, etc.
+
+## Frameworks
+* [Retrofit 2](https://square.github.io/retrofit/) for the network stuff
+* [RxJava 2](https://github.com/ReactiveX/RxJava) for composing asynchronous and event-based programs 
+* [Dagger 2](https://github.com/google/dagger) for the dependency injections
+* [Android Architecture Components](https://developer.android.com/topic/libraries/architecture)
+* [Android KTX](https://developer.android.com/kotlin/ktx)
+
 ## Authors
 * [Sergey Petrosyuk](mailto:petrosyuk@mlsdev.com), MLSDev 
 

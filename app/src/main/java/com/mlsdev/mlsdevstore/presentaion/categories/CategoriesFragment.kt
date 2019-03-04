@@ -34,7 +34,6 @@ class CategoriesFragment : BaseFragment() {
         errorInViewHandler.observeCommonError(this, viewModel.commonErrorLiveData)
         errorInViewHandler.observeTechError(this, viewModel.technicalErrorLiveData)
         errorInViewHandler.observeNetworkError(this, viewModel.networkErrorLiveData)
-        viewModel.getRootCategories()
 
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)

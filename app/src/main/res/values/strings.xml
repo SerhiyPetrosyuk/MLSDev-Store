@@ -54,6 +54,8 @@
     <string name="label_payment_info">Payment info</string>
     <string name="label_card_number">Card number:</string>
     <string name="label_loading_data">loading data…</string>
+    <string name="label_retry">Retry</string>
+    <string name="label_empty_category">No products for this category</string>
 
     <!--Button-->
     <string name="btn_submit">Submit</string>
@@ -87,6 +89,5 @@
     <string name="error_incorrect">Incorrect</string>
     <string name="error_incorrect_personal_info">Please check you personal info. All fields must be filled in</string>
     <string name="message_order_sent">Your order has been successfully sent</string>
-    <string name="label_retry">Retry</string>
 
 </resources>

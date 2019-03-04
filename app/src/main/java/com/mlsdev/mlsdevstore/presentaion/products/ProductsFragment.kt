@@ -75,6 +75,7 @@ class ProductsFragment : BaseFragment() {
         super.onStart()
         collectionSubscription = viewModel.products.subscribe { pagedList ->
             adapter.submitList(pagedList)
+            binding.isEmpty = adapter.itemCount == 0
         }
     }
 

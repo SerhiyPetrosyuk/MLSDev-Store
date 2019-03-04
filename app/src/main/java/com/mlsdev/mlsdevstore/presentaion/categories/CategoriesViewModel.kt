@@ -13,9 +13,13 @@ constructor(
         private val utils: Utils
 ) : BaseViewModel() {
 
-    val categories = MutableLiveData<List<CategoryTreeNode>>()
+    val categories: MutableLiveData<List<CategoryTreeNode>> by lazy {
+        MutableLiveData<List<CategoryTreeNode>>().also {
+            getRootCategories()
+        }
+    }
 
-    fun getRootCategories() {
+    private fun getRootCategories() {
         checkNetworkConnection(utils) {
             setIsLoading(true)
             compositeDisposable.add(dataSource.loadRootCategoryTree().subscribe(

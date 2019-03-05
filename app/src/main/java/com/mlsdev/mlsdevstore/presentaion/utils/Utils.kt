@@ -4,16 +4,16 @@ import android.content.Context
 import android.net.ConnectivityManager
 import com.mlsdev.mlsdevstore.data.model.product.Price
 
-class Utils(private val context: Context) {
+open class Utils(private val context: Context) {
 
-    val isNetworkAvailable: Boolean
-        get() {
-            val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val networkInfo = manager.activeNetworkInfo
-            return networkInfo != null && networkInfo.isConnected
-        }
+    open fun isNetworkAvailable(): Boolean {
+        val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = manager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
+    }
+
+
+    fun formatProductPrice(price: Price): Array<String> =
+            price.value.toString().split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
 }
-
-fun formatProductPrice(price: Price): Array<String> =
-        price.value.toString().split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()

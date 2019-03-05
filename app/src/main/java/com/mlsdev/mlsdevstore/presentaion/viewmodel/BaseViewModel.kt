@@ -115,7 +115,7 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
     }
 
     fun checkNetworkConnection(utils: Utils, onSuccessCallback: () -> Unit) {
-        when (utils.isNetworkAvailable) {
+        when (utils.isNetworkAvailable()) {
             true -> onSuccessCallback()
             else -> onNetworkErrorOccurred()
         }

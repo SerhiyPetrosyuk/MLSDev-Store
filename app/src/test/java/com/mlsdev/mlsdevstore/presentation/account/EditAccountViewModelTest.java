@@ -10,14 +10,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import io.reactivex.Single;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, manifest = Config.NONE, sdk = 26)
@@ -34,7 +37,7 @@ public class EditAccountViewModelTest {
     @Before
     public void beforeTest() {
         MockitoAnnotations.initMocks(this);
-        viewModel = spy(new EditAccountViewModel(dataSource, fieldsValidator));
+        viewModel = spy(new EditAccountViewModel(RuntimeEnvironment.application, dataSource, fieldsValidator));
     }
 
     @Test

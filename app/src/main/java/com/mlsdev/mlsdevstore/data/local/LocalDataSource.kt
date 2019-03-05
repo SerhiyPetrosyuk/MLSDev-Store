@@ -14,7 +14,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class LocalDataSource(
+open class LocalDataSource(
         private val remoteDataSource: RemoteDataSource,
         private val database: AppDatabase
 ) : DataSource {

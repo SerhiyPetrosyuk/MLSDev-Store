@@ -5,7 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree;
-import com.mlsdev.mlsdevstore.data.model.product.Item;
+import com.mlsdev.mlsdevstore.data.model.product.Product;
 import com.mlsdev.mlsdevstore.data.model.product.SearchResult;
 
 import org.robolectric.RuntimeEnvironment;
@@ -35,8 +35,8 @@ public final class UnitAssetsUtils {
         return new Gson().fromJson(getJsonStringFromResources("search_more_items.json"), SearchResult.class);
     }
 
-    public static Item getProductItem() {
-        return new Gson().fromJson(getJsonStringFromResources("item_details_extended.json"), Item.class);
+    public static Product getProductItem() {
+        return new Gson().fromJson(getJsonStringFromResources("item_details_extended.json"), Product.class);
     }
 
     private static Gson getGson() {

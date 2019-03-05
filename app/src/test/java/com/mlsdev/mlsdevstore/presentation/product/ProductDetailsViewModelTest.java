@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.mlsdev.mlsdevstore.BuildConfig;
 import com.mlsdev.mlsdevstore.data.DataSource;
 import com.mlsdev.mlsdevstore.data.cart.Cart;
-import com.mlsdev.mlsdevstore.data.model.product.Item;
+import com.mlsdev.mlsdevstore.data.model.product.Product;
 import com.mlsdev.mlsdevstore.presentaion.product.ProductDetailsViewModel;
 import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys;
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils;
@@ -27,12 +27,18 @@ import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 import retrofit2.Response;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, manifest = Config.NONE, sdk = 26)
 public class ProductDetailsViewModelTest extends BaseViewModelTest {
-    private Item item;
+    private Product item;
     private Bundle itemData;
     private ProductDetailsViewModel viewModel;
 

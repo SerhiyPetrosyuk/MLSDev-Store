@@ -50,7 +50,7 @@ class CategoriesFragment : BaseFragment() {
             findNavController().navigate(action)
         }
         binding.rvCategories.adapter = adapter
-        viewModel.categories.observe(this, Observer {
+        viewModel.getCategories().observe(this, Observer {
             adapter.setData(it)
             binding.rvCategories.notifyDataSetChanged()
         })

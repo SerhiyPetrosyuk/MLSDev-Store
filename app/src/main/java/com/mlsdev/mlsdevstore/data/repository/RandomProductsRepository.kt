@@ -19,16 +19,16 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RandomProductsRepository @Inject constructor(
+open class RandomProductsRepository @Inject constructor(
         private val database: AppDatabase,
         private val prefsManager: SharedPreferencesManager,
         private val dataSourceFactory: RandomProductsDataSourceFactory
 ) : BaseRepository() {
 
-    fun getItems(): Observable<PagedList<Product>> =
+    open fun getItems(): Observable<PagedList<Product>> =
             RxPagedListBuilder(dataSourceFactory, getPagingConfig()).buildObservable()
 
-    fun refresh() {
+    open fun refresh() {
         Single.fromCallable {
             prefsManager.remove(Key.RANDOM_CATEGORY_TREE_NODE)
             database.productsDao().deleteAllProducts()
@@ -38,11 +38,11 @@ class RandomProductsRepository @Inject constructor(
                 .subscribe()
     }
 
-    fun retry() {
+    open fun retry() {
         dataSourceFactory.retry()
     }
 
-    fun getPageLoadingState(): LiveData<DataLoadState> =
+    open fun getPageLoadingState(): LiveData<DataLoadState> =
             Transformations.switchMap(dataSourceFactory.getDataSourceLiveData()) { it.loadStateLiveData }
 
 }

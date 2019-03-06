@@ -13,7 +13,7 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, manifest = Config.NONE, sdk = 26)
-public class StoreViewModelTest extends BaseViewModelTest {
+public class StoreVModelTest extends BaseViewModelTest {
 
     @Mock
     DataSource dataSource;

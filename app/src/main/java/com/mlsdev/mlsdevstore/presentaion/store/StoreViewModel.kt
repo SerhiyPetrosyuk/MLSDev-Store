@@ -10,7 +10,7 @@ import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class StoreViewModel @Inject
+open class StoreViewModel @Inject
 constructor(
         private val appUtils: Utils,
         private val repository: RandomProductsRepository
@@ -19,11 +19,11 @@ constructor(
     val products: Observable<PagedList<Product>> by lazy { repository.getItems() }
     val loadingState: LiveData<DataLoadState> by lazy { repository.getPageLoadingState() }
 
-    fun refresh() {
+    open fun refresh() {
         checkNetworkConnection(appUtils) { repository.refresh() }
     }
 
-    fun retry() {
+    open fun retry() {
         checkNetworkConnection(appUtils) { repository.retry() }
     }
 }

@@ -13,24 +13,24 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ProductsRepository @Inject constructor(
+open class ProductsRepository @Inject constructor(
         private val itemsDataSourceFactory: ProductsDataSourceFactory
 ) : BaseRepository() {
 
-    fun getItems(categoryId: String): Observable<PagedList<Product>> {
+    open fun getItems(categoryId: String): Observable<PagedList<Product>> {
         itemsDataSourceFactory.categoryId = categoryId
         return RxPagedListBuilder(itemsDataSourceFactory, getPagingConfig()).buildObservable()
     }
 
-    fun refresh() {
+    open fun refresh() {
         itemsDataSourceFactory.invalidateDataSource()
     }
 
-    fun retry() {
+    open fun retry() {
         itemsDataSourceFactory.retry()
     }
 
-    fun getPageLoadingState(): LiveData<DataLoadState> =
+    open fun getPageLoadingState(): LiveData<DataLoadState> =
             Transformations.switchMap(itemsDataSourceFactory.getDataSourceLiveData()) { it.loadStateLiveData }
 
 }

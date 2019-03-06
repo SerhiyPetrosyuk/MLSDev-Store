@@ -9,7 +9,7 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class SearchImageRepository @Inject constructor(
+open class SearchImageRepository @Inject constructor(
         private val searchImageService: SearchImageService,
         private val database: AppDatabase
 ) : BaseRepository() {

@@ -3,7 +3,9 @@ package com.mlsdev.mlsdevstore.presentaion.products
 import android.os.Bundle
 import android.util.Log
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import com.mlsdev.mlsdevstore.data.DataLoadState
 import com.mlsdev.mlsdevstore.data.model.product.Product
 import com.mlsdev.mlsdevstore.data.repository.ProductsRepository
 import com.mlsdev.mlsdevstore.data.repository.SearchImageRepository
@@ -20,11 +22,11 @@ class ProductsViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     lateinit var products: Observable<PagedList<Product>>
-    val loadingState = productsRepository.getPageLoadingState()
+    val loadingState: LiveData<DataLoadState> by lazy { productsRepository.getPageLoadingState() }
     val categoryName = ObservableField<String>("")
     val categoryImage = ObservableField<String>()
 
-    fun initCategoryData(categoryData: Bundle?) {
+    open fun initCategoryData(categoryData: Bundle?) {
         checkNetworkConnection(appUtils) {
             val categoryId = categoryData?.getString(ExtrasKeys.KEY_CATEGORY_ID)
             categoryName.set(categoryData?.getString(ExtrasKeys.KEY_CATEGORY_NAME, "") ?: "")
@@ -48,11 +50,11 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
-    fun refresh() {
+    open fun refresh() {
         checkNetworkConnection(appUtils) { productsRepository.refresh() }
     }
 
-    fun retry() {
+    open fun retry() {
         checkNetworkConnection(appUtils) { productsRepository.retry() }
     }
 

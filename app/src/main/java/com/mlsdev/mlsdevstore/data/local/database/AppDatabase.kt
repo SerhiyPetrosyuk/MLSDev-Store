@@ -30,4 +30,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun checkoutSessionDao(): CheckoutSessionDao
     abstract fun categoryImagesDao(): CategoryImagesDao
     abstract fun productsDao(): ProductsDao
+
+    open fun deleteAllProducts() {
+        kotlin.run { productsDao().deleteAllProducts() }
+    }
 }

@@ -7,7 +7,7 @@ abstract class BaseDataSourceFactory<Key, Value> : DataSource.Factory<Key, Value
 
     open val dataSourceLiveData = MutableLiveData<DataSource<Key, Value>>()
 
-    fun invalidateDataSource() {
+    open fun invalidateDataSource() {
         dataSourceLiveData.value?.invalidate()
     }
 

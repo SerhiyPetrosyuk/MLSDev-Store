@@ -12,9 +12,6 @@ import com.mlsdev.mlsdevstore.data.model.product.Product
 import com.mlsdev.mlsdevstore.data.remote.datasource.RandomProductsDataSourceFactory
 import com.mlsdev.mlsdevstore.data.remote.datasource.getPagingConfig
 import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -29,13 +26,9 @@ open class RandomProductsRepository @Inject constructor(
             RxPagedListBuilder(dataSourceFactory, getPagingConfig()).buildObservable()
 
     open fun refresh() {
-        Single.fromCallable {
-            prefsManager.remove(Key.RANDOM_CATEGORY_TREE_NODE)
-            database.productsDao().deleteAllProducts()
-            dataSourceFactory.invalidateDataSource()
-        }.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
+        database.deleteAllProducts()
+        prefsManager.remove(Key.RANDOM_CATEGORY_TREE_NODE)
+        dataSourceFactory.invalidateDataSource()
     }
 
     open fun retry() {
@@ -43,6 +36,6 @@ open class RandomProductsRepository @Inject constructor(
     }
 
     open fun getPageLoadingState(): LiveData<DataLoadState> =
-            Transformations.switchMap(dataSourceFactory.getDataSourceLiveData()) { it.loadStateLiveData }
+            Transformations.switchMap(dataSourceFactory.getDataSourceLiveData()) { it.getDataLoadState() }
 
 }

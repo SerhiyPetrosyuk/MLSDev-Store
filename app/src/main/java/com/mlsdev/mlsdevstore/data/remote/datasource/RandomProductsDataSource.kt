@@ -17,7 +17,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 // Data source
-class RandomProductsDataSource @Inject constructor(
+open class RandomProductsDataSource @Inject constructor(
         private val database: AppDatabase,
         private val browseService: BrowseService,
         private val sharedPreferencesManager: SharedPreferencesManager,
@@ -108,7 +108,7 @@ class RandomProductsDataSource @Inject constructor(
 }
 
 // Data source factory
-class RandomProductsDataSourceFactory @Inject constructor(
+open class RandomProductsDataSourceFactory @Inject constructor(
         val provider: Provider<RandomProductsDataSource>
 ) : BasePositionDataSourceFactory<Int, Product>() {
     override fun create(): DataSource<Int, Product> {

@@ -10,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SharedPreferencesManager @Inject
+open class SharedPreferencesManager @Inject
 constructor(private val gson: Gson, val sharedPreferences: SharedPreferences) {
 
     fun save(key: String, data: Any) {
@@ -20,7 +20,7 @@ constructor(private val gson: Gson, val sharedPreferences: SharedPreferences) {
                 .apply()
     }
 
-    fun remove(key: String) {
+    open fun remove(key: String) {
         sharedPreferences.edit()
                 .remove(key)
                 .apply()

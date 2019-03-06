@@ -57,5 +57,5 @@ abstract class BasePositionalDataSource<T> : PositionalDataSource<T>() {
         exp.printStackTrace()
     }
 
-    fun getDataLoadState() : LiveData<DataLoadState> = loadStateLiveData
+    open fun getDataLoadState() : LiveData<DataLoadState> = loadStateLiveData
 }

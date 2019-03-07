@@ -29,7 +29,7 @@ class RandomProductsDataSourceStub : BasePositionalDataSource<Product>() {
 }
 
 // Data source factory
-class RandomProductsDataSourceFactoryStub : BaseDataSourceFactory<Int, Product>() {
+class ProductsDataSourceFactoryStub : BaseDataSourceFactory<Int, Product>() {
     override fun retry() {
 
     }

@@ -26,21 +26,22 @@ class ProductsViewModel @Inject constructor(
     val categoryName = ObservableField<String>("")
     val categoryImage = ObservableField<String>()
 
-    open fun initCategoryData(categoryData: Bundle?) {
+    fun initCategoryData(categoryData: Bundle?) {
         checkNetworkConnection(appUtils) {
             val categoryId = categoryData?.getString(ExtrasKeys.KEY_CATEGORY_ID)
             categoryName.set(categoryData?.getString(ExtrasKeys.KEY_CATEGORY_NAME, "") ?: "")
 
-            loadImageForCategory(categoryId, categoryName.get())
-
             if (categoryId != null) {
+                loadImageForCategory(categoryId, categoryName.get())
                 products = productsRepository.getItems(categoryId)
-            } else throw Exception("'Category id' hasn't been passed")
+            } else {
+                throw Exception("'Category id' hasn't been passed")
+            }
         }
     }
 
     private fun loadImageForCategory(categoryId: String?, categoryName: String?) {
-        if (categoryId != null && categoryName != null) {
+        if (categoryId != null && categoryName != null && categoryName.isNotBlank()) {
             checkNetworkConnection(appUtils) {
                 compositeDisposable.add(searchImageRepository.searchImage(categoryId, categoryName).subscribe(
                         { categoryImage.set(it.imageUrl) },
@@ -50,11 +51,11 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
-    open fun refresh() {
+    fun refresh() {
         checkNetworkConnection(appUtils) { productsRepository.refresh() }
     }
 
-    open fun retry() {
+    fun retry() {
         checkNetworkConnection(appUtils) { productsRepository.retry() }
     }
 

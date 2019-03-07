@@ -14,7 +14,7 @@ open class SearchImageRepository @Inject constructor(
         private val database: AppDatabase
 ) : BaseRepository() {
 
-    fun searchImage(categoryId: String, categoryName: String): Single<CategoryImageEntity> =
+    open fun searchImage(categoryId: String, categoryName: String): Single<CategoryImageEntity> =
             database.categoryImagesDao().queryCategoryImageEntity(categoryId)
                     .applyDefaultSchedulers()
                     .flatMap {

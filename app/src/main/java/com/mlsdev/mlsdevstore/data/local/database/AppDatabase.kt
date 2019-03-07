@@ -12,6 +12,8 @@ import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSession
 import com.mlsdev.mlsdevstore.data.model.product.Product
 import com.mlsdev.mlsdevstore.data.model.user.Address
 import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
+import io.reactivex.Completable
+import io.reactivex.schedulers.Schedulers
 
 @Database(entities = [
     CategoryTreeNode::class,
@@ -31,7 +33,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun categoryImagesDao(): CategoryImagesDao
     abstract fun productsDao(): ProductsDao
 
-    open fun deleteAllProducts() {
-        kotlin.run { productsDao().deleteAllProducts() }
-    }
+    open fun deleteAllProducts(): Completable = Completable.fromAction {
+        productsDao().deleteAllProducts()
+    }.subscribeOn(Schedulers.io())
 }

@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.data.remote.datasource
 
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 
 abstract class BasePositionDataSourceFactory<Key, Value> : BaseDataSourceFactory<Key, Value>() {
@@ -15,4 +16,7 @@ abstract class BasePositionDataSourceFactory<Key, Value> : BaseDataSourceFactory
         }
     }
 
+    override fun applyArguments(bundle: Bundle) {
+
+    }
 }

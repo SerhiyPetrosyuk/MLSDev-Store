@@ -1,10 +1,12 @@
 package com.mlsdev.mlsdevstore.data.remote.datasource
 
+import android.os.Bundle
 import androidx.paging.DataSource
 import com.mlsdev.mlsdevstore.data.DataLoadState
 import com.mlsdev.mlsdevstore.data.handleLoading
 import com.mlsdev.mlsdevstore.data.model.product.Product
 import com.mlsdev.mlsdevstore.data.remote.service.BrowseService
+import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
@@ -12,7 +14,7 @@ import javax.inject.Singleton
 /**
  * Data source
  * */
-class ProductsDataSource @Inject constructor(
+open class ProductsDataSource @Inject constructor(
         private val browseService: BrowseService
 ) : BasePositionalDataSource<Product>() {
     var categoryId: String = "0"
@@ -60,7 +62,7 @@ class ProductsDataSource @Inject constructor(
  * Data source factory
  * */
 @Singleton
-class ProductsDataSourceFactory @Inject constructor(
+open class ProductsDataSourceFactory @Inject constructor(
         val provider: Provider<ProductsDataSource>
 ) : BasePositionDataSourceFactory<Int, Product>() {
 
@@ -71,5 +73,11 @@ class ProductsDataSourceFactory @Inject constructor(
         productsDataSource.categoryId = categoryId
         dataSourceLiveData.postValue(productsDataSource)
         return productsDataSource
+    }
+
+    override fun applyArguments(bundle: Bundle) {
+        bundle.getString(ExtrasKeys.KEY_CATEGORY_ID)?.let {
+            categoryId = it
+        }
     }
 }

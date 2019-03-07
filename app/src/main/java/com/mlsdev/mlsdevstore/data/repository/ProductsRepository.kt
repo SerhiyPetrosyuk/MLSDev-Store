@@ -1,36 +1,38 @@
 package com.mlsdev.mlsdevstore.data.repository
 
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.PagedList
 import androidx.paging.RxPagedListBuilder
 import com.mlsdev.mlsdevstore.data.DataLoadState
 import com.mlsdev.mlsdevstore.data.model.product.Product
-import com.mlsdev.mlsdevstore.data.remote.datasource.ProductsDataSourceFactory
+import com.mlsdev.mlsdevstore.data.remote.datasource.BasePositionDataSourceFactory
 import com.mlsdev.mlsdevstore.data.remote.datasource.getPagingConfig
+import com.mlsdev.mlsdevstore.presentaion.utils.ExtrasKeys
 import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 open class ProductsRepository @Inject constructor(
-        private val itemsDataSourceFactory: ProductsDataSourceFactory
+        private val dataSourceFactory: BasePositionDataSourceFactory<Int, Product>
 ) : BaseRepository() {
 
     open fun getItems(categoryId: String): Observable<PagedList<Product>> {
-        itemsDataSourceFactory.categoryId = categoryId
-        return RxPagedListBuilder(itemsDataSourceFactory, getPagingConfig()).buildObservable()
+        dataSourceFactory.applyArguments(Bundle().apply { putString(ExtrasKeys.KEY_CATEGORY_ID, categoryId) })
+        return RxPagedListBuilder(dataSourceFactory, getPagingConfig()).buildObservable()
     }
 
     open fun refresh() {
-        itemsDataSourceFactory.invalidateDataSource()
+        dataSourceFactory.invalidateDataSource()
     }
 
     open fun retry() {
-        itemsDataSourceFactory.retry()
+        dataSourceFactory.retry()
     }
 
     open fun getPageLoadingState(): LiveData<DataLoadState> =
-            Transformations.switchMap(itemsDataSourceFactory.getDataSourceLiveData()) { it.loadStateLiveData }
+            Transformations.switchMap(dataSourceFactory.getDataSourceLiveData()) { it.getDataLoadState() }
 
 }

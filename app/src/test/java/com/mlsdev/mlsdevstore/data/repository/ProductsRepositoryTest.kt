@@ -4,13 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mlsdev.mlsdevstore.data.DataLoadState
-import com.mlsdev.mlsdevstore.data.local.Key
-import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager
-import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
 import com.mlsdev.mlsdevstore.data.model.product.Product
+import com.mlsdev.mlsdevstore.data.remote.datasource.BasePositionDataSourceFactory
 import com.mlsdev.mlsdevstore.data.remote.datasource.BasePositionalDataSource
-import com.mlsdev.mlsdevstore.data.remote.datasource.RandomProductsDataSourceFactory
-import io.reactivex.Completable
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -22,16 +18,10 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class RandomProductsRepositoryTest {
+class ProductsRepositoryTest {
 
     @Mock
-    lateinit var database: AppDatabase
-
-    @Mock
-    lateinit var prefsManager: SharedPreferencesManager
-
-    @Mock
-    lateinit var dataSourceFactory: RandomProductsDataSourceFactory
+    lateinit var dataSourceFactory: BasePositionDataSourceFactory<Int, Product>
 
     @Mock
     lateinit var dataSource: BasePositionalDataSource<Product>
@@ -39,7 +29,7 @@ class RandomProductsRepositoryTest {
     @Mock
     lateinit var dataLoadStateObserver: Observer<DataLoadState>
 
-    lateinit var repository: RandomProductsRepository
+    lateinit var repository: ProductsRepository
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
@@ -47,21 +37,18 @@ class RandomProductsRepositoryTest {
     @Before
     fun beforeTest() {
         MockitoAnnotations.initMocks(this)
-        repository = RandomProductsRepository(database, prefsManager, dataSourceFactory)
+        repository = ProductsRepository(dataSourceFactory)
     }
 
     @Test
     fun refresh() {
-        Mockito.`when`(database.deleteAllProducts()).thenReturn(Completable.complete())
         Mockito.doNothing().`when`(dataSourceFactory).invalidateDataSource()
-        Mockito.doNothing().`when`(prefsManager).remove(Key.RANDOM_CATEGORY_TREE_NODE)
 
         repository.refresh()
 
-        Mockito.verify(database).deleteAllProducts()
-        Mockito.verify(prefsManager).remove(Key.RANDOM_CATEGORY_TREE_NODE)
         Mockito.verify(dataSourceFactory).invalidateDataSource()
     }
+
 
     @Test
     fun retry() {

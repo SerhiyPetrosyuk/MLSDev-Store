@@ -2,7 +2,7 @@ package com.mlsdev.mlsdevstore.stub.data.remote.datasource
 
 import androidx.paging.DataSource
 import com.mlsdev.mlsdevstore.data.model.product.Product
-import com.mlsdev.mlsdevstore.data.remote.datasource.BaseDataSourceFactory
+import com.mlsdev.mlsdevstore.data.remote.datasource.BasePositionDataSourceFactory
 import com.mlsdev.mlsdevstore.data.remote.datasource.BasePositionalDataSource
 
 // Data source
@@ -29,7 +29,7 @@ class RandomProductsDataSourceStub : BasePositionalDataSource<Product>() {
 }
 
 // Data source factory
-class ProductsDataSourceFactoryStub : BaseDataSourceFactory<Int, Product>() {
+class ProductsDataSourceFactoryStub : BasePositionDataSourceFactory<Int, Product>() {
     override fun retry() {
 
     }

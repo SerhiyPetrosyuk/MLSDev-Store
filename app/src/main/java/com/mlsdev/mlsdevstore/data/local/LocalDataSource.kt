@@ -82,20 +82,21 @@ open class LocalDataSource(
         remoteDataSource.resetSearchResults()
     }
 
-    fun updatePersonalInfo(email: String?, firstName: String?, lastName: String?): Completable {
+    open fun updatePersonalInfo(email: String?, firstName: String?, lastName: String?): Single<PersonalInfo> {
         val personalInfo = PersonalInfo()
         personalInfo.contactEmail = email
         personalInfo.contactFirstName = firstName
         personalInfo.contactLastName = lastName
 
-        return Completable.fromRunnable {
+        return Single.fromCallable {
             val personalInfoList = database.personalInfoDao().queryPersonalInfoSync()
 
-            if (!personalInfoList.isEmpty()) personalInfo.id = personalInfoList[0].id
+            if (!personalInfoList.isEmpty())
+                personalInfo.id = personalInfoList[0].id
 
             database.personalInfoDao().insert(personalInfo)
-        }
-                .subscribeOn(Schedulers.io())
+            return@fromCallable database.personalInfoDao().queryPersonalInfoSync()[0]
+        }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }
 

@@ -6,8 +6,6 @@ import android.util.Patterns
 import androidx.collection.ArrayMap
 import com.mlsdev.mlsdevstore.R
 import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
 
@@ -30,12 +28,12 @@ constructor(private val context: Context) {
         invalidFields = ArrayMap()
     }
 
-    fun putField(key: String, value: String?): FieldsValidator {
+    open fun putField(key: String, value: String?): FieldsValidator {
         fieldsForValidation[key] = value
         return this
     }
 
-    fun validateFields(): Completable {
+    open fun validateFields(): Completable {
         return Completable.create { emitter ->
             invalidFields.clear()
 
@@ -53,9 +51,6 @@ constructor(private val context: Context) {
             else
                 emitter.onError(ValidationError(invalidFields))
         }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-
     }
 
     private fun validateEmail(email: String?): Boolean {

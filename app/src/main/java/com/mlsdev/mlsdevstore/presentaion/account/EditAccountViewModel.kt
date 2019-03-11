@@ -9,10 +9,6 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.mlsdev.mlsdevstore.data.local.LocalDataSource
 import com.mlsdev.mlsdevstore.presentaion.utils.*
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel
-import io.reactivex.CompletableObserver
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 open class EditAccountViewModel @Inject
@@ -72,14 +68,18 @@ constructor(
                 .putField(FIRST_NAME, firstName.get())
                 .putField(LAST_NAME, lastName.get())
                 .validateFields()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .toSingle {}
+                .flatMap { localDataSource.updatePersonalInfo(email.get(), firstName.get(), lastName.get()) }
                 .subscribe(
-                        { this.updatePersonalInfo() },
+                        { profileDataUpdated.postValue(true) },
                         { throwable ->
-                            emailError.set((throwable as FieldsValidator.ValidationError).getErrorForField(EMAIL))
-                            firstNameError.set(throwable.getErrorForField(FIRST_NAME))
-                            lastNameError.set(throwable.getErrorForField(LAST_NAME))
+                            if (throwable is FieldsValidator.ValidationError) {
+                                emailError.set(throwable.getErrorForField(EMAIL))
+                                firstNameError.set(throwable.getErrorForField(FIRST_NAME))
+                                lastNameError.set(throwable.getErrorForField(LAST_NAME))
+                            } else {
+                                handleError(throwable)
+                            }
                         }))
     }
 
@@ -91,8 +91,6 @@ constructor(
                 .putField(FIELD_STATE, state.get())
                 .putField(FIELD_POSTAL_CODE, postalCode.get())
                 .validateFields()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { this.updateShippingInfo() },
                         { throwable ->
@@ -119,24 +117,6 @@ constructor(
                             profileDataUpdated.postValue(true)
                         },
                         { handleError(it) }))
-    }
-
-    private fun updatePersonalInfo() {
-        localDataSource.updatePersonalInfo(email.get(), firstName.get(), lastName.get())
-                .subscribe(object : CompletableObserver {
-                    override fun onSubscribe(d: Disposable) {
-                        compositeDisposable.add(d)
-                    }
-
-                    override fun onComplete() {
-                        Log.d(BaseViewModel.LOG_TAG, "Personal info was updated")
-                        profileDataUpdated.postValue(true)
-                    }
-
-                    override fun onError(e: Throwable) {
-                        Log.d(BaseViewModel.LOG_TAG, e.message)
-                    }
-                })
     }
 
     fun onEmailTextChanged() {

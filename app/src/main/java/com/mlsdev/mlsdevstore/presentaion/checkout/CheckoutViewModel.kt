@@ -52,7 +52,7 @@ constructor(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onStart() {
-        compositeDisposable.add(localDataSource.personalInfo.subscribe(
+        compositeDisposable.add(localDataSource.getPersonalInfo().subscribe(
                 { cardHolder.set("${it.contactFirstName} ${it.contactLastName}") },
                 { handleError(it) }))
     }
@@ -88,7 +88,7 @@ constructor(
             compositeDisposable.add(paymentMethodValidator
                     .validate(credentials)
                     .flatMap { paymentMethod ->
-                        return@flatMap Single.zip(localDataSource.getShippingInfo(), localDataSource.personalInfo,
+                        return@flatMap Single.zip(localDataSource.getShippingInfo(), localDataSource.getPersonalInfo(),
                                 BiFunction<Address, PersonalInfo, GuestCheckoutSessionRequest> { address, personalInfo ->
                                     val recipient = "${personalInfo.contactFirstName} ${personalInfo.contactLastName}"
                                     val billingAddress = BillingAddress(address, personalInfo.contactFirstName, personalInfo.contactLastName)

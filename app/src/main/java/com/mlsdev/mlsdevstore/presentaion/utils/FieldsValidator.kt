@@ -20,7 +20,7 @@ const val FIELD_PHONE = "field_phone"
 const val FIELD_STATE = "field_state"
 const val FIELD_POSTAL_CODE = "field_postal_code"
 
-class FieldsValidator @Inject
+open class FieldsValidator @Inject
 constructor(private val context: Context) {
     private val fieldsForValidation: MutableMap<String, String?>
     private val invalidFields: MutableMap<String, String>

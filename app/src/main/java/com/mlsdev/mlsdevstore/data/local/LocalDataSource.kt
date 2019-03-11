@@ -19,12 +19,11 @@ open class LocalDataSource(
         private val database: AppDatabase
 ) : DataSource {
 
-    val personalInfo: Single<PersonalInfo>
-        get() = remoteDataSource
-                .prepareSingle(database.personalInfoDao().queryPersonalInfo())
-                .map { personalInfoList -> if (!personalInfoList.isEmpty()) personalInfoList[0] else PersonalInfo() }
+    open fun getPersonalInfo(): Single<PersonalInfo> = remoteDataSource
+            .prepareSingle(database.personalInfoDao().queryPersonalInfo())
+            .map { personalInfoList -> if (!personalInfoList.isEmpty()) personalInfoList[0] else PersonalInfo() }
 
-    fun getShippingInfo(): Single<Address> = remoteDataSource
+    open fun getShippingInfo(): Single<Address> = remoteDataSource
             .prepareSingle(database.addressDao().queryByType(Address.Type.SHIPPING))
             .map { addresses -> if (!addresses.isEmpty()) addresses[0] else Address() }
 

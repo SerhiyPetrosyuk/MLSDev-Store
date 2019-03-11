@@ -1,7 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion.products
 
 import android.os.Bundle
-import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
@@ -45,7 +44,7 @@ class ProductsViewModel @Inject constructor(
             checkNetworkConnection(appUtils) {
                 compositeDisposable.add(searchImageRepository.searchImage(categoryId, categoryName).subscribe(
                         { categoryImage.set(it.imageUrl) },
-                        { Log.d(LOG_TAG, "Can't load image") }
+                        { /* Loading image error. It doesn't need be handled */ }
                 ))
             }
         }

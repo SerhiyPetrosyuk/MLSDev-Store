@@ -42,7 +42,7 @@ constructor(
             )
 
             compositeDisposable.add(
-                    localDataSource.personalInfo.subscribe(
+                    localDataSource.getPersonalInfo().subscribe(
                             { personalInfo ->
                                 email.set(personalInfo.contactEmail)
                                 firstName.set(personalInfo.contactFirstName)

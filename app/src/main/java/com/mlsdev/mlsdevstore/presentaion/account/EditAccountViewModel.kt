@@ -15,7 +15,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class EditAccountViewModel @Inject
+open class EditAccountViewModel @Inject
 constructor(
         private val context: Context,
         private val localDataSource: LocalDataSource,
@@ -45,7 +45,7 @@ constructor(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun start() {
-        compositeDisposable.add(localDataSource.personalInfo.subscribe(
+        compositeDisposable.add(localDataSource.getPersonalInfo().subscribe(
                 { info ->
                     setIsLoading(false)
                     setIsRefreshing(false)

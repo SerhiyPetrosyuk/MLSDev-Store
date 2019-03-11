@@ -92,7 +92,7 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
                 when {
                     error.code() == HTTP_ERROR_CODE_401 -> onAuthorizationErrorOccurred()
                     error.code() in HTTP_SERVER_ERROR_500..HTTP_SERVER_ERROR_504 -> onTechnicalErrorOccurred()
-                    error.response().body() != null -> {
+                    error.response() != null && error.response().body() != null -> {
                         val errorsWrapper = ErrorParser().parse(error)
                         errorsWrapper.errors?.getOrNull(0)?.let { parsedError ->
                             Log.d(LOG_TAG, parsedError.message)

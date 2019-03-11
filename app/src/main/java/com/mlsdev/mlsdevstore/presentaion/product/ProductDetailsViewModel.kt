@@ -1,11 +1,10 @@
 package com.mlsdev.mlsdevstore.presentaion.product
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.databinding.ObservableField
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.OnLifecycleEvent
 import com.mlsdev.mlsdevstore.R
@@ -17,9 +16,8 @@ import com.mlsdev.mlsdevstore.presentaion.utils.Utils
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel
 import javax.inject.Inject
 
-class ProductDetailsViewModel @Inject
+open class ProductDetailsViewModel @Inject
 constructor(
-        private val context: Context,
         private val dataSource: DataSource,
         private val utils: Utils,
         private val cart: Cart
@@ -41,6 +39,9 @@ constructor(
     val color = ObservableField<String>()
     val material = ObservableField<String>()
     val imagesLiveData = MutableLiveData<List<Image>>()
+    private val infoMessageLiveData = MutableLiveData<Int>()
+
+    fun getInfoMessageLive(): LiveData<Int> = infoMessageLiveData
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     internal fun start() {
@@ -104,10 +105,10 @@ constructor(
     }
 
     override fun onMaxItemsReached() {
-        Toast.makeText(context, R.string.message_item_count_restriction, Toast.LENGTH_SHORT).show()
+        infoMessageLiveData.postValue(R.string.message_item_count_restriction)
     }
 
     override fun onItemAdded(item: Product) {
-        Toast.makeText(context, R.string.message_item_added, Toast.LENGTH_SHORT).show()
+        infoMessageLiveData.postValue(R.string.message_item_added)
     }
 }

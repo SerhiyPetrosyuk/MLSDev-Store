@@ -9,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Cart @Inject
+open class Cart @Inject
 constructor() {
     val items = ArrayList<Product>()
     private val itemCountChangeListeners: MutableList<OnItemCountChangeListener>

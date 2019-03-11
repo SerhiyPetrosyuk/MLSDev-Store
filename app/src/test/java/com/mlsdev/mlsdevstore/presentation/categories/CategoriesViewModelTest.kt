@@ -23,7 +23,7 @@ import retrofit2.HttpException
 import java.net.SocketTimeoutException
 
 @RunWith(MockitoJUnitRunner::class)
-class CategoriesViewModelTest {
+class CategoriesViewModelTest : BaseViewModel() {
 
     @Mock
     lateinit var utils: Utils

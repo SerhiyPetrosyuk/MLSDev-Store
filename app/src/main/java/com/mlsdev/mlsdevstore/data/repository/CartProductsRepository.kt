@@ -11,19 +11,20 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CartProductsRepository @Inject constructor(
+open class CartProductsRepository @Inject constructor(
         val cart: Cart,
-        val dataSourceCartItemsDataSourceFactory: CartItemsDataSourceFactory
+        val dataSourceFactory: CartItemsDataSourceFactory
 ) {
 
     init {
         cart.addOnItemCountChangeListener(object : Cart.OnItemCountChangeListener {
             override fun onItemCountChanged(count: Int) {
-                dataSourceCartItemsDataSourceFactory.currentDataSource.value?.invalidate()
+                dataSourceFactory.currentDataSource.value?.invalidate()
             }
         })
     }
 
-    fun getProducts(): LiveData<PagedList<ListItem>> = LivePagedListBuilder(dataSourceCartItemsDataSourceFactory, getPagingConfig()).build()
+    open fun getProducts(): LiveData<PagedList<ListItem>> =
+            LivePagedListBuilder(dataSourceFactory, getPagingConfig()).build()
 
 }

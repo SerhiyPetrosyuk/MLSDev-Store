@@ -4,6 +4,7 @@ import android.util.ArrayMap
 import android.util.Base64
 import com.mlsdev.mlsdevstore.BuildConfig
 import com.mlsdev.mlsdevstore.data.DataSource
+import com.mlsdev.mlsdevstore.data.applyDefaultSchedulers
 import com.mlsdev.mlsdevstore.data.cart.Cart
 import com.mlsdev.mlsdevstore.data.local.Key
 import com.mlsdev.mlsdevstore.data.local.SharedPreferencesManager
@@ -25,7 +26,6 @@ import com.mlsdev.mlsdevstore.data.remote.service.OrderService
 import com.mlsdev.mlsdevstore.data.remote.service.TaxonomyService
 import io.reactivex.Completable
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.UnsupportedEncodingException
 import java.util.*
@@ -57,7 +57,8 @@ class RemoteDataSource(private val browseService: BrowseService,
             headers["Authorization"] = "Basic $encodedOAuthCredentials"
             val body = AppAccessTokenRequestBody()
 
-            return prepareSingle(authenticationService.getAppAccessToken(headers, body.fields))
+            return authenticationService.getAppAccessToken(headers, body.fields)
+                    .applyDefaultSchedulers()
                     .map { appAccessToken ->
                         val currentTime = Calendar.getInstance().timeInMillis
                         val expirationDate = currentTime + appAccessToken.expiresIn!!
@@ -88,14 +89,17 @@ class RemoteDataSource(private val browseService: BrowseService,
         }
 
     override fun loadDefaultCategoryTreeId(): Single<String> {
-        return prepareSingle(taxonomyService.defaultCategoryTreeId)
+        return taxonomyService.defaultCategoryTreeId
+                .applyDefaultSchedulers()
                 .map { it.categoryTreeId }
                 .doOnSuccess { this.saveDefaultCategoryTreeId(it) }
     }
 
     override fun loadRootCategoryTree(): Single<CategoryTree> {
         return loadDefaultCategoryTreeId()
-                .flatMap { defaultCategoryTreeId -> prepareSingle(taxonomyService.getCategoryTree(defaultCategoryTreeId)) }
+                .flatMap { defaultCategoryTreeId ->
+                    taxonomyService.getCategoryTree(defaultCategoryTreeId).applyDefaultSchedulers()
+                }
                 .doOnSuccess { this.saveCategoryTreeNodes(it) }
     }
 
@@ -104,16 +108,18 @@ class RemoteDataSource(private val browseService: BrowseService,
     }
 
     override fun searchItemsByCategoryId(queries: Map<String, String>): Single<SearchResult> {
-        return prepareSingle(browseService.searchItemsByCategoryId(queries))
+        return browseService.searchItemsByCategoryId(queries)
+                .applyDefaultSchedulers()
     }
 
     override fun searchMoreItemsByRandomCategory(): Single<SearchResult> {
-        return prepareSingle(browseService.searchItemsByCategoryId(prepareSearchQueryMap()))
+        return browseService.searchItemsByCategoryId(prepareSearchQueryMap())
+                .applyDefaultSchedulers()
                 .doOnSuccess(searchResultConsumer)
     }
 
     override fun getItem(itemId: String): Single<Product> {
-        return prepareSingle(browseService.getItem(itemId))
+        return browseService.getItem(itemId).applyDefaultSchedulers()
     }
 
     override fun resetSearchResults() {
@@ -132,17 +138,12 @@ class RemoteDataSource(private val browseService: BrowseService,
     }
 
     fun initGuestCheckoutSession(guestCheckoutSessionRequest: GuestCheckoutSessionRequest): Single<GuestCheckoutSession> =
-            prepareSingle(orderService.initiateGuestCheckoutSession(guestCheckoutSessionRequest))
+            orderService.initiateGuestCheckoutSession(guestCheckoutSessionRequest)
+                    .applyDefaultSchedulers()
                     .doOnSuccess { cart.reset() }
 
     fun postOrder(checkoutSessionId: String): Single<PostOrderResult> =
-            prepareSingle(orderService.postOrder(checkoutSessionId))
-
-    fun <T> prepareSingle(single: Single<T>): Single<T> {
-        return single
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-    }
+            orderService.postOrder(checkoutSessionId).applyDefaultSchedulers()
 
     private fun saveCategoryTreeNodes(categoryTree: CategoryTree) {
         Completable.create { database.categoriesDao().insertCategoryTreeNode(categoryTree.categoryTreeNode.childCategoryTreeNodes) }

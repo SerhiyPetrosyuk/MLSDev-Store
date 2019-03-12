@@ -1,6 +1,7 @@
 package com.mlsdev.mlsdevstore.data.local
 
 import com.mlsdev.mlsdevstore.data.DataSource
+import com.mlsdev.mlsdevstore.data.applyDefaultSchedulers
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
@@ -18,12 +19,12 @@ open class LocalDataSource(
         private val database: AppDatabase
 ) : DataSource {
 
-    open fun getPersonalInfo(): Single<PersonalInfo> = remoteDataSource
-            .prepareSingle(database.personalInfoDao().queryPersonalInfo())
+    open fun getPersonalInfo(): Single<PersonalInfo> = database.personalInfoDao().queryPersonalInfo()
+            .applyDefaultSchedulers()
             .map { personalInfoList -> if (!personalInfoList.isEmpty()) personalInfoList[0] else PersonalInfo() }
 
-    open fun getShippingInfo(): Single<Address> = remoteDataSource
-            .prepareSingle(database.addressDao().queryByType(Address.Type.SHIPPING))
+    open fun getShippingInfo(): Single<Address> = database.addressDao().queryByType(Address.Type.SHIPPING)
+            .applyDefaultSchedulers()
             .map { addresses -> if (!addresses.isEmpty()) addresses[0] else Address() }
 
     override fun loadDefaultCategoryTreeId(): Single<String> {
@@ -34,12 +35,13 @@ open class LocalDataSource(
                     else
                         remoteDataSource.loadDefaultCategoryTreeId()
                 }
-        return remoteDataSource.prepareSingle(single)
+        return single.applyDefaultSchedulers()
     }
 
     override fun loadRootCategoryTree(): Single<CategoryTree> {
         val listSingle = database.categoriesDao().queryCategoryTreeNode()
-        return remoteDataSource.prepareSingle(listSingle)
+        return listSingle
+                .applyDefaultSchedulers()
                 .flatMap { nodes ->
                     val categoryTree = CategoryTree()
                     val categoryTreeNode = CategoryTreeNode()
@@ -95,12 +97,11 @@ open class LocalDataSource(
 
             database.personalInfoDao().insert(personalInfo)
             return@fromCallable database.personalInfoDao().queryPersonalInfoSync()[0]
-        }.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        }.applyDefaultSchedulers()
     }
 
     open fun updateShippingInfo(phoneNumber: String?, address: String?, city: String?, state: String?,
-            country: String?, postalCode: String?): Single<Address> {
+                                country: String?, postalCode: String?): Single<Address> {
 
         return Single.fromCallable {
             val insertAddress = Address()
@@ -117,8 +118,7 @@ open class LocalDataSource(
             insertAddress.postalCode = postalCode
             database.addressDao().insert(insertAddress)
             return@fromCallable database.addressDao().queryByTypeSync(Address.Type.SHIPPING)[0]
-        }.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        }.applyDefaultSchedulers()
 
     }
 }

@@ -9,7 +9,6 @@ import com.mlsdev.mlsdevstore.data.remote.datasource.getPagingConfig
 import com.mlsdev.mlsdevstore.data.repository.RandomProductsRepository
 import com.mlsdev.mlsdevstore.presentaion.store.StoreViewModel
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils
-import com.mlsdev.mlsdevstore.presentation.viewmodel.BaseViewModelTest
 import com.mlsdev.mlsdevstore.stub.data.remote.datasource.ProductsDataSourceFactoryStub
 import org.junit.Assert
 import org.junit.Before
@@ -23,7 +22,7 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class StoreViewModelTest : BaseViewModelTest() {
+class StoreViewModelTest {
 
     @Mock
     lateinit var utils: Utils

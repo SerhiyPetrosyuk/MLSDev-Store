@@ -1,7 +1,6 @@
 package com.mlsdev.mlsdevstore.presentaion.account
 
 import android.content.Context
-import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
@@ -91,32 +90,25 @@ constructor(
                 .putField(FIELD_STATE, state.get())
                 .putField(FIELD_POSTAL_CODE, postalCode.get())
                 .validateFields()
+                .toSingle { }
+                .flatMap {
+                    val country: String = context.resources.configuration.locales[0].country
+                    return@flatMap localDataSource.updateShippingInfo(phoneNumber.get(),
+                            address.get(), city.get(), state.get(), country, postalCode.get())
+                }
                 .subscribe(
-                        { this.updateShippingInfo() },
+                        { profileDataUpdated.postValue(true) },
                         { throwable ->
-                            phoneNumberError.set((throwable as FieldsValidator.ValidationError).getErrorForField(FIELD_PHONE))
-                            addressError.set(throwable.getErrorForField(FIELD_ADDRESS))
-                            cityError.set(throwable.getErrorForField(FIELD_CITY))
-                            stateError.set(throwable.getErrorForField(FIELD_STATE))
-                            postalCodeError.set(throwable.getErrorForField(FIELD_POSTAL_CODE))
+                            if (throwable is FieldsValidator.ValidationError) {
+                                phoneNumberError.set(throwable.getErrorForField(FIELD_PHONE))
+                                addressError.set(throwable.getErrorForField(FIELD_ADDRESS))
+                                cityError.set(throwable.getErrorForField(FIELD_CITY))
+                                stateError.set(throwable.getErrorForField(FIELD_STATE))
+                                postalCodeError.set(throwable.getErrorForField(FIELD_POSTAL_CODE))
+                            } else {
+                                handleError(throwable)
+                            }
                         }))
-    }
-
-    private fun updateShippingInfo() {
-        val country: String = context.resources.configuration.locales[0].country
-        compositeDisposable.add(
-                localDataSource.updateShippingInfo(
-                        phoneNumber.get() ?: "",
-                        address.get() ?: "",
-                        city.get() ?: "",
-                        state.get() ?: "",
-                        country,
-                        postalCode.get() ?: "").subscribe(
-                        {
-                            Log.d(BaseViewModel.LOG_TAG, "Shipping info has been updated")
-                            profileDataUpdated.postValue(true)
-                        },
-                        { handleError(it) }))
     }
 
     fun onEmailTextChanged() {

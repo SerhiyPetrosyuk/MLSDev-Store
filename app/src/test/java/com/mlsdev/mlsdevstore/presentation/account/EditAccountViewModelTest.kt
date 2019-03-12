@@ -10,12 +10,10 @@ import com.mlsdev.mlsdevstore.data.local.LocalDataSource
 import com.mlsdev.mlsdevstore.data.model.user.Address
 import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
 import com.mlsdev.mlsdevstore.presentaion.account.EditAccountViewModel
-import com.mlsdev.mlsdevstore.presentaion.utils.EMAIL
-import com.mlsdev.mlsdevstore.presentaion.utils.FIRST_NAME
-import com.mlsdev.mlsdevstore.presentaion.utils.FieldsValidator
-import com.mlsdev.mlsdevstore.presentaion.utils.LAST_NAME
+import com.mlsdev.mlsdevstore.presentaion.utils.*
 import io.reactivex.Completable
 import io.reactivex.Single
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -23,8 +21,7 @@ import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
@@ -86,13 +83,10 @@ class EditAccountViewModelTest {
         addressUpdate.city = "${address.city}_"
 
         MockitoAnnotations.initMocks(this)
-        `when`(fieldsValidator.putField(EMAIL, personalInfoUpdate.contactEmail)).thenReturn(fieldsValidator)
-        `when`(fieldsValidator.putField(FIRST_NAME, personalInfoUpdate.contactFirstName)).thenReturn(fieldsValidator)
-        `when`(fieldsValidator.putField(LAST_NAME, personalInfoUpdate.contactLastName)).thenReturn(fieldsValidator)
-//        `when`(application.resources).thenReturn(resources)
-//        `when`(resources.configuration).thenReturn(configuration)
-//        `when`(configuration.locales).thenReturn(localeList)
-//        `when`(localeList[0]).thenReturn(locale)
+        `when`(application.resources).thenReturn(resources)
+        `when`(resources.configuration).thenReturn(configuration)
+        `when`(configuration.locales).thenReturn(localeList)
+        `when`(localeList[0]).thenReturn(locale)
 
         viewModel = EditAccountViewModel(application, dataSource, fieldsValidator)
     }
@@ -120,9 +114,13 @@ class EditAccountViewModelTest {
 
     @Test
     fun onSubmitPersonalInfoClick() {
+        `when`(fieldsValidator.putField(EMAIL, personalInfoUpdate.contactEmail)).thenReturn(fieldsValidator)
+        `when`(fieldsValidator.putField(FIRST_NAME, personalInfoUpdate.contactFirstName)).thenReturn(fieldsValidator)
+        `when`(fieldsValidator.putField(LAST_NAME, personalInfoUpdate.contactLastName)).thenReturn(fieldsValidator)
         `when`(fieldsValidator.validateFields()).thenReturn(Completable.complete())
-        `when`(dataSource.updatePersonalInfo(personalInfoUpdate.contactEmail, personalInfoUpdate.contactFirstName, personalInfoUpdate.contactLastName))
-                .thenReturn(Single.just(personalInfoUpdate))
+        `when`(dataSource.updatePersonalInfo(personalInfoUpdate.contactEmail,
+                personalInfoUpdate.contactFirstName,
+                personalInfoUpdate.contactLastName)).thenReturn(Single.just(personalInfoUpdate))
 
         viewModel.email.set(personalInfoUpdate.contactEmail)
         viewModel.firstName.set(personalInfoUpdate.contactFirstName)
@@ -136,6 +134,106 @@ class EditAccountViewModelTest {
                 personalInfoUpdate.contactEmail,
                 personalInfoUpdate.contactFirstName,
                 personalInfoUpdate.contactLastName)
+    }
+
+    @Test
+    fun onSubmitPersonalInfoClick_InvalidFields() {
+        val errorEmpty = "empty"
+        val errorEmail = "incorrect"
+        val incorrectEmail = "incorrect email"
+        val invalidFields = hashMapOf(Pair(EMAIL, errorEmail), Pair(FIRST_NAME, errorEmpty), Pair(LAST_NAME, errorEmpty))
+        `when`(fieldsValidator.putField(EMAIL, incorrectEmail)).thenReturn(fieldsValidator)
+        `when`(fieldsValidator.putField(FIRST_NAME, "")).thenReturn(fieldsValidator)
+        `when`(fieldsValidator.putField(LAST_NAME, "")).thenReturn(fieldsValidator)
+        `when`(fieldsValidator.validateFields()).thenReturn(Completable.error(FieldsValidator.ValidationError(invalidFields)))
+
+        viewModel.email.set(incorrectEmail)
+        viewModel.firstName.set("")
+        viewModel.lastName.set("")
+
+        viewModel.profileDataUpdated.observeForever(observer)
+        viewModel.onSubmitPersonalInfoClick()
+
+        Assert.assertEquals(errorEmail, viewModel.emailError.get())
+        Assert.assertEquals(errorEmpty, viewModel.firstNameError.get())
+        Assert.assertEquals(errorEmpty, viewModel.lastNameError.get())
+        verify(fieldsValidator).putField(EMAIL, incorrectEmail)
+        verify(fieldsValidator).putField(FIRST_NAME, "")
+        verify(fieldsValidator).putField(LAST_NAME, "")
+        verify(observer, never()).onChanged(true)
+        verify(dataSource, never()).updatePersonalInfo(incorrectEmail, "", "")
+    }
+
+    @Test
+    fun onSubmitShippingInfoClick() {
+        `when`(fieldsValidator.putField(FIELD_PHONE, addressUpdate.phoneNumber)).thenReturn(fieldsValidator)
+        `when`(fieldsValidator.putField(FIELD_ADDRESS, addressUpdate.address)).thenReturn(fieldsValidator)
+        `when`(fieldsValidator.putField(FIELD_CITY, addressUpdate.city)).thenReturn(fieldsValidator)
+        `when`(fieldsValidator.putField(FIELD_STATE, addressUpdate.state)).thenReturn(fieldsValidator)
+        `when`(fieldsValidator.putField(FIELD_POSTAL_CODE, addressUpdate.postalCode)).thenReturn(fieldsValidator)
+        `when`(fieldsValidator.validateFields()).thenReturn(Completable.complete())
+        `when`(dataSource.updateShippingInfo(
+                addressUpdate.phoneNumber, addressUpdate.address, addressUpdate.city, addressUpdate.state,
+                locale.country, addressUpdate.postalCode
+        )).thenReturn(Single.just(addressUpdate))
+
+        viewModel.phoneNumber.set(addressUpdate.phoneNumber)
+        viewModel.postalCode.set(addressUpdate.postalCode)
+        viewModel.address.set(addressUpdate.address)
+        viewModel.state.set(addressUpdate.state)
+        viewModel.city.set(addressUpdate.city)
+
+        viewModel.profileDataUpdated.observeForever(observer)
+        viewModel.onSubmitShippingInfoClick()
+
+        verify(observer).onChanged(true)
+        verify(dataSource).updateShippingInfo(
+                addressUpdate.phoneNumber,
+                addressUpdate.address,
+                addressUpdate.city,
+                addressUpdate.state,
+                locale.country,
+                addressUpdate.postalCode)
+    }
+
+    @Test
+    fun onSubmitShippingInfoClick_InvalidFields() {
+        val error = "empty"
+        val invalidFields = hashMapOf(
+                Pair(FIELD_PHONE, error),
+                Pair(FIELD_ADDRESS, error),
+                Pair(FIELD_CITY, error),
+                Pair(FIELD_STATE, error),
+                Pair(FIELD_POSTAL_CODE, error))
+
+        `when`(fieldsValidator.putField(FIELD_POSTAL_CODE, "")).thenReturn(fieldsValidator)
+        `when`(fieldsValidator.putField(FIELD_ADDRESS, "")).thenReturn(fieldsValidator)
+        `when`(fieldsValidator.putField(FIELD_PHONE, "")).thenReturn(fieldsValidator)
+        `when`(fieldsValidator.putField(FIELD_STATE, "")).thenReturn(fieldsValidator)
+        `when`(fieldsValidator.putField(FIELD_CITY, "")).thenReturn(fieldsValidator)
+        `when`(fieldsValidator.validateFields()).thenReturn(Completable.error(FieldsValidator.ValidationError(invalidFields)))
+
+        viewModel.phoneNumber.set("")
+        viewModel.postalCode.set("")
+        viewModel.address.set("")
+        viewModel.state.set("")
+        viewModel.city.set("")
+
+        viewModel.profileDataUpdated.observeForever(observer)
+        viewModel.onSubmitShippingInfoClick()
+
+        Assert.assertEquals(error, viewModel.phoneNumberError.get())
+        Assert.assertEquals(error, viewModel.postalCodeError.get())
+        Assert.assertEquals(error, viewModel.addressError.get())
+        Assert.assertEquals(error, viewModel.stateError.get())
+        Assert.assertEquals(error, viewModel.cityError.get())
+        verify(fieldsValidator).putField(FIELD_POSTAL_CODE, "")
+        verify(fieldsValidator).putField(FIELD_ADDRESS, "")
+        verify(fieldsValidator).putField(FIELD_PHONE, "")
+        verify(fieldsValidator).putField(FIELD_STATE, "")
+        verify(fieldsValidator).putField(FIELD_CITY, "")
+        verify(observer, never()).onChanged(true)
+        verify(dataSource, never()).updateShippingInfo("", "", "", "", locale.country, "")
     }
 
 }

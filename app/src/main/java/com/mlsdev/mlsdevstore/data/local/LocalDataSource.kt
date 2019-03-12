@@ -9,7 +9,6 @@ import com.mlsdev.mlsdevstore.data.model.product.SearchResult
 import com.mlsdev.mlsdevstore.data.model.user.Address
 import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
 import com.mlsdev.mlsdevstore.data.remote.datasource.RemoteDataSource
-import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -100,15 +99,10 @@ open class LocalDataSource(
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun updateShippingInfo(
-            phoneNumber: String,
-            address: String,
-            city: String,
-            state: String,
-            country: String,
-            postalCode: String): Completable {
+    open fun updateShippingInfo(phoneNumber: String?, address: String?, city: String?, state: String?,
+            country: String?, postalCode: String?): Single<Address> {
 
-        return Completable.fromRunnable {
+        return Single.fromCallable {
             val insertAddress = Address()
 
             database.addressDao().queryByTypeSync(Address.Type.SHIPPING).getOrNull(0)?.let {
@@ -122,8 +116,8 @@ open class LocalDataSource(
             insertAddress.country = country
             insertAddress.postalCode = postalCode
             database.addressDao().insert(insertAddress)
-        }
-                .subscribeOn(Schedulers.io())
+            return@fromCallable database.addressDao().queryByTypeSync(Address.Type.SHIPPING)[0]
+        }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
 
     }

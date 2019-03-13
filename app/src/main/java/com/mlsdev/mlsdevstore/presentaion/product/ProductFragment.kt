@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -39,9 +40,8 @@ class ProductFragment : BaseFragment() {
         viewModel.imagesLiveData.observe(this, Observer { galleryAdapter.setImages(it) })
         viewModel.descriptionStateLiveData.observe(this, Observer {
             if (it) {
-                val data = Bundle().apply { putString(ExtrasKeys.KEY_PRODUCT_DESCRIPTION, viewModel.description.get()) }
                 val bottomSheet = DescriptionBottomSheetFragment()
-                bottomSheet.arguments = data
+                bottomSheet.arguments = bundleOf(Pair(ExtrasKeys.KEY_PRODUCT_DESCRIPTION, viewModel.description.get()))
                 bottomSheet.show(childFragmentManager, bottomSheet.tag)
             }
         })

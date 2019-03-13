@@ -9,6 +9,7 @@
     <string name="navigation_title_store">Store</string>
     <string name="navigation_title_cart">Cart</string>
     <string name="navigation_title_account">Account</string>
+    <string name="navigation_title_favorites">Favorites</string>
 
     <!--Errors-->
     <string name="error_message_common">Something went wrong. Try again later.</string>

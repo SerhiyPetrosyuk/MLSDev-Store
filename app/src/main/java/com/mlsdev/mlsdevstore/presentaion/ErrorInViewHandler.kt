@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -72,12 +74,19 @@ constructor() {
 
     fun observeAuthError(lifecycleOwner: LifecycleOwner, errorEvent: LiveData<Boolean>) {
         errorEvent.observe(lifecycleOwner, Observer {
-            if (context is Activity) {
-                val intent = (context as Activity).baseContext.packageManager
-                        .getLaunchIntentForPackage((context as Activity).baseContext.packageName)
+
+            val lifecycleOwnerContext: Activity? = when (lifecycleOwner) {
+                is FragmentActivity -> lifecycleOwner
+                is Fragment -> lifecycleOwner.activity
+                else -> null
+            }
+
+            lifecycleOwnerContext?.let {
+                val intent = it.baseContext.packageManager.getLaunchIntentForPackage(it.baseContext.packageName)
+
                 if (intent != null) {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    context!!.startActivity(intent)
+                    it.startActivity(intent)
                 }
             }
         })

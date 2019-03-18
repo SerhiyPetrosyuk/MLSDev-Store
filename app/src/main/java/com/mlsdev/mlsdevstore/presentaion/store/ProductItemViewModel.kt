@@ -3,6 +3,7 @@ package com.mlsdev.mlsdevstore.presentaion.store
 import androidx.databinding.ObservableField
 import com.mlsdev.mlsdevstore.data.model.product.Condition
 import com.mlsdev.mlsdevstore.data.model.product.ListItem
+import com.mlsdev.mlsdevstore.data.model.product.Product
 import com.mlsdev.mlsdevstore.presentaion.utils.CustomObservableBoolean
 
 class ProductItemViewModel(
@@ -15,6 +16,7 @@ class ProductItemViewModel(
     val currency = ObservableField<String>()
     val imageUrl = ObservableField<String>()
     val isNew = CustomObservableBoolean()
+    val isFavorite = CustomObservableBoolean()
 
     fun setItem(listItem: ListItem) {
         this.listItem = listItem
@@ -34,6 +36,7 @@ class ProductItemViewModel(
         }
         imageUrl.set(listItem.imageUrl)
         isNew.set(listItem.itemCondition != null && listItem.itemCondition == Condition.New)
+        isFavorite.set((listItem as Product).isFavorite)
     }
 
     fun removeFromCart() {

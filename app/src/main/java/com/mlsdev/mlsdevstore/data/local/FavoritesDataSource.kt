@@ -19,29 +19,17 @@ class FavoritesDataSource @Inject constructor(
     private val job = Job()
     private val scope = CoroutineScope(Dispatchers.IO + job)
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Product>) {
-        scope.launch {
-            try {
-                val products = getFavoritesFromDb(params.startPosition + params.loadSize)
-                callback.onResult(products)
-            } catch (error: Exception) {
-                handleError(error, params, callback)
-            }
-        }
     }
 
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Product>) {
         scope.launch {
             try {
-                val products = getFavoritesFromDb(0)
+                val products = database.productsDao().queryFavoriteProductsSync()
                 callback.onResult(products, 0, database.productsDao().queryFavoritesCount())
             } catch (error: Exception) {
                 handleError(error, params, callback)
             }
         }
-    }
-
-    private fun getFavoritesFromDb(offset: Int): List<Product> {
-        return database.productsDao().queryProductsSync(offset)
     }
 }
 

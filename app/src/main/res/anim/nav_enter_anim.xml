@@ -18,7 +18,7 @@
         android:fromDegrees="60"
         android:pivotX="50%"
         android:pivotY="50%"
-        android:startOffset="3000"
+        android:startOffset="1000"
         android:toDegrees="0" />
 
     <scale
@@ -27,7 +27,7 @@
         android:fromYScale="20%"
         android:pivotX="50%"
         android:pivotY="50%"
-        android:startOffset="3000"
+        android:startOffset="1000"
         android:toXScale="100%"
         android:toYScale="100%" />
 

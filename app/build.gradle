@@ -87,18 +87,20 @@ ext {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
 
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha02'
-    implementation 'com.google.android.material:material:1.1.0-alpha03'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha03'
+    implementation 'com.google.android.material:material:1.1.0-alpha04'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha02'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha03'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
 
     // Ktx
     implementation 'androidx.core:core-ktx:1.0.1'
 
     // Navigation library
-    def nav_version = "1.0.0-rc01"
+    def nav_version = "1.0.0"
     implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
 
@@ -108,14 +110,14 @@ dependencies {
     implementation "androidx.paging:paging-rxjava2:$paging_version"
 
     // Room DB
-    def room = '2.1.0-alpha04'
+    def room = '2.1.0-alpha05'
     implementation "androidx.room:room-runtime:$room"
     implementation "androidx.room:room-rxjava2:$room"
     kapt "androidx.room:room-compiler:$room"
     androidTestImplementation 'androidx.arch.core:core-testing:2.0.0'
 
     // Lifecycle
-    def lifecycle = '2.1.0-alpha02'
+    def lifecycle = '2.1.0-alpha03'
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle"
 

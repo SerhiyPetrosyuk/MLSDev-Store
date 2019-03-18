@@ -26,7 +26,9 @@ data class Product(
         @Ignore var color: String?,
         @Ignore var material: String?,
         @Ignore var adultOnly: Boolean,
-        @Ignore var additionalImages: ArrayList<Image> = arrayListOf()
+        @Ignore var additionalImages: ArrayList<Image> = arrayListOf(),
+        @ColumnInfo(name = ProductsTable.COLUMN_IS_FAVORITE)
+        var isFavorite: Boolean = false
 ) : Parcelable, ListItem {
     override fun getId(): String = itemId
 

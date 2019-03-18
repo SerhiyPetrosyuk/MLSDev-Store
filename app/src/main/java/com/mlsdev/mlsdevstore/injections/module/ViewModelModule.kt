@@ -75,7 +75,7 @@ interface ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(ProductsViewModel::class)
+    @ViewModelKey(FavoritesViewModel::class)
     fun bindFavoritesViewModel(favoritesViewModel: FavoritesViewModel): ViewModel
 
     @Binds

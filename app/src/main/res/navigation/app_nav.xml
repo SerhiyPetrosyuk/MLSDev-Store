@@ -116,5 +116,18 @@
         android:name="com.mlsdev.mlsdevstore.presentaion.checkout.CheckoutFragment"
         android:label="CheckoutFragment"
         tools:layout="@layout/fragment_checkout" />
+    <fragment
+        android:id="@+id/favorites_flow_fragment"
+        android:name="com.mlsdev.mlsdevstore.presentaion.favorites.FavoritesFragment"
+        android:label="FavoritesFragment"
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/action_favoritesFragment_to_product_fragment"
+            app:destination="@id/product_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
 
 </navigation>

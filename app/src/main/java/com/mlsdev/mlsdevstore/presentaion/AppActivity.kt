@@ -19,7 +19,6 @@ class AppActivity : BaseActivity() {
 
     private fun initBottomNavigation() {
         val navController = Navigation.findNavController(this, R.id.app_nav_host)
-//        NavUtils.setupWithNavController(binding.bottomBar, navController)
         NavigationUI.setupWithNavController(binding.navigation, navController)
         binding.navigation.setOnNavigationItemSelectedListener {
             NavigationUI.onNavDestinationSelected(it, navController)

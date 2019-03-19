@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.data.local
 
+import androidx.lifecycle.LiveData
 import com.mlsdev.mlsdevstore.data.DataSource
 import com.mlsdev.mlsdevstore.data.applyDefaultSchedulers
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
@@ -18,6 +19,24 @@ open class LocalDataSource(
         private val remoteDataSource: RemoteDataSource,
         private val database: AppDatabase
 ) : DataSource {
+    override fun getFavoriteProducts(): LiveData<List<Product>> =
+            database.productsDao().queryFavoriteProductsLiveData()
+
+    override suspend fun addToFavorites(product: Product) {
+        val favoredProduct = product.copy()
+        favoredProduct.isFavorite = true
+        database.productsDao().insert(favoredProduct)
+    }
+
+    override suspend fun removeFromFavorites(product: Product) {
+        val favoredProduct = product.copy()
+        favoredProduct.isFavorite = false
+        database.productsDao().insert(favoredProduct)
+    }
+
+    override suspend fun isProductFavored(productId: String): Boolean {
+        return database.productsDao().checkIfExists(productId) > 0
+    }
 
     open fun getPersonalInfo(): Single<PersonalInfo> = database.personalInfoDao().queryPersonalInfo()
             .applyDefaultSchedulers()

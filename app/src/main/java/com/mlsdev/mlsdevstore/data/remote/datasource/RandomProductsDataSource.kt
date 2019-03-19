@@ -96,7 +96,7 @@ open class RandomProductsDataSource @Inject constructor(
                     else {
                         val searchResult = SearchResult()
                         searchResult.itemSummaries = products
-                        searchResult.total = 100
+                        searchResult.total = if (products.size < 10) products.size else 100
                         searchResult.offset = 0
                         return@flatMap Single.just(searchResult)
                     }

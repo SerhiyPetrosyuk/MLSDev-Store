@@ -2,11 +2,16 @@ package com.mlsdev.mlsdevstore.data
 
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+
+fun <T> Flowable<T>.applyDefaultSchedulers(): Flowable<T> {
+    return subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+}
 
 fun <T> Observable<T>.applyDefaultSchedulers(): Observable<T> {
     return subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())

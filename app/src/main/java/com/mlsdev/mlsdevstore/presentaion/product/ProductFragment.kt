@@ -1,9 +1,7 @@
 package com.mlsdev.mlsdevstore.presentaion.product
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -24,6 +22,11 @@ class ProductFragment : BaseFragment() {
     lateinit var galleryAdapter: ProductGalleryAdapter
     lateinit var binding: FragmentProductBinding
     val viewModel: ProductDetailsViewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(ProductDetailsViewModel::class.java) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_product, container, false)
@@ -65,6 +68,27 @@ class ProductFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         lifecycle.removeObserver(viewModel)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.favorite, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        viewModel.getFavoriteLiveData().observe(this, Observer {
+            menu.getItem(0).setIcon(if (it) R.drawable.ic_delete else R.drawable.ic_save)
+        })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.add_to_favorites -> {
+                viewModel.onFavoriteButtonClick()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 }

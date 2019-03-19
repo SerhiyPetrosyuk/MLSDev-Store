@@ -11,6 +11,10 @@ import com.mlsdev.mlsdevstore.data.model.error.ValidationException
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.SocketTimeoutException
@@ -23,11 +27,14 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
     val authErrorLiveData = MutableLiveData<Boolean>()
     val isRefreshing = ObservableBoolean()
     val loadingStateLiveData = MutableLiveData<Boolean>()
+    val viewModelJob = Job()
+    val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
     private val contentLoadingSubscription = CompositeDisposable()
 
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.dispose()
+        viewModelScope.coroutineContext.cancel()
     }
 
     protected fun observeContentLoadingState(statePublisher: PublishSubject<DataLoadState>) {

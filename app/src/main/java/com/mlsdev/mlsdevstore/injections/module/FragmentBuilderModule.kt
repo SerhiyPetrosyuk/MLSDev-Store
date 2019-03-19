@@ -6,6 +6,7 @@ import com.mlsdev.mlsdevstore.presentaion.account.EditShippingInfoFragment
 import com.mlsdev.mlsdevstore.presentaion.cart.CartFragment
 import com.mlsdev.mlsdevstore.presentaion.categories.CategoriesFragment
 import com.mlsdev.mlsdevstore.presentaion.checkout.CheckoutFragment
+import com.mlsdev.mlsdevstore.presentaion.favorites.FavoritesFragment
 import com.mlsdev.mlsdevstore.presentaion.product.ProductFragment
 import com.mlsdev.mlsdevstore.presentaion.products.ProductsFragment
 import com.mlsdev.mlsdevstore.presentaion.store.StoreFragment
@@ -41,4 +42,7 @@ interface FragmentBuilderModule {
 
     @ContributesAndroidInjector
     fun contributeCheckoutFragment(): CheckoutFragment
+
+    @ContributesAndroidInjector
+    fun contributeFavoritesFragment(): FavoritesFragment
 }

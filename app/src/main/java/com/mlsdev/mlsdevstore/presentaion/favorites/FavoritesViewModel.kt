@@ -1,16 +1,28 @@
 package com.mlsdev.mlsdevstore.presentaion.favorites
 
-import androidx.paging.PagedList
+import androidx.lifecycle.LiveData
+import com.mlsdev.mlsdevstore.data.DataSource
 import com.mlsdev.mlsdevstore.data.model.product.Product
-import com.mlsdev.mlsdevstore.data.repository.FavoriteProductsRepository
 import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel
-import io.reactivex.Observable
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class FavoritesViewModel @Inject constructor(
-        private val repository: FavoriteProductsRepository
+open class FavoritesViewModel @Inject constructor(
+        private val dataSource: DataSource
 ) : BaseViewModel() {
 
-    val products: Observable<PagedList<Product>> by lazy { repository.getData() }
+    val favoriteProducts: LiveData<List<Product>> = dataSource.getFavoriteProducts()
+
+    fun addProductIntoFavorites(product: Product) {
+        viewModelScope.launch {
+            dataSource.addToFavorites(product)
+        }
+    }
+
+    fun removeProductFromFavorites(product: Product) {
+        viewModelScope.launch {
+            dataSource.removeFromFavorites(product)
+        }
+    }
 
 }

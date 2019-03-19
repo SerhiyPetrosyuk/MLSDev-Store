@@ -1,7 +1,6 @@
 package com.mlsdev.mlsdevstore.presentation.favorites
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.mlsdev.mlsdevstore.data.repository.FavoriteProductsRepository
 import com.mlsdev.mlsdevstore.presentaion.favorites.FavoritesViewModel
 import org.junit.Before
 import org.junit.Rule

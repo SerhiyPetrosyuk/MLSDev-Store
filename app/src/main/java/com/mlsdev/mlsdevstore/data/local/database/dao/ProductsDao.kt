@@ -1,9 +1,7 @@
 package com.mlsdev.mlsdevstore.data.local.database.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.lifecycle.LiveData
+import androidx.room.*
 import com.mlsdev.mlsdevstore.data.local.database.tables.ProductsTable
 import com.mlsdev.mlsdevstore.data.model.product.Product
 import io.reactivex.Single
@@ -11,20 +9,20 @@ import io.reactivex.Single
 @Dao
 interface ProductsDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg product: Product)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(products: List<Product>)
 
-    @Query("select * from ${ProductsTable.NAME}")
+    @Query("select * from ${ProductsTable.NAME} limit 10")
     fun queryAllProducts(): Single<List<Product>>
 
     @Query("select * from ${ProductsTable.NAME}")
     fun queryAllProductsSync(): List<Product>
 
     @Query("select * from ${ProductsTable.NAME} where ${ProductsTable.COLUMN_IS_FAVORITE} = 1")
-    fun queryFavoriteProductsSync(): List<Product>
+    fun queryFavoriteProductsLiveData(): LiveData<List<Product>>
 
     @Query("select count(${ProductsTable.COLUMN_IS_FAVORITE}) from ${ProductsTable.NAME} where ${ProductsTable.COLUMN_IS_FAVORITE} = 1")
     fun queryFavoritesCount(): Int
@@ -34,4 +32,7 @@ interface ProductsDao {
 
     @Query("delete from ${ProductsTable.NAME} where ${ProductsTable.COLUMN_IS_FAVORITE} = 0")
     fun deleteAllProducts()
+
+    @Query("select count(${ProductsTable.COLUMN_ID}) from ${ProductsTable.NAME} where ${ProductsTable.COLUMN_ID} = :productId and ${ProductsTable.COLUMN_IS_FAVORITE} = 1")
+    fun checkIfExists(productId: String): Int
 }

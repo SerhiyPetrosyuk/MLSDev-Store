@@ -12,8 +12,9 @@ import com.mlsdev.mlsdevstore.data.DataSource
 import com.mlsdev.mlsdevstore.data.cart.Cart
 import com.mlsdev.mlsdevstore.data.model.product.Image
 import com.mlsdev.mlsdevstore.data.model.product.Product
+import com.mlsdev.mlsdevstore.presentaion.favorites.FavoritesViewModel
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils
-import com.mlsdev.mlsdevstore.presentaion.viewmodel.BaseViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 open class ProductDetailsViewModel @Inject
@@ -21,7 +22,7 @@ constructor(
         private val dataSource: DataSource,
         private val utils: Utils,
         private val cart: Cart
-) : BaseViewModel(), Cart.OnMaxItemsReachedListener, Cart.OnItemAddedListener {
+) : FavoritesViewModel(dataSource), Cart.OnMaxItemsReachedListener, Cart.OnItemAddedListener {
 
     private var item: Product? = null
     val title = ObservableField<String>()
@@ -40,6 +41,9 @@ constructor(
     val material = ObservableField<String>()
     val imagesLiveData = MutableLiveData<List<Image>>()
     private val infoMessageLiveData = MutableLiveData<Int>()
+    private val favoriteLiveData = MutableLiveData<Boolean>()
+
+    fun getFavoriteLiveData(): LiveData<Boolean> = favoriteLiveData
 
     fun getInfoMessageLive(): LiveData<Int> = infoMessageLiveData
 
@@ -67,6 +71,7 @@ constructor(
             currency.set(it.itemPrice.currency)
             condition.set(it.itemCondition)
             retrieveDetailedInfo(it.id)
+            checkIsFavorite(it.itemId)
         }
     }
 
@@ -110,5 +115,22 @@ constructor(
 
     override fun onItemAdded(item: Product) {
         infoMessageLiveData.postValue(R.string.message_item_added)
+    }
+
+    private fun checkIsFavorite(productId: String) {
+        viewModelScope.launch {
+            val result = dataSource.isProductFavored(productId)
+            item?.isFavorite = result
+            favoriteLiveData.postValue(result)
+        }
+    }
+
+    fun onFavoriteButtonClick() {
+        item?.let {
+            if (it.isFavorite) removeProductFromFavorites(it)
+            else addProductIntoFavorites(it)
+
+            checkIsFavorite(it.itemId)
+        }
     }
 }

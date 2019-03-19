@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.data
 
+import androidx.lifecycle.LiveData
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
 import com.mlsdev.mlsdevstore.data.model.product.Product
@@ -35,4 +36,27 @@ interface DataSource {
     fun getItem(itemId: String): Single<Product>
 
     fun resetSearchResults()
+
+    /**
+     * @return the [LiveData] of the favorite [Product] list
+     * */
+    fun getFavoriteProducts(): LiveData<List<Product>>
+
+    /**
+     * Adds the [Product] into the favorites
+     * @param product the [Product]
+     * */
+    suspend fun addToFavorites(product: Product)
+
+    /**
+     * Removes the [Product] from the favorites in the database
+     * @param product the [Product]
+     * */
+    suspend fun removeFromFavorites(product: Product)
+
+    /**
+     * Checks if the favorite is in the favorite list
+     * @param productId the checked favorite's id
+     * */
+    suspend fun isProductFavored(productId: String): Boolean
 }

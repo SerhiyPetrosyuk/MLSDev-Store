@@ -2,6 +2,8 @@ package com.mlsdev.mlsdevstore.data.remote.datasource
 
 import android.util.ArrayMap
 import android.util.Base64
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.mlsdev.mlsdevstore.BuildConfig
 import com.mlsdev.mlsdevstore.data.DataSource
 import com.mlsdev.mlsdevstore.data.applyDefaultSchedulers
@@ -37,6 +39,16 @@ class RemoteDataSource(private val browseService: BrowseService,
                        private val sharedPreferencesManager: SharedPreferencesManager,
                        private val database: AppDatabase,
                        private val cart: Cart) : DataSource {
+    override fun getFavoriteProducts(): LiveData<List<Product>> = MutableLiveData()
+
+    override suspend fun addToFavorites(product: Product) {
+    }
+
+    override suspend fun removeFromFavorites(product: Product) {
+    }
+
+    override suspend fun isProductFavored(productId: String): Boolean = false
+
     private var searchOffset = 0
     private var searchLimit = 10
     private val searchItems = ArrayList<Product>()

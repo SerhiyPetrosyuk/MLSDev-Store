@@ -52,7 +52,7 @@ class ProductDetailsViewModelTest {
         MockitoAnnotations.initMocks(this)
         product = Product()
         product.itemId = "id"
-        product.title = "Some product title"
+        product.title = "Some favorite title"
         product.price = Price(1.1, "USD")
         product.image = Image("https://image.url")
         Mockito.`when`(productBundle.containsKey(bundleKey)).thenReturn(true)

@@ -14,7 +14,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/account_flow_favorites"
+        android:id="@+id/favorites_flow_fragment"
         android:icon="@drawable/ic_favorites"
         android:title="@string/navigation_title_favorites"
         app:showAsAction="ifRoom" />

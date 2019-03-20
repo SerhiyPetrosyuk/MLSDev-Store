@@ -1,11 +1,14 @@
 package com.mlsdev.mlsdevstore.data.local
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.mlsdev.mlsdevstore.data.DataSource
 import com.mlsdev.mlsdevstore.data.applyDefaultSchedulers
 import com.mlsdev.mlsdevstore.data.local.database.AppDatabase
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTree
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
+import com.mlsdev.mlsdevstore.data.model.product.FavoriteProduct
 import com.mlsdev.mlsdevstore.data.model.product.Product
 import com.mlsdev.mlsdevstore.data.model.product.SearchResult
 import com.mlsdev.mlsdevstore.data.model.user.Address
@@ -20,22 +23,21 @@ open class LocalDataSource(
         private val database: AppDatabase
 ) : DataSource {
     override fun getFavoriteProducts(): LiveData<List<Product>> =
-            database.productsDao().queryFavoriteProductsLiveData()
+            Transformations.switchMap(database.favoritesDao().getFavorites()) { favorites ->
+                MutableLiveData(favorites.map { it.product })
+            }
 
     override suspend fun addToFavorites(product: Product) {
-        val favoredProduct = product.copy()
-        favoredProduct.isFavorite = true
-        database.productsDao().insert(favoredProduct)
+        val favoredProduct = FavoriteProduct(product)
+        database.favoritesDao().insert(favoredProduct)
     }
 
     override suspend fun removeFromFavorites(product: Product) {
-        val favoredProduct = product.copy()
-        favoredProduct.isFavorite = false
-        database.productsDao().insert(favoredProduct)
+        database.favoritesDao().delete(product.itemId)
     }
 
     override suspend fun isProductFavored(productId: String): Boolean {
-        return database.productsDao().checkIfExists(productId) > 0
+        return database.favoritesDao().checkIfExists(productId) > 0
     }
 
     open fun getPersonalInfo(): Single<PersonalInfo> = database.personalInfoDao().queryPersonalInfo()

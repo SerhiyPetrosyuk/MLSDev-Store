@@ -9,6 +9,7 @@ import com.mlsdev.mlsdevstore.data.model.category.CategoryTree
 import com.mlsdev.mlsdevstore.data.model.category.CategoryTreeNode
 import com.mlsdev.mlsdevstore.data.model.image.CategoryImageEntity
 import com.mlsdev.mlsdevstore.data.model.order.GuestCheckoutSession
+import com.mlsdev.mlsdevstore.data.model.product.FavoriteProduct
 import com.mlsdev.mlsdevstore.data.model.product.Product
 import com.mlsdev.mlsdevstore.data.model.user.Address
 import com.mlsdev.mlsdevstore.data.model.user.PersonalInfo
@@ -22,8 +23,9 @@ import io.reactivex.schedulers.Schedulers
     PersonalInfo::class,
     GuestCheckoutSession::class,
     CategoryImageEntity::class,
-    Product::class
-], version = 1, exportSchema = false)
+    Product::class,
+    FavoriteProduct::class
+], version = 2, exportSchema = false)
 @TypeConverters(CategoryConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun categoriesDao(): CategoriesDao
@@ -32,6 +34,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun checkoutSessionDao(): CheckoutSessionDao
     abstract fun categoryImagesDao(): CategoryImagesDao
     abstract fun productsDao(): ProductsDao
+    abstract fun favoritesDao(): FavoritesDao
 
     open fun deleteAllProducts(): Completable = Completable.fromAction {
         productsDao().deleteAllProducts()

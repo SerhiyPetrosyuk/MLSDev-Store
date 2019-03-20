@@ -13,7 +13,5 @@ data class FavoriteProduct(
 
     @PrimaryKey
     @ColumnInfo(name = FavoritesTable.COLUMN_ID)
-    val id = product.itemId
-
-    fun isFavorite(): Boolean = product.isFavorite
+    var id = product.itemId
 }

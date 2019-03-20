@@ -1,3 +1,6 @@
+# v0.0.11
+* Added the kotlin `Coroutins`
+
 # v0.0.10
 * Single activity app [IT-900](https://mlsdev.atlassian.net/browse/IT-900)
 * Fragment transitions [IT-911](https://mlsdev.atlassian.net/browse/IT-911)

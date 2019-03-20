@@ -56,7 +56,10 @@ class FavoritesFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.favoriteProducts.observe(this, Observer { products -> adapter.setItems(products) })
+        viewModel.favoriteProducts.observe(this, Observer { products ->
+            adapter.setItems(products)
+            binding.empty = products.isEmpty()
+        })
     }
 
 }

@@ -1,6 +1,5 @@
 package com.mlsdev.mlsdevstore.data.local.database.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.mlsdev.mlsdevstore.data.local.database.tables.ProductsTable
 import com.mlsdev.mlsdevstore.data.model.product.Product
@@ -21,18 +20,9 @@ interface ProductsDao {
     @Query("select * from ${ProductsTable.NAME}")
     fun queryAllProductsSync(): List<Product>
 
-    @Query("select * from ${ProductsTable.NAME} where ${ProductsTable.COLUMN_IS_FAVORITE} = 1")
-    fun queryFavoriteProductsLiveData(): LiveData<List<Product>>
-
-    @Query("select count(${ProductsTable.COLUMN_IS_FAVORITE}) from ${ProductsTable.NAME} where ${ProductsTable.COLUMN_IS_FAVORITE} = 1")
-    fun queryFavoritesCount(): Int
-
     @Delete
     fun delete(vararg product: Product)
 
-    @Query("delete from ${ProductsTable.NAME} where ${ProductsTable.COLUMN_IS_FAVORITE} = 0")
+    @Query("delete from ${ProductsTable.NAME}")
     fun deleteAllProducts()
-
-    @Query("select count(${ProductsTable.COLUMN_ID}) from ${ProductsTable.NAME} where ${ProductsTable.COLUMN_ID} = :productId and ${ProductsTable.COLUMN_IS_FAVORITE} = 1")
-    fun checkIfExists(productId: String): Int
 }

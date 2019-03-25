@@ -56,6 +56,10 @@ class ProductFragment : BaseFragment() {
         initErrorHandler()
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        viewModel.messageLiveData.observe(this, Observer {
+            errorInViewHandler.showAlertDialog(getString(it.title), getString(it.message))
+        })
     }
 
     private fun initErrorHandler() {

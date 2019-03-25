@@ -19,6 +19,10 @@
     <string name="error_empty_field">is empty</string>
     <string name="error_not_found">not found</string>
     <string name="error_incorrect_field">is incorrect</string>
+    <string name="error_add_to_favorites">Something wrong with this product. I can\'t add it into the
+    favorites. Sorry :(</string>
+    <string name="error_remove_from_favorites">Something wrong with this product. I can\'t remove it from the
+    favorites. Sorry :(</string>
 
     <!--Button-->
     <string name="button_close">Close</string>

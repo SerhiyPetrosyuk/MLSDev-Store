@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.mlsdev.mlsdevstore.data.DataLoadState
 import com.mlsdev.mlsdevstore.data.model.error.ErrorParser
 import com.mlsdev.mlsdevstore.data.model.error.ValidationException
+import com.mlsdev.mlsdevstore.data.model.message.AlertMessage
 import com.mlsdev.mlsdevstore.presentaion.utils.Utils
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
@@ -21,6 +22,7 @@ import java.net.SocketTimeoutException
 
 abstract class BaseViewModel : ViewModel(), LifecycleObserver {
     val compositeDisposable = CompositeDisposable()
+    val messageLiveData = MutableLiveData<AlertMessage>()
     val technicalErrorLiveData = MutableLiveData<Boolean>()
     val networkErrorLiveData = MutableLiveData<Boolean>()
     val commonErrorLiveData = MutableLiveData<Boolean>()

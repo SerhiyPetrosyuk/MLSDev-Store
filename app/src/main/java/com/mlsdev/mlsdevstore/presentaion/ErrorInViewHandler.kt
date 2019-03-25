@@ -37,7 +37,7 @@ constructor() {
         showAlertDialog(context!!.getString(R.string.error_title_base), context!!.getString(R.string.error_message_common))
     }
 
-    private fun showAlertDialog(title: String, message: String) {
+    fun showAlertDialog(title: String, message: String) {
         val builder = AlertDialog.Builder(context!!, R.style.AlertDialogAppCompat)
                 .setMessage(message)
                 .setTitle(title)

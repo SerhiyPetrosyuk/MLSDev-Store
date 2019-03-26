@@ -100,6 +100,11 @@ dependencies {
     // Ktx
     implementation 'androidx.core:core-ktx:1.0.1'
 
+    // WorkManager
+    def work_version = '2.0.0'
+    implementation "androidx.work:work-rxjava2:$work_version"
+    androidTestImplementation "androidx.work:work-testing:$work_version"
+
     // Navigation library
     def nav_version = "1.0.0"
     implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
@@ -115,7 +120,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$room"
     implementation "androidx.room:room-rxjava2:$room"
     kapt "androidx.room:room-compiler:$room"
-    androidTestImplementation 'androidx.arch.core:core-testing:2.0.0'
+    androidTestImplementation 'androidx.arch.core:core-testing:2.0.1'
 
     // Lifecycle
     def lifecycle = '2.1.0-alpha03'

@@ -39,4 +39,8 @@ abstract class AppDatabase : RoomDatabase() {
     open fun deleteAllProducts(): Completable = Completable.fromAction {
         productsDao().deleteAllProducts()
     }.subscribeOn(Schedulers.io())
+
+    companion object {
+        const val NAME = "local_db"
+    }
 }

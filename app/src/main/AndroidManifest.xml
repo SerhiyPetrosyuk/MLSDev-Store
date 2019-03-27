@@ -28,7 +28,9 @@
         <activity
             android:name=".presentaion.AppActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
+            <nav-graph android:value="@navigation/app_nav" />
+        </activity>
 
     </application>
 

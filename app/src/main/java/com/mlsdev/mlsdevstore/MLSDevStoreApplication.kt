@@ -2,7 +2,7 @@ package com.mlsdev.mlsdevstore
 
 import androidx.work.Constraints
 import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequest
+import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.mlsdev.mlsdevstore.backgroudworks.RemindWorker
 import com.mlsdev.mlsdevstore.injections.component.DaggerApplicationComponent
@@ -26,8 +26,7 @@ open class MLSDevStoreApplication : DaggerApplication() {
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
 
-        val reminderWork = OneTimeWorkRequest.Builder(RemindWorker::class.java)
-                .setInitialDelay(3, TimeUnit.SECONDS)
+        val reminderWork = PeriodicWorkRequest.Builder(RemindWorker::class.java, 15, TimeUnit.MINUTES)
                 .setConstraints(constrains)
                 .build()
 

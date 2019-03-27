@@ -1,3 +1,7 @@
+# v0.0.12
+* Added the Android `WorkManager`
+* Added the deep link handling
+
 # v0.0.11
 * Added the kotlin `Coroutins`
 

@@ -21,6 +21,13 @@ interface DataSource {
     fun loadRootCategoryTree(): Single<CategoryTree>
 
     /**
+     * The root [CategoryTree] contains all main [CategoryTreeNode]s.
+     *
+     * @param defaultCategoryTreeId
+     */
+    fun loadRootCategoryTree(defaultCategoryTreeId: String): Single<CategoryTree>
+
+    /**
      * Deletes all data in the local data storage
      */
     fun refreshRootCategoryTree(): Single<CategoryTree>

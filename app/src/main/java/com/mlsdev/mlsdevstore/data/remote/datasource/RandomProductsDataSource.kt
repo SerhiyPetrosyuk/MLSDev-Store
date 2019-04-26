@@ -1,5 +1,6 @@
 package com.mlsdev.mlsdevstore.data.remote.datasource
 
+import android.util.Log
 import androidx.paging.DataSource
 import com.mlsdev.mlsdevstore.data.handleLoading
 import com.mlsdev.mlsdevstore.data.local.Key
@@ -68,7 +69,7 @@ open class RandomProductsDataSource @Inject constructor(
 
     private fun getRandomCategoryId(): Single<String> {
         return localDataSource.loadDefaultCategoryTreeId()
-                .flatMap { localDataSource.loadRootCategoryTree() }
+                .flatMap { defaultCategoryTreeId -> localDataSource.loadRootCategoryTree(defaultCategoryTreeId) }
                 .flatMap { Single.just(listOf(sharedPreferencesManager[Key.RANDOM_CATEGORY_TREE_NODE, CategoryTreeNode::class.java])) }
                 .flatMap { categoryTreeNodes ->
                     return@flatMap if (categoryTreeNodes[0] == null) {
@@ -78,10 +79,14 @@ open class RandomProductsDataSource @Inject constructor(
                     } else Single.just(categoryTreeNodes)
                 }
                 .toFlowable()
-                .flatMap { Flowable.fromIterable(it) }
+                .flatMap { notFilteredNodes ->
+                    Log.d("RPDS", "Not filtered nodes count: ${notFilteredNodes.size}")
+                    Flowable.fromIterable(notFilteredNodes)
+                }
                 .filter { node -> node.category != null && node.category.categoryId != null }
                 .toList()
                 .map { nodes ->
+                    Log.d("RPDS", "Filtered nodes count: ${nodes.size}")
                     val randomCategoryTreeNode: CategoryTreeNode = nodes[(Math.random() * nodes.size).toInt()]!!
                     sharedPreferencesManager.save(Key.RANDOM_CATEGORY_TREE_NODE, randomCategoryTreeNode)
                     return@map randomCategoryTreeNode.category.categoryId

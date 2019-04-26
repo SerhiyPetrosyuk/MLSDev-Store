@@ -46,12 +46,12 @@ open class LocalDataSource(
 
     open fun getShippingInfo(): Single<Address> = database.addressDao().queryByType(Address.Type.SHIPPING)
             .applyDefaultSchedulers()
-            .map { addresses -> if (!addresses.isEmpty()) addresses[0] else Address() }
+            .map { addresses -> if (addresses.isNotEmpty()) addresses[0] else Address() }
 
     override fun loadDefaultCategoryTreeId(): Single<String> {
         val single = database.categoriesDao().queryDefaultCategoryTree()
                 .flatMap { list ->
-                    if (!list.isEmpty())
+                    if (list.isNotEmpty())
                         Single.just(list[0].categoryTreeId)
                     else
                         remoteDataSource.loadDefaultCategoryTreeId()
@@ -62,18 +62,35 @@ open class LocalDataSource(
     override fun loadRootCategoryTree(): Single<CategoryTree> {
         val listSingle = database.categoriesDao().queryCategoryTreeNode()
         return listSingle
-                .applyDefaultSchedulers()
                 .flatMap { nodes ->
                     val categoryTree = CategoryTree()
                     val categoryTreeNode = CategoryTreeNode()
                     categoryTree.categoryTreeNode = categoryTreeNode
                     categoryTreeNode.childCategoryTreeNodes = nodes
 
-                    if (!nodes.isEmpty())
+                    if (nodes.isNotEmpty())
                         Single.just(categoryTree)
                     else
                         remoteDataSource.loadRootCategoryTree()
                 }
+                .applyDefaultSchedulers()
+    }
+
+    override fun loadRootCategoryTree(defaultCategoryTreeId: String): Single<CategoryTree> {
+        val listSingle = database.categoriesDao().queryCategoryTreeNode()
+        return listSingle
+                .flatMap { nodes ->
+                    val categoryTree = CategoryTree()
+                    val categoryTreeNode = CategoryTreeNode()
+                    categoryTree.categoryTreeNode = categoryTreeNode
+                    categoryTreeNode.childCategoryTreeNodes = nodes
+
+                    if (nodes.isNotEmpty())
+                        Single.just(categoryTree)
+                    else
+                        remoteDataSource.loadRootCategoryTree(defaultCategoryTreeId)
+                }
+                .applyDefaultSchedulers()
     }
 
     override fun refreshRootCategoryTree(): Single<CategoryTree> {

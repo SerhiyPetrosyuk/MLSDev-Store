@@ -26,9 +26,7 @@ import com.mlsdev.mlsdevstore.data.remote.service.AuthenticationService
 import com.mlsdev.mlsdevstore.data.remote.service.BrowseService
 import com.mlsdev.mlsdevstore.data.remote.service.OrderService
 import com.mlsdev.mlsdevstore.data.remote.service.TaxonomyService
-import io.reactivex.Completable
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import java.io.UnsupportedEncodingException
 import java.util.*
 
@@ -102,18 +100,28 @@ class RemoteDataSource(private val browseService: BrowseService,
 
     override fun loadDefaultCategoryTreeId(): Single<String> {
         return taxonomyService.defaultCategoryTreeId
+                .map {
+                    val categoryTree = CategoryTree()
+                    categoryTree.categoryTreeId = it.categoryTreeId
+                    database.categoriesDao().insertCategoryTree(categoryTree)
+                    it.categoryTreeId
+                }
                 .applyDefaultSchedulers()
-                .map { it.categoryTreeId }
-                .doOnSuccess { this.saveDefaultCategoryTreeId(it) }
     }
 
     override fun loadRootCategoryTree(): Single<CategoryTree> {
         return loadDefaultCategoryTreeId()
-                .flatMap { defaultCategoryTreeId ->
-                    taxonomyService.getCategoryTree(defaultCategoryTreeId).applyDefaultSchedulers()
-                }
-                .doOnSuccess { this.saveCategoryTreeNodes(it) }
+                .flatMap { defaultCategoryTreeId -> loadRootCategoryTree(defaultCategoryTreeId) }
+                .applyDefaultSchedulers()
     }
+
+    override fun loadRootCategoryTree(defaultCategoryTreeId: String): Single<CategoryTree> =
+            taxonomyService.getCategoryTree(defaultCategoryTreeId)
+                    .map { rootCategoryTree ->
+                        database.categoriesDao().insertCategoryTreeNode(rootCategoryTree.categoryTreeNode.childCategoryTreeNodes)
+                        return@map rootCategoryTree
+                    }
+                    .applyDefaultSchedulers()
 
     override fun refreshRootCategoryTree(): Single<CategoryTree> {
         return loadRootCategoryTree()
@@ -156,18 +164,4 @@ class RemoteDataSource(private val browseService: BrowseService,
 
     fun postOrder(checkoutSessionId: String): Single<PostOrderResult> =
             orderService.postOrder(checkoutSessionId).applyDefaultSchedulers()
-
-    private fun saveCategoryTreeNodes(categoryTree: CategoryTree) {
-        Completable.create { database.categoriesDao().insertCategoryTreeNode(categoryTree.categoryTreeNode.childCategoryTreeNodes) }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
-    }
-
-    private fun saveDefaultCategoryTreeId(categoryTreeId: String) {
-        val categoryTree = CategoryTree()
-        categoryTree.categoryTreeId = categoryTreeId
-        Completable.create { database.categoriesDao().insertCategoryTree(categoryTree) }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
-    }
 }
